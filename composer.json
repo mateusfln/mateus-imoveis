@@ -1,0 +1,8 @@
+{
+    "name": "mateus/imobiliaria",
+    "autoload": {
+        "psr-4": {
+            "Imobiliaria\\": "src/"
+        }
+    }
+}
