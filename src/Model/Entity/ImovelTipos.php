@@ -1,6 +1,5 @@
 <?php
 use Imobiliaria\Model\Entity\Tabela;
-
 class ImovelTipos extends Tabela
 {
     public $nome;

@@ -172,7 +172,7 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                                 </li>
                             </ul>
                         </div>
-                        <div class="content">
+                        <div class="content" >
                             <div class="left">
                                 <h3 class="title"><a href="single-properties.html"><?= $imovel->identificacao?></a></h3>
                                 <span class="location"><img src="assets/images/icons/marker.png" alt=""><?= $imovel->rua. ", " .$imovel->bairro.", ".$imovel->cidade.", ".$imovel->estado ?></span>
@@ -195,6 +195,38 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                 <?php endforeach;?>
                 <!--Property end-->
             </div>
+            <div class="row">
+                <?php foreach ($imoveis as $imovel): ?>
+                    <div class="col-lg-4 col-md-6 col-12 mb-40">
+                    <div class="card"> <div class="card-body"> <div class="property-inner">
+                            <div class="image">
+                            <a href="single-properties.html"><img src="<?= $imovel->midias->nomeDisco?>" alt="<?= $imovel->midias->identificacao?>"></a>
+                            
+                            </div>
+                            <div class="content">
+                            <div class="left">
+                                <h3 class="title"><a href="single-properties.html"><?= $imovel->identificacao?></a></h3>
+                                <span class="location"><img src="assets/images/icons/marker.png" alt=""><?= $imovel->rua. ", " .$imovel->bairro.", ".$imovel->cidade.", ".$imovel->estado ?></span>
+                            </div>
+                            <div class="right">
+                                <div class="type-wrap">
+                                <span class="price">R$<?= $imovel->imovelCaracteristicasImovelTipos->valor?>
+                                    <?php if($imovel->negocioTipos->nome == 'Aluguel'):?>
+                                    <span>M</span>
+                                    <?php else:?>
+                                    <span>Mil</span>
+                                    <?php endif;?>
+                                </span>
+                                <span class="type"><?= $imovel->negocioTipos->nome?></span>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                <?php endforeach; ?>
+                </div>
             
         </div>
     </div>

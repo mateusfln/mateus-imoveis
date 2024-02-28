@@ -1,10 +1,12 @@
+<?php require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');?>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
 
 <!-- Mirrored from htmldemo.net/khonike/khonike/login-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 26 Feb 2024 13:03:27 GMT -->
 
-     <?php require_once(realpath(dirname(__FILE__) . '/includes') .'/head.php');?>
+<?php require_once(realpath(dirname(__FILE__) . '/includes') .'/head.php');?>
 
 <body>
     
@@ -34,7 +36,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-md-8 col-12 ms-auto me-auto">
-                    
+                    <?php pr($_POST)?>
                     <ul class="login-register-tab-list nav">
                         <li><a class="active" href="#login-tab" data-bs-toggle="tab">Entrar</a></li>
                         <li>ou</li>
@@ -43,16 +45,16 @@
                     
                     <div class="tab-content">
                         <div id="login-tab" class="tab-pane show active">
-                            <form action="#">
+                            <form method="POST">
                                 <div class="row">
-                                    <div class="col-12 mb-30"><input type="text" placeholder="Email" required></div>
-                                    <div class="col-12 mb-30"><input type="password" placeholder="Senha" required></div>
+                                    <div class="col-12 mb-30"><input type="email" placeholder="Email" required name="email"></div>
+                                    <div class="col-12 mb-30"><input type="password" placeholder="Senha" required name="senha"></div>
                                     <div class="col-12 mb-30">
                                         <ul>
-                                            <li><input type="checkbox" id="login_remember" required> <label for="login_remember">Lembrar de mim</label></li>
+                                            <li><input type="checkbox" id="login_remember"  name="lembrar"> <label for="login_remember">Lembrar de mim</label></li>
                                         </ul>
                                     </div>
-                                    <div class="col-12 mb-30"><button class="btn">Entrar</button></div>
+                                    <div class="col-4 mb-30"><input class="btn" type="submit" value="Entrar"></div>
 
                                     <div class="col-12 d-flex justify-content-between">
                                         <span>Ainda não possui conta?&nbsp; <a class="register-toggle" href="#register-tab">Cadastre-se!</a></span>
@@ -62,19 +64,19 @@
                             </form>
                         </div>
                         <div id="register-tab" class="tab-pane">
-                            <form action="#">
+                            <form method="POST">
                                 <div class="row">
-                                    <div class="col-12 mb-30"><input type="text" placeholder="Nome" required></div>
-                                    <div class="col-12 mb-30"><input type="email" placeholder="Email" required></div>
-                                    <div class="col-12 mb-30"><input type="text" placeholder="Nome de Usuario" required></div>
-                                    <div class="col-12 mb-30"><input type="password" placeholder="Senha" required></div>
-                                    <div class="col-12 mb-30"><input type="password" placeholder="Confirmar Senha" required></div>
+                                    <div class="col-12 mb-30"><input type="text" placeholder="Nome" required name="nome"></div>
+                                    <div class="col-12 mb-30"><input type="text" placeholder="Cpf" required name="cpf"></div>
+                                    <div class="col-12 mb-30"><input type="email" placeholder="Email" required name="email"></div>
+                                    <div class="col-12 mb-30"><input type="password" placeholder="Senha" required name="senha"></div>
+                                    <div class="col-12 mb-30"><input type="password" placeholder="Confirmar Senha" required name="senha"></div>
                                     <div class="col-12 mb-30">
                                         <ul>
-                                            <li><input type="checkbox" id="register_agree" required><label for="register_agree">Eu aceito os <a href="#">Termos e Condições</a></label></li>
+                                            <li><input type="checkbox" id="register_agree" name="aceito"><label for="register_agree">Eu aceito os <a href="#">Termos e Condições</a></label></li>
                                         </ul>
                                     </div>
-                                    <div class="col-12"><button class="btn">Cadastrar</button></div>
+                                    <div class="col-4"><input type="submit" class="btn" value="Cadastrar"></div>
                                 </div>
                             </form>
                         </div>

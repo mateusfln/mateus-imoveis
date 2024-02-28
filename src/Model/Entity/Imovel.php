@@ -149,10 +149,4 @@ class Imovel extends Tabela
     {
         return $this->midias;
     }
-
-    public function Cadastrar(){
-
-        $this->criado = date('Y-m-d H:i:s');
-    }
-    
 }

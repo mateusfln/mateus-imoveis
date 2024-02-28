@@ -2,11 +2,28 @@
 require_once('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 require_once(realpath(dirname(__FILE__) . '/') . '/src/Model/Imoveis/ImovelDAO.php');
+require_once(realpath(dirname(__FILE__) . '/') . '/src/Model/Imoveltipos.php');
+require_once(realpath(dirname(__FILE__) . '/') . '/src/Model/DAO.php');
+
 require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
 
 $imoveisTipos = new ImovelDAO();
 $imoveisTipos = $imoveisTipos->buscarListaDeImoveisTipo();
+$imoveis = new ImovelDAO();
+$imoveis = $imoveis->buscarListaDeImoveis();
+$DAO = new DAO();
 
+
+?>
+
+<?php
+
+if(isset($_POST)){
+    $imoveltipos = new ImovelTipos();
+    $imovelTipos->setNome($_POST['imoveltipo']);
+    $db = new ImoveltiposDAO();
+    $db->create($imovelTipos);
+}
 
 ?>
 
@@ -42,8 +59,50 @@ $imoveisTipos = $imoveisTipos->buscarListaDeImoveisTipo();
         <div class="container">
             <div class="row">
                 <div class="add-property-wrap col">
-                <?php pr($_POST)?>
-                <?php pr($_FILES)?>
+                <?php pr($_POST);pr($_FILES['arquivo']);?>
+                <?php 
+                if (isset($_FILES['arquivo'])){
+                    $arquivo = $_FILES['arquivo'];
+                    
+                    
+                    if($arquivo['error']){
+                        echo('Falha ao enviar o arquivo');
+                    }
+
+                    if($arquivo['size'] > 2097152){
+                        echo('Arquivo maior que o limite máximo de tamanho (2Mb)');
+                    }
+                    
+                    $pasta = "assets/images/imoveis/";
+                    $nomeDoArquivo = $arquivo['name'];
+                    $nomeDoArquivo = uniqid();
+                    $extensao = strtolower(pathinfo($arquivo['name'], PATHINFO_EXTENSION));
+                    $path = $pasta.$nomeDoArquivo.".".$extensao;
+                    
+                    if($extensao != 'jpg' && $extensao != 'png' ){
+                        echo('Tipo de arquivo não aceito');
+                    }else{
+                        $sucesso = move_uploaded_file($arquivo['tmp_name'], $path);
+
+                        if(!$sucesso){
+                            // $sql = 
+                            // "INSERT INTO imoveis (identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, cep,  rua, complemento, bairro, cidade, estado)
+                            //  VALUES ('{$_POST['titulo']}, {$_POST['matricula']},
+                            //           {$_POST['inscricao_imobiliaria']}, {$_POST['logradouro']},
+                            //           {$_POST['numero_logradouro']}, {$_POST['cep']}, {$_POST['rua']},
+                            //           {$_POST['complemento']}, {$_POST['baiiro']},
+                            //           {$_POST['cidade']}, {$_POST['estado']}')
+                            //  INSERT INTO midias (identificacao, nome_disco)
+                            //  VALUES ('$nomeDoArquivo','$path')
+                            //  INSERT INTO negociotipo (nome) VALUES ({$_POST['negocio_tipo']})
+                            //  INSERT INTO imoveltipo (nome) VALUES ({$_POST['imoveltipo']})
+                            //  INSERT INTO imoveis_caracteristicas_imoveistipo (valor) VALUES ({$_POST['preco']})";
+                            // $query = $DAO->getConexao()->query($sql);    
+                            echo "<p>falha ao enviar arquivo na hora de salvar</p>";
+                        }
+                    }
+                }
+                ?>
                     <ul class="add-property-tab-list nav mb-50">
                         <li class="working"><a href="#basic_info" data-bs-toggle="tab">1. Formulário de Cadastro</a></li>
                         <li><a href="#gallery_video" data-bs-toggle="tab">2. Fotos</a></li>
@@ -54,53 +113,57 @@ $imoveisTipos = $imoveisTipos->buscarListaDeImoveisTipo();
                         <div class="tab-pane show active" id="basic_info">
                             <div class="tab-body">
 
-                                <form enctype="multipart/form-data"  method="POST">
+                                <form enctype="multipart/form-data" method="POST">
                                     <div class="row">
                                         <div class="col-12 mb-30">
-                                            <label for="property_title">Titulo Do Anúncio</label>
-                                            <input type="text" id="property_title" name="titulo">
+                                            <label>Titulo Do Anúncio</label>
+                                            <input type="text" name="titulo">
                                         </div>
                                         
                                         <div class="col-3 mb-30">
-                                            <label for="property_title">Matricula</label>
-                                            <input type="text" id="property_title" name="matricula">
+                                            <label>Matricula</label>
+                                            <input type="text" name="matricula">
                                         </div>
                                         <div class="col-3 mb-30">
-                                            <label for="property_title">Inscrição imobiliaria</label>
-                                            <input type="text" id="property_title" name="inscricao_imobiliaria">
+                                            <label>Inscrição imobiliaria</label>
+                                            <input type="text" name="inscricao_imobiliaria">
                                         </div>
                                         <div class="col-3 mb-30">
-                                            <label for="property_title">Logradouro</label>
-                                            <input type="text" id="property_title" name="logradouro">
+                                            <label>Logradouro</label>
+                                            <input type="text" name="logradouro">
                                         </div>
                                         <div class="col-3 mb-30">
-                                            <label for="property_title">Numero Logradouro</label>
-                                            <input type="text" id="property_title" name="numero_logradouro">
+                                            <label>Numero Logradouro</label>
+                                            <input type="text" name="numero_logradouro">
                                         </div>
                                         <div class="col-4 mb-30">
-                                            <label for="property_title">Cep</label>
-                                            <input type="text" id="property_title" name="cep">
+                                            <label>Cep</label>
+                                            <input type="text" name="cep">
                                         </div>
 
                                         <div class="col-md-4 col-12 mb-30">
-                                            <label for="property_address">Rua</label>
-                                            <input type="text" id="property_address" name="rua">
+                                            <label>Rua</label>
+                                            <input type="text" name="rua">
                                         </div>
                                         <div class="col-md-4 col-12 mb-30">
-                                            <label for="property_address">Complemento</label>
-                                            <input type="text" id="property_address" name="complemento">
+                                            <label>Complemento</label>
+                                            <input type="text" name="complemento">
                                         </div>
                                         <div class="col-md-4 col-12 mb-30">
-                                            <label for="property_address">Bairro</label>
-                                            <input type="text" id="property_address" name="bairro">
+                                            <label>Bairro</label>
+                                            <input type="text" name="bairro">
                                         </div>
                                         <div class="col-md-4 col-12 mb-30">
-                                            <label for="property_address">Cidade</label>
-                                            <input type="text" id="property_address" name="cidade">
+                                            <label>Cidade</label>
+                                            <input type="text" name="cidade">
                                         </div>
                                         <div class="col-md-4 col-12 mb-30">
-                                            <label for="property_address">Estado</label>
-                                            <input type="text" id="property_address" name="estado">
+                                            <label>Estado</label>
+                                            <select class="nice-select" name="estado">
+                                                <?php foreach ($imoveis as $imovel):?>
+                                                <option value="<?=$imovel->estado?>"><?=$imovel->estado?></option>
+                                                <?php endforeach;?>
+                                            </select>
                                         </div>
 
                                         <div class="col-md-4 col-12 mb-30">
@@ -124,18 +187,17 @@ $imoveisTipos = $imoveisTipos->buscarListaDeImoveisTipo();
                                             <label for="property_price">Preço<span>(BRL)</span></label>
                                             <input type="text" id="property_price" name="preco">
                                         </div>
-                                    </div>
-                                    </div>
-                                    </div>
 
-                                    <div class="tab-pane" id="gallery_video">
+                                        <div class="tab-pane" id="gallery_video">
                                         <div class="tab-body">
                                     
                                 
-                                    <div class="row">
+                                        <div class="row">
                                         <div class="col-12 mb-30">
-                                            <label>Imagens do Imóvel</label>
-                                            <input type="file" name="" id="" name="midias">
+                                        <div class="mb-3">
+                                            <label for="formFile" class="form-label">Imagens do Imóvel</label>
+                                            <input class="form-control" type="file" id="formFile" name="arquivo">
+                                            </div>
                                             
                                         </div>
 
@@ -144,7 +206,11 @@ $imoveisTipos = $imoveisTipos->buscarListaDeImoveisTipo();
                                         </div>
                                         </div>
                                     </div>
+                                    </div>
+                                    </div>
+                                    </div>
                                 </form>
+                                
                             </div>
                         </div>
                     </div>

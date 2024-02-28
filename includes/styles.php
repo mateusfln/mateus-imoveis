@@ -1,5 +1,5 @@
 <!-- Place favicon.ico in the root directory -->
-<link href="../assets/images/favicon.ico" type="img/x-icon" rel="shortcut icon">
+    <link href="../assets/images/favicon.ico" type="img/x-icon" rel="shortcut icon">
     <!-- All css files are included here. -->
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/iconfont.min.css">
