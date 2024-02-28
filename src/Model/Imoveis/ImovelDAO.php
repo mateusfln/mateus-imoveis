@@ -1,6 +1,6 @@
 <?php
 
-use Imobiliaria\Model\Entity\Imovel;
+//use Imobiliaria\Model\Entity\Imovel;
 require_once(realpath(dirname(__FILE__) . '/..') . '/DAO.php');
 require_once(realpath(dirname(__FILE__) . '/..') . '/Entity/Imovel.php');
 require_once(realpath(dirname(__FILE__) . '/..') . '/Entity/NegocioTipos.php');
