@@ -1,23 +1,24 @@
 <?php
 require_once('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
-use Imobiliaria\Model\Entity\Imoveltipos;
-use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
+use Imobiliaria\Model\Entity\Midias;
+use Imobiliaria\Model\Imoveis\MidiasDAO;
 
 if(!empty($_POST)) :
   $msgResultado = '';
   try {
     $hoje = new \DateTimeImmutable();
   
-    $imoveltipos = (new ImovelTipos())
+    $imoveltipos = (new Midias())
       ->setAtivo(true)
       ->setModificado($hoje)
       ->setCriado($hoje)
       ->setCriadorId(1)
       ->setModificadorId(1)
-      ->setNome(htmlspecialchars(stripslashes($_POST['imoveltipos'])));
+      ->setIdentificacao(htmlspecialchars(stripslashes($_POST['identificacao'])))
+      ->setNomeDisco(htmlspecialchars(stripslashes($_POST['nome'])));
   
-    $db = new ImoveltiposDAO();
+    $db = new MidiasDAO();
     $db->create($imoveltipos);
 
     $msgResultado = 'Cadastro realizado com sucesso!';

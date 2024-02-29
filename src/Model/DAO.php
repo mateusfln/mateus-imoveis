@@ -1,4 +1,7 @@
 <?php
+
+namespace Imobiliaria\Model;
+
 class DAO
 {
     /**

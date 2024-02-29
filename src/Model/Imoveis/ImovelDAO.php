@@ -1,24 +1,22 @@
 <?php
+namespace Imobiliaria\Model\Imoveis;
 
-//use Imobiliaria\Model\Entity\Imovel;
-require_once(realpath(dirname(__FILE__) . '/..') . '/DAO.php');
-require_once(realpath(dirname(__FILE__) . '/..') . '/Entity/Imovel.php');
-require_once(realpath(dirname(__FILE__) . '/..') . '/Entity/NegocioTipos.php');
-require_once(realpath(dirname(__FILE__) . '/..') . '/Entity/ImovelCaracteristicasImovelTipos.php');
-require_once(realpath(dirname(__FILE__) . '/..') . '/Entity/ImovelTipos.php');
-require_once(realpath(dirname(__FILE__) . '/..') . '/Entity/NegocioTipos.php');
-require_once(realpath(dirname(__FILE__) . '/..') . '/Entity/Caracteristicas.php');
-require_once(realpath(dirname(__FILE__) . '/..') . '/Entity/Midias.php');
-
+use Imobiliaria\Model\DAO;
+use Imobiliaria\Model\Entity\Imoveltipos;
+use Imobiliaria\Model\Entity\NegocioTipos;
+use Imobiliaria\Model\Entity\Imovel;
+use Imobiliaria\Model\Entity\Caracteristicas;
+use Imobiliaria\Model\Entity\Midias;
+use Imobiliaria\Model\Entity\ImovelCaracteristicasImovelTipos;
 
 class ImovelDAO extends DAO
 {
      /**
      * Efetua a busca de dados referentes a tabela de Imoveis
      * 
-     * @return array|\Models\Entity\Imovel[]
+     * @return array|Imovel[]
      */
-    public function buscarListaDeNegociosTipo() : array|\Models\Entity\Imovel
+    public function buscarListaDeNegociosTipo() : array|Imovel
     {
         global $_GET;
 
@@ -40,9 +38,9 @@ class ImovelDAO extends DAO
      /**
      * Efetua a busca de dados referentes a tabela de Imoveis
      * 
-     * @return array|\Models\Entity\Imovel[]
+     * @return array|Imovel[]
      */
-    public function buscarListaDeImoveisTipo() : array|\Models\Entity\Imovel
+    public function buscarListaDeImoveisTipo() : array|Imovel
     {
         global $_GET;
 
@@ -64,9 +62,9 @@ class ImovelDAO extends DAO
     /**
      * Efetua a busca de dados referentes a tabela de Imoveis
      * 
-     * @return array|\Models\Entity\Imovel[]
+     * @return array|Imovel[]
      */
-    public function buscarListaDeImoveis() : array|\Models\Entity\Imovel
+    public function buscarListaDeImoveis() : array|Imovel
     {
         global $_GET;
 
@@ -156,9 +154,9 @@ class ImovelDAO extends DAO
     /**
      * Efetua a busca de dados referente as tabelas de Imoveis a Venda
      * 
-     * @return array|\Models\Entity\Imovel[]
+     * @return array|Imovel[]
      */
-    public function buscarListaDeImoveisVenda() : array|\Models\Entity\Imovel
+    public function buscarListaDeImoveisVenda() : array|Imovel
     {
         global $_GET;
 
@@ -214,14 +212,14 @@ class ImovelDAO extends DAO
     /**
      * Efetua a busca de dados referente as tabelas de Imoveis e Tipos de negocio
      * 
-     * @return array|\Models\Entity\Imovel[]
+     * @return array|Imovel[]
      */
     /**
      * Efetua a busca de dados referente as tabelas de Imoveis a Venda
      * 
-     * @return array|\Models\Entity\Imovel[]
+     * @return array|Imovel[]
      */
-    public function buscarListaDeImoveisAluguel() : array|\Models\Entity\Imovel
+    public function buscarListaDeImoveisAluguel() : array|Imovel
     {
         global $_GET;
 
@@ -276,9 +274,9 @@ class ImovelDAO extends DAO
     /**
      * Efetua a busca de dados referente as tabelas de Imoveis e Tipos de negocio
      * 
-     * @return array|\Models\Entity\Imovel[]
+     * @return array|Imovel[]
      */
-    public function buscarListaDeImoveisENegocioTipo() : array|\Models\Entity\Imovel
+    public function buscarListaDeImoveisENegocioTipo() : array|Imovel
     {
         global $_GET;
 
@@ -380,9 +378,9 @@ class ImovelDAO extends DAO
     /**
      * Efetua a busca de dados referente as tabelas de Imoveis, Tipos de negocio e caracteristicas
      * 
-     * @return array|\Models\Entity\Imovel[]
+     * @return array|Imovel[]
      */
-    public function buscarListaDeImoveisENegocioTipoECaracteristicasImovelTiposECaracteristicasEMidias() : array|\Models\Entity\Imovel
+    public function buscarListaDeImoveisENegocioTipoECaracteristicasImovelTiposECaracteristicasEMidias() : array|Imovel
     {
         global $_GET;
 
@@ -625,21 +623,56 @@ class ImovelDAO extends DAO
         return $allTables;
     }
 
-    public function create(Imovel $imovel)
+    /**
+     * Cria um registro na tabela imoveis de acordo com os dados fornecidos
+     * 
+     * @throws \Exception
+     */
+       public function create(Imovel $imovel)
     {
-        $sql = "INSERT INTO imoveis (descricao, matricula, inscricao_imobiliaria, logradouro,
-                            numero_logradouro, cep, rua, complemento, bairro, cidade, estado)
-                VALUES ({$imovel->getDescricao()}, {$imovel->getMatricula()}, {$imovel->getInscricaoImobiliaria()},
-                        {$imovel->getLogradouro()}, {$imovel->getNumeroLogradouro()}, {$imovel->getCep()},
-                        {$imovel->getRua()}, {$imovel->getComplemento()}, {$imovel->getBairro()},
-                        {$imovel->getCidade()}, {$imovel->getEstado()}) ";
-        $this->getConexao()->query($sql);
+        
+        $sql = "INSERT INTO imoveis (identificacao, matricula, inscricao_imobiliaria, logradouro,
+                numero_logradouro, cep, rua, complemento, bairro, cidade, estado, ibge, ativo, criado, modificado, criador_id, modificador_id)
+                VALUES ('{$imovel->getIdentificacao()}', '{$imovel->getMatricula()}', '{$imovel->getInscricaoImobiliaria()}'
+                        '{$imovel->getLogradouro()}', '{$imovel->getNumeroLogradouro()}', '{$imovel->getCep()}',
+                        '{$imovel->getRua()}', '{$imovel->getComplemento()}', '{$imovel->getBairro()}',
+                        '{$imovel->getCidade()}', '{$imovel->getEstado()}'), '{$imovel->getIbge()}'), '{$imovel->getAtivo()}'),
+                        {$imovel->getCriado()->format('Y-m-d H:i:s')}), {$imovel->getModificado()->format('Y-m-d H:i:s')}),
+                        '{$imovel->getCriadorId()}'), '{$imovel->getModificadorId()}')";
+         
+         $this->getConexao()->query($sql);
+        
+         $imovel->setId($this->getInsertId());
+         
+         return $imovel;
+    }
+
+    /**
+     * Mostra um registro na tabela imoveis de acordo com os dados fornecidos
+     * 
+     * @throws \Exception
+     */
+    public function read(Imovel $imovel){
+
+        $sql = "SELECT identificacao, matricula, inscricao_imobiliaria, logradouro,
+                        numero_logradouro, cep, rua, complemento, bairro, cidade, estado, ibge,
+                        ativo, criado, modificado, criador_id, modificador_id
+                FROM imoveis
+                WHERE id = '{$imovel->getId()}'";
+        
+        $qry = $this->getConexao()->query($sql);
+        return (new Imovel())->hydrate(mysqli_fetch_assoc($qry));
     }
     
+    /**
+     * Atualiza um registro na tabela imoveis de acordo com os dados fornecidos
+     * 
+     * @throws \Exception
+     */
     public function update(Imovel $imovel, $id){
 
         $sql = "UPDATE imoveis
-                SET descricao = '{$imovel->getDescricao()}',
+                SET descricao = '{$imovel->getIdentificacao()}',
                     matricula = '{$imovel->getMatricula()}',
         inscricao_imobiliaria = '{$imovel->getInscricaoImobiliaria()}',
                    logradouro = '{$imovel->getLogradouro()}',
@@ -649,21 +682,40 @@ class ImovelDAO extends DAO
                   complemento = '{$imovel->getComplemento()}', 
                        bairro = '{$imovel->getBairro()}',
                        cidade = '{$imovel->getCidade()}',
-                       Estado = '{$imovel->getEstado()}') ";
+                       estado = '{$imovel->getEstado()}'), 
+                         ibge = '{$imovel->getIbge()}'), 
+                        ativo = '{$imovel->getAtivo()}'), 
+                       criado = '{$imovel->getCriado()->format('Y-m-d H:i:s')}'), 
+                   modificado = '{$imovel->getModificado()->format('Y-m-d H:i:s')}'), 
+                   criador_id = '{$imovel->getCriadorId()}'), 
+               modificador_id = '{$imovel->getModificadorId()}') 
+            WHERE id = '{$imovel->getId()}'";
         $this->getConexao()->query($sql);
     }
-    public function read($id){
-
-        $sql = "SELECT descricao, matricula, inscricao_imobiliaria, logradouro,
-                numero_logradouro, cep, rua, complemento, bairro, cidade, estado
-                FROM imoveis
-                WHERE id = $id";
-        $this->getConexao()->query($sql);
-    }
-    public function delete($id){
+   
+    /**
+     * Deleta um registro na tabela imoveis de acordo com os dados fornecidos
+     * 
+     * @throws \Exception
+     */
+    public function delete(Imovel $imovel){
 
         $sql = "DELETE FROM imoveis
-                WHERE id = $id";
+                WHERE id = '{$imovel->getId()}'";
         $this->getConexao()->query($sql);
+    }
+
+    /**
+     * Consulta o ultimo registro feito na tabela e pega o id
+     * 
+     * @throws \Exception
+     */
+    public function getInsertId() : int
+    {
+        $sql = "SELECT LAST_INSERT_ID() AS id";
+        $qry = $this->getConexao()->query($sql);
+        $dados = mysqli_fetch_assoc($qry);
+
+        return (int) $dados['id'];
     }
 }

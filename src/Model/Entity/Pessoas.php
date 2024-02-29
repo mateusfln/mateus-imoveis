@@ -1,4 +1,7 @@
 <?php
+
+namespace Imobiliaria\Model\Entity;
+
 use Imobiliaria\Model\Entity\Tabela;
 
 class Pessoas extends Tabela
@@ -41,44 +44,35 @@ class Pessoas extends Tabela
     {
         return $this->senha;
     }
-    // public function setAtivo($ativo)
-    // {
-    //     $this->ativo = $ativo;
-    // }
-    // public function getAtivo()
-    // {
-    //     return $this->ativo;
-    // }
-    // public function setCriado($criado)
-    // {
-    //     $this->criado = $criado;
-    // }
-    // public function getCriado()
-    // {
-    //     return $this->criado;
-    // }
-    // public function setModificado($modificado)
-    // {
-    //     $this->modificado = $modificado;
-    // }
-    // public function getModificado()
-    // {
-    //     return $this->modificado;
-    // }
-    // public function setCriadorId($criador_id)
-    // {
-    //     $this->criadorId = $criador_id;
-    // }
-    // public function getCriadorId()
-    // {
-    //     return $this->criadorId;
-    // }
-    // public function setModificadorId($modificador_id)
-    // {
-    //     $this->modificadorId = $modificador_id;
-    // }
-    // public function getModificadorId()
-    // {
-    //    return $this->modificadorId;
-    // }
+
+    /**
+     * Deve conter todos os dados do objeto para poder instanciar e popular
+     * 
+     * @param array $dados
+     * [
+     *  'id' => int,
+     *  'nome' => string,
+     *  'ativo' => bool,
+     *  'criado' => 'Y-m-d H:i:s',
+     *  'modificado' => 'Y-m-d H:i:s',
+     *  'criador_id' => int,
+     *  'modificador_id' => int,
+     * ]
+     */
+    public function hydrate(array $dados) : Pessoas
+    {
+        $this->setId($dados['id'] ?? null);
+        $this->setNome($dados['nome']);
+        $this->setCpf($dados['cpf']);
+        $this->setLogin($dados['login']);
+        $this->setSenha($dados['senha']);
+        $this->setAtivo($dados['ativo']);
+        $this->setCriado(new \DateTimeImmutable($dados['criado']));
+        $this->setModificado(new \DateTimeImmutable($dados['modificado']));
+        $this->setCriadorId($dados['criador_id']);
+        $this->setModificadorId($dados['modificador_id']);
+
+        return $this;
+    }
+
 }

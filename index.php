@@ -1,7 +1,7 @@
 <?php 
 require_once('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
-require_once(realpath(dirname(__FILE__) . '/') . '/src/Model/Imoveis/ImovelDAO.php');
+use Imobiliaria\Model\Imoveis\ImovelDAO;
 require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
 ?>
 

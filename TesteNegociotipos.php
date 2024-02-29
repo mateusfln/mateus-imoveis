@@ -1,23 +1,23 @@
 <?php
 require_once('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
-use Imobiliaria\Model\Entity\Imoveltipos;
-use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
+use Imobiliaria\Model\Entity\NegocioTipos;
+use Imobiliaria\Model\Imoveis\NegociotiposDAO;
 
 if(!empty($_POST)) :
   $msgResultado = '';
   try {
     $hoje = new \DateTimeImmutable();
   
-    $imoveltipos = (new ImovelTipos())
+    $imoveltipos = (new NegocioTipos())
       ->setAtivo(true)
       ->setModificado($hoje)
       ->setCriado($hoje)
       ->setCriadorId(1)
       ->setModificadorId(1)
-      ->setNome(htmlspecialchars(stripslashes($_POST['imoveltipos'])));
+      ->setNome(htmlspecialchars(stripslashes($_POST['negociotipos'])));
   
-    $db = new ImoveltiposDAO();
+    $db = new NegociotiposDAO();
     $db->create($imoveltipos);
 
     $msgResultado = 'Cadastro realizado com sucesso!';
@@ -42,8 +42,8 @@ endif;
   <?php endif;?>
 <form method="POST">
   <div class="mb-3">
-    <label class="form-label">Imoveltipos</label>
-    <input type="text" class="form-control" name="imoveltipos" value="<?= $_POST['imoveltipos'] ?? ''?>" />
+    <label class="form-label">NegocioTipos</label>
+    <input type="text" class="form-control" name="negociotipos" required value="<?= $_POST['negociotipos'] ?? ''?>" />
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>

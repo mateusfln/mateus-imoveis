@@ -1,65 +1,24 @@
 <?php 
 require_once('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
-require_once(realpath(dirname(__FILE__) . '/') . '/src/Model/Imoveis/ImovelDAO.php');
-require_once(realpath(dirname(__FILE__) . '/') . '/src/Model/Imoveltipos.php');
-require_once(realpath(dirname(__FILE__) . '/') . '/src/Model/DAO.php');
+use Imobiliaria\Model\Entity\Imoveltipos;
+use Imobiliaria\Model\Entity\Midias;
+use Imobiliaria\Model\Entity\NegocioTipos;
+use Imobiliaria\Model\Entity\Imovel;
+use Imobiliaria\Model\Entity\ImovelCaracteristicasImovelTipos;
+
+use Imobiliaria\Model\DAO;
+use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
+use Imobiliaria\Model\Imoveis\MidiasDAO;
+use Imobiliaria\Model\Imoveis\NegociotiposDAO;
+use Imobiliaria\Model\Imoveis\ImovelDAO;
+use Imobiliaria\Model\Imoveis\ImovelCaracteristicasImovelTiposDAO;
 
 require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
-
-$imoveisTipos = new ImovelDAO();
-$imoveisTipos = $imoveisTipos->buscarListaDeImoveisTipo();
-$imoveis = new ImovelDAO();
-$imoveis = $imoveis->buscarListaDeImoveis();
 $DAO = new DAO();
-
-
 ?>
 
-<?php
-
-if(isset($_POST)){
-    $imoveltipos = new ImovelTipos();
-    $imovelTipos->setNome($_POST['imoveltipo']);
-    $db = new ImoveltiposDAO();
-    $db->create($imovelTipos);
-}
-
-?>
-
-<!doctype html>
-<html class="no-js" lang="zxx">
-
-<?php require_once(realpath(dirname(__FILE__) . '/includes') .'/head.php');?>
-
-<body>
-    
-<div id="main-wrapper">
-   
-<?php require_once(realpath(dirname(__FILE__) . '/includes') .'/navbar.php');?>
-    
-    <!--Page Banner Section start-->
-    <div class="page-banner-section section">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <h1 class="page-banner-title">Adicionar Imóveis</h1>
-                    <ul class="page-breadcrumb">
-                        <li><a href="/">Home</a></li>
-                        <li class="active">Add Properties</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--Page Banner Section end-->
-
-    <!--Add Properties section start-->
-    <div class="add-properties-section section pt-100 pt-lg-80 pt-md-70 pt-sm-60 pt-xs-50 pb-100 pb-lg-80 pb-md-70 pb-sm-60 pb-xs-50">
-        <div class="container">
-            <div class="row">
-                <div class="add-property-wrap col">
-                <?php pr($_POST);pr($_FILES['arquivo']);?>
+<?php pr($_POST);pr($_FILES);?>
                 <?php 
                 if (isset($_FILES['arquivo'])){
                     $arquivo = $_FILES['arquivo'];
@@ -103,6 +62,115 @@ if(isset($_POST)){
                     }
                 }
                 ?>
+
+<?php
+
+// public $caracteristicas;
+// public $imovelCaracteristicasImovelTipos;
+// public $negocioTipos;
+// public $midias;
+
+if(!empty($_POST)){
+    print_r($_POST);
+    $hoje = new \DateTimeImmutable();
+    
+    $imovel = new Imovel();
+    $imoveltipos = new ImovelTipos();
+    $imovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
+    $negociosTipos = new NegocioTipos();
+    $midias = new Midias();
+
+    $imovel->setIdentificacao($_POST['identificacao']);
+    $imovel->setMatricula($_POST['matricula']);
+    $imovel->setInscricaoImobiliaria($_POST['inscricao_imobiliaria']);
+    $imovel->setLogradouro($_POST['logradouro']);
+    $imovel->setNumeroLogradouro($_POST['numero_logradouro']);
+    $imovel->setRua($_POST['rua']);
+    $imovel->setComplemento($_POST['complemento']);
+    $imovel->setBairro($_POST['bairro']);
+    $imovel->setCidade($_POST['cidade']);
+    $imovel->setEstado($_POST['estado']);
+    $imovel->setCep($_POST['cep']);
+    $imovel->setIbge($_POST['ibge']);
+    $imovel->setAtivo(true);
+    $imovel->setCriado($hoje);
+    $imovel->setCriadorId(1);
+    $imovel->setModificadorId(1);
+    $imovel->setModificado($hoje);
+    $dbImovel = new ImovelDAO();
+    $dbImovel->create($imovel);
+    
+
+    $midias->setImovelId($imovel->getId());
+    $midias->setNomeDisco($path);
+    $midias->setIdentificacao($nomeDoArquivo);
+    $midias->setCapa(1);
+    $midias->setAtivo(true);
+    $midias->setCriado($hoje);
+    $midias->setCriadorId(1);
+    $midias->setModificadorId(1);
+    $midias->setModificado($hoje);
+
+    $imovelCaracteristicasImovelTipos->setValor($_POST['preco']);
+    $imovelCaracteristicasImovelTipos->setImovelId($imovel->getId());
+    $imovelCaracteristicasImovelTipos->setAtivo(true);
+    $imovelCaracteristicasImovelTipos->setCriado($hoje);
+    $imovelCaracteristicasImovelTipos->setCriadorId(1);
+    $imovelCaracteristicasImovelTipos->setModificadorId(1);
+    $imovelCaracteristicasImovelTipos->setModificado($hoje);
+    
+    $negociosTipos->setNome($_POST['negociotipos']);
+    $imoveltipos->setNome($_POST['imoveltipos']);
+    
+
+    
+    $dbImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTiposDAO();
+    $dbImovelCaracteristicasImovelTipos->create($imovelCaracteristicasImovelTipos);
+    $dbMidias = new MidiasDAO();
+    $dbMidias->create($midias);
+    
+}
+
+?>
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<?php require_once(realpath(dirname(__FILE__) . '/includes') .'/head.php');?>
+
+<body>
+    
+<div id="main-wrapper">
+   
+<?php require_once(realpath(dirname(__FILE__) . '/includes') .'/navbar.php');?>
+    
+    <!--Page Banner Section start-->
+    <div class="page-banner-section section">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1 class="page-banner-title">Adicionar Imóveis</h1>
+                    <ul class="page-breadcrumb">
+                        <li><a href="/">Home</a></li>
+                        <li class="active">Add Properties</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Page Banner Section end-->
+
+    <!--Add Properties section start-->
+    <?php
+    $listaImoveisTipos = new ImovelDAO();
+    $listaImoveisTipos = $listaImoveisTipos->buscarListaDeImoveisTipo();
+    $listaImoveis = new ImovelDAO();
+    $listaImoveis = $listaImoveis->buscarListaDeImoveis(); 
+    ?>
+    <div class="add-properties-section section pt-100 pt-lg-80 pt-md-70 pt-sm-60 pt-xs-50 pb-100 pb-lg-80 pb-md-70 pb-sm-60 pb-xs-50">
+        <div class="container">
+            <div class="row">
+                <div class="add-property-wrap col">
                     <ul class="add-property-tab-list nav mb-50">
                         <li class="working"><a href="#basic_info" data-bs-toggle="tab">1. Formulário de Cadastro</a></li>
                         <li><a href="#gallery_video" data-bs-toggle="tab">2. Fotos</a></li>
@@ -117,7 +185,7 @@ if(isset($_POST)){
                                     <div class="row">
                                         <div class="col-12 mb-30">
                                             <label>Titulo Do Anúncio</label>
-                                            <input type="text" name="titulo">
+                                            <input type="text" name="identificacao">
                                         </div>
                                         
                                         <div class="col-3 mb-30">
@@ -140,6 +208,10 @@ if(isset($_POST)){
                                             <label>Cep</label>
                                             <input type="text" name="cep">
                                         </div>
+                                        <div class="col-4 mb-30">
+                                            <label>IBGE</label>
+                                            <input type="text" name="ibge">
+                                        </div>
 
                                         <div class="col-md-4 col-12 mb-30">
                                             <label>Rua</label>
@@ -160,7 +232,7 @@ if(isset($_POST)){
                                         <div class="col-md-4 col-12 mb-30">
                                             <label>Estado</label>
                                             <select class="nice-select" name="estado">
-                                                <?php foreach ($imoveis as $imovel):?>
+                                                <?php foreach ($listaImoveis as $imovel):?>
                                                 <option value="<?=$imovel->estado?>"><?=$imovel->estado?></option>
                                                 <?php endforeach;?>
                                             </select>
@@ -168,7 +240,7 @@ if(isset($_POST)){
 
                                         <div class="col-md-4 col-12 mb-30">
                                             <label>Status</label>
-                                            <select class="nice-select" name="negocio_tipo">
+                                            <select class="nice-select" name="negociotipos">
                                                 <option value="Aluguel">Para Alugar</option>
                                                 <option value="Venda">Para Vender</option>
                                             </select>
@@ -176,8 +248,8 @@ if(isset($_POST)){
 
                                         <div class="col-md-4 col-12 mb-30">
                                             <label>Tipo</label>
-                                            <select class="nice-select" name="imoveltipo">
-                                                <?php foreach($imoveisTipos as $tipo):?>
+                                            <select class="nice-select" name="imoveltipos">
+                                                <?php foreach($listaImoveisTipos as $tipo):?>
                                                 <option value="<?=$tipo->nome?>"><?=$tipo->nome?></option>
                                                 <?php endforeach;?>
                                             </select>
