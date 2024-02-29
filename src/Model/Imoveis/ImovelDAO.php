@@ -70,7 +70,7 @@ class ImovelDAO extends DAO
 
         $imoveis = [];
 
-        $sql = "SELECT id, identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, complemento, rua, bairro, cidade, estado, cep, ibge, ativo FROM imoveis";
+        $sql = "SELECT id, identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, complemento, rua, bairro, cidade, estado, cep, ibge, ativo, criado, modificado, criador_id, modificador_id FROM imoveis";
  
        if (!empty($_GET)) {
             $where = [];
@@ -146,6 +146,10 @@ class ImovelDAO extends DAO
             $imovel->setCep($row['cep']);
             $imovel->setIbge($row['ibge']);
             $imovel->setAtivo($row['ativo']);
+            $imovel->setCriado(new \DateTimeImmutable());
+            $imovel->setModificado(new \DateTimeImmutable());
+            $imovel->setCriadorId($row['criador_id']);
+            $imovel->setModificadorId($row['modificador_id']);
             $imoveis[] = $imovel;
         }
 

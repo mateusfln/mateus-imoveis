@@ -61,9 +61,9 @@ class Tabela implements TabelaInterface
         return $this->modificado;
     }
 
-    public function setCriadorId(int $criador_id) : Tabela
+    public function setCriadorId(int $criadorId) : Tabela
     {
-        $this->criadorId = $criador_id;
+        $this->criadorId = $criadorId;
         
         return $this;
     }
@@ -73,9 +73,9 @@ class Tabela implements TabelaInterface
         return $this->criadorId;
     }
     
-    public function setModificadorId(int $modificador_id) : Tabela
+    public function setModificadorId(int $modificadorId) : Tabela
     {
-        $this->modificadorId = $modificador_id;
+        $this->modificadorId = $modificadorId;
         
         return $this;
     }

@@ -41,9 +41,9 @@ class Imovel extends Tabela
     {
         return $this->matricula;
     }
-    public function setInscricaoImobiliaria($incricao_imobiliaria)
+    public function setInscricaoImobiliaria($inscricaoImobiliaria)
     {
-        $this->incricaoImobiliaria = $incricao_imobiliaria;
+        $this->inscricaoImobiliaria = $inscricaoImobiliaria;
     }
     public function getInscricaoImobiliaria()
     {
@@ -57,9 +57,9 @@ class Imovel extends Tabela
     {
         return $this->logradouro;
     }
-    public function setNumeroLogradouro($numero_logradouro)
+    public function setNumeroLogradouro($numeroLogradouro)
     {
-        $this->numeroLogradouro = $numero_logradouro;
+        $this->numeroLogradouro = $numeroLogradouro;
     }
     public function getNumeroLogradouro()
     {

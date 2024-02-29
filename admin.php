@@ -1,252 +1,248 @@
-<?php
+<?php 
 require_once('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 use Imobiliaria\Model\Imoveis\ImovelDAO;
 
-require_once(realpath(dirname(__FILE__) . '/') . '/src/Model/Imoveis/ImovelDAO.php');
-require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
-
 $imoveis = new ImovelDAO();
-$imoveis = $imoveis->buscarListaDeImoveisENegocioTipoECaracteristicasImovelTiposECaracteristicasEMidias();
+$imoveis = $imoveis->buscarListaDeImoveis();
 
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html class="no-js" lang="zxx">
 
 
-<!-- Mirrored from htmldemo.net/khonike/khonike/properties-list-right-sidebar.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 26 Feb 2024 13:03:07 GMT -->
-<?php require_once(realpath(dirname(__FILE__) . '/includes') .'/head.php');?>
-
+<?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/head.php');?>
 
 <body>
-    
-<div id="main-wrapper">
-   
-<?php require_once(realpath(dirname(__FILE__) . '/includes') .'/navbar.php');?>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
 
-    
-    <!--Page Banner Section start-->
-    <div class="page-banner-section section">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <h1 class="page-banner-title">Admin</h1>
-                    <ul class="page-breadcrumb">
-                        <li><a href="index.html">Home</a></li>
-                        <li class="active">Admin</li>
-                    </ul>
+<!--=========================*
+         Page Container
+*===========================-->
+<div id="page-container">
+
+    <!--==================================*
+               Header Section
+    *====================================-->
+    <div class="header-area">
+
+        <!--======================*
+                   Logo
+        *=========================-->
+        <div class="header-area-left">
+            <a href="index.html" class="logo">
+                <span>
+                    <img src="https://rtsolutz.com/vizzstudio/demo-falr/falr/assets/images/logo.svg" alt="" height="18">
+                </span>
+                <i>
+                    <img src="https://rtsolutz.com/vizzstudio/demo-falr/falr/assets/images/logo-collapsed.svg" alt="" height="22">
+                </i>
+            </a>
+        </div>
+        <!--======================*
+                  End Logo
+        *=========================-->
+
+        <div class="row align-items-center header_right">
+            <!--==================================*
+                     Navigation and Search
+            *====================================-->
+            <div class="col-md-6 d_none_sm d-flex align-items-center">
+                <div class="nav-btn button-menu-mobile pull-left">
+                    <button class="open-left waves-effect">
+                        <i class="ion-android-menu"></i>
+                    </button>
+                </div>
+                <div class="search-box pull-left">
+                    <form action="#">
+                        <i class="ti-search"></i>
+                        <input type="text" name="search" placeholder="Search..." required="">
+                    </form>
                 </div>
             </div>
-        </div>
-    </div>
-    <!--Page Banner Section end-->
-
-    <!--New property section start-->
-    <div class="property-section section pt-100 pt-lg-80 pt-md-70 pt-sm-60 pt-xs-50 pb-100 pb-lg-80 pb-md-70 pb-sm-60 pb-xs-50">
-        <div class="container">
-            <div class="row">
-            
-                <div class="col-lg-8 col-12 order-1 mb-sm-50 mb-xs-50">
-                    <div class="row">
-                            <?php foreach($imoveis as $imovel):?>
-                        <!--Property start-->
-                        <div class="property-item list col-md-6 col-12 mb-40">
-                            <div class="property-inner">
-                                <div class="image">
-                                    <a href="single-properties.html"><img src="<?= $imovel->midias->nomeDisco?>" alt="<?= $imovel->midias->identificacao?>"></a>
-                                    <ul class="property-feature">
-                                        <li>
-                                            <span class="area"><img src="assets/images/icons/area.png" alt="">550 SqFt</span>
-                                        </li>
-                                        <li>
-                                            <span class="bed"><img src="assets/images/icons/bed.png" alt="">6</span>
-                                        </li>
-                                        <li>
-                                            <span class="bath"><img src="assets/images/icons/bath.png" alt="">4</span>
-                                        </li>
-                                        <li>
-                                            <span class="parking"><img src="assets/images/icons/parking.png" alt="">3</span>
-                                        </li>
-                                    </ul>
+            <!--==================================*
+                     End Navigation and Search
+            *====================================-->
+            <!--==================================*
+                     Notification Section
+            *====================================-->
+            <div class="col-md-6 col-sm-12">
+                <ul class="notification-area pull-right">
+                    <li class="mobile_menu_btn">
+                        <span class="nav-btn pull-left d_none_lg">
+                            <button class="open-left waves-effect">
+                                <i class="ion-android-menu"></i>
+                            </button>
+                        </span>
+                    </li>
+                     
+                    <li id="full-view" class="d_none_sm"><i class="feather ft-maximize"></i></li>
+                    <li id="full-view-exit" class="d_none_sm"><i class="feather ft-minimize"></i></li>
+                    <li class="user-dropdown">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img src="../assets/images/user.jpg" alt="" class="img-fluid">
+                            </button>
+                            <div class="dropdown-menu dropdown_user" aria-labelledby="dropdownMenuButton" >
+                                <div class="dropdown-header d-flex flex-column align-items-center">
+                                    <div class="user_img mb-3">
+                                        <img src="../assets/images/user.jpg" alt="User Image">
+                                    </div>
+                                    <div class="user_bio text-center">
+                                        <p class="name font-weight-bold mb-0">Monica Jhonson</p>
+                                        <p class="email text-muted mb-3"><a class="pl-3 pr-3" href="monica%40jhon.co.html">monica@jhon.co.uk</a></p>
+                                    </div>
                                 </div>
-                                <div class="content">
-                                    <div class="left">
-                                        <h3 class="title"><a href="single-properties.html"><?= $imovel->identificacao?></a></h3>
-                                        <span class="location"><img src="assets/images/icons/marker.png" alt=""><?= $imovel->rua. ", " .$imovel->bairro.", ".$imovel->cidade.", ".$imovel->estado ?></span>
-                                    </div>
-                                    <div class="right">
-                                        <div class="type-wrap">
-                                        <span class="price">R$<?= $imovel->imovelCaracteristicasImovelTipos->valor?>
-                                           <?php if($imovel->negocioTipos->nome == 'Aluguel'):?>
-                                               <span>M</span>
-                                               <?php else:?>
-                                               <span>Mil</span>
-                                           <?php endif;?>
-                                       </span>
-                                       <span class="type"><?= $imovel->negocioTipos->nome?></span>
-                                        </div>
-                                    </div>
-                                    <div class="desc">
-                                        <p>Friuli-Venezia Giflia is the best theme for elit, sed door dolor sit amet, conse ctetur adipiscing elit, sed do eiud in tempor incididun</p>
-                                    </div>
-                                    <a href="single-properties.html" class="read-more">View Property</a>
-                                    <a href="single-properties.html" class="read-more">Edit Property</a>
-                                    <a href="single-properties.html" class="read-more">Delete</a>
+                                <a class="dropdown-item" href="profile.html"><i class="ti-user"></i> Profile</a>
+                                <span role="separator" class="divider"></span>
+                                <a class="dropdown-item" href="login.html"><i class="ti-power-off"></i>Logout</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!--==================================*
+                     End Notification Section
+            *====================================-->
+        </div>
+
+    </div>
+    <!--==================================*
+               End Header Section
+    *====================================-->
+
+    <?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/sidebarMenu.php');?>
+
+
+    <!--==================================*
+               Main Content Section
+    *====================================-->
+    <div class="main-content page-content">
+
+        <!--==================================*
+                   Main Section
+        *====================================-->
+        <div class="main-content-inner">
+            <div class="row mb-4">
+                <div class="col-md-12 grid-margin">
+                    <div class="d-flex justify-content-between flex-wrap">
+                        <div class="d-flex align-items-center dashboard-header flex-wrap mb-3 mb-sm-0">
+                            <h5 class="mr-4 mb-0 font-weight-bold">Dashboard</h5>
+                            <div class="d-flex align-items-baseline dashboard-breadcrumb">
+                                <p class="text-muted mb-0 mr-1 hover-cursor">App</p>
+                                <i class="mdi mdi-chevron-right mr-1 text-muted"></i>
+                                <p class="text-muted mb-0 mr-1 hover-cursor">Dashboard</p>
+                                <i class="mdi mdi-chevron-right mr-1 text-muted"></i>
+                                <p class="text-muted mb-0 hover-cursor">Analytics</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <!-- Progress Table start -->
+                <div class="col-12 mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card_title">
+                                Tabela de Imóveis
+                            </h4>
+                            <div class="single-table">
+                                <div class="table-responsive">
+                                    <table class="table table-hover progress-table text-center">
+                                        <thead class="text-uppercase">
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Identificação</th>
+                                            <th scope="col">Matricula</th>
+                                            <th scope="col">Inscrição Imobiliária</th>
+                                            <th scope="col">Logradouro</th>
+                                            <th scope="col">Numero Logradouro</th>
+                                            <th scope="col">Rua</th>
+                                            <th scope="col">Bairro</th>
+                                            <th scope="col">Cidade</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Cep</th>
+                                            <th scope="col">Ibge</th>
+                                            <th scope="col">Ativo</th>
+                                            <th scope="col">Criado</th>
+                                            <th scope="col">Modificado</th>
+                                            <th scope="col">Criador ID</th>
+                                            <th scope="col">Modificador ID</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                    <?php foreach($imoveis as $imovel):?>
+                                        <tr>
+                                            <th scope="row"><?=$imovel->id?></th>
+                                            <td><?=$imovel->identificacao?></td>
+                                            <td><?=$imovel->matricula?></td>
+                                            <td><?=$imovel->inscricaoImobiliaria?></td>
+                                            <td><?=$imovel->logradouro?></td>
+                                            <td><?=$imovel->numeroLogradouro?></td>
+                                            <td><?=$imovel->rua?></td>
+                                            <td><?=$imovel->bairro?></td>
+                                            <td><?=$imovel->cidade?></td>
+                                            <td><?=$imovel->estado?></td>
+                                            <td><?=$imovel->cep?></td>
+                                            <td><?=$imovel->ibge?></td>
+                                            <td><?=$imovel->ativo?></td>
+                                            <td><?=$imovel->criado->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$imovel->modificado->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$imovel->criadorId?></td>
+                                            <td><?=$imovel->modificadorId?></td>
+                                            <td>
+                                                <ul class="d-flex justify-content-center">
+                                                    <li class="mr-3"><button type="button" class="btn btn-inverse-info">View</button></li>
+                                                    <li class="mr-3"><button type="button" class="btn btn-inverse-warning">Edit</button></li>
+                                                    <li class="mr-3"><button type="button" class="btn btn-inverse-danger">Delete</button></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach;?>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <!--Property end-->
-                        <?php endforeach;?>
-                    </div>
-
-                    <div class="row mt-20">
-                        <div class="col">
-                            <ul class="page-pagination">
-                                <li><a href="#"><i class="fa fa-angle-left"></i> Prev</a></li>
-                                <li class="active"><a href="#">01</a></li>
-                                <li><a href="#">02</a></li>
-                                <li><a href="#">03</a></li>
-                                <li><a href="#">04</a></li>
-                                <li><a href="#">05</a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i> Next</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
-                
-                <div class="col-lg-4 col-12 order-2 pl-30 pl-sm-15 pl-xs-15">
-                    
-                    <!--Sidebar start-->
-                    <div class="sidebar">
-                        <h4 class="sidebar-title"><span class="text">Search Property</span><span class="shape"></span></h4>
-                        
-                    
-                        <!--Property Search start-->
-                        <div class="property-search sidebar-property-search">
-
-                            <form action="#">
-
-                                <div>
-                                    <input type="text" placeholder="Location">
-                                </div>
-
-                                <div>
-                                    <select class="nice-select">
-                                        <option>All Cities</option>
-                                        <option>Athina</option>
-                                        <option>Austin</option>
-                                        <option>Baytown</option>
-                                        <option>Brampton</option>
-                                        <option>Cedar Hill</option>
-                                        <option>Chester</option>
-                                        <option>Chicago</option>
-                                        <option>Coleman</option>
-                                        <option>Corpus Christi</option>
-                                        <option>Dallas</option>
-                                        <option>distrito federal</option>
-                                        <option>Fayetteville</option>
-                                        <option>Galveston</option>
-                                        <option>Jersey City</option>
-                                        <option>Los Angeles</option>
-                                        <option>Midland</option>
-                                        <option>New York</option>
-                                        <option>Odessa</option>
-                                        <option>Reno</option>
-                                        <option>San Angelo</option>
-                                        <option>San Antonio</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <select class="nice-select">
-                                        <option>For Rent</option>
-                                        <option>For Sale</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <select class="nice-select">
-                                        <option>Type</option>
-                                        <option>Apartment</option>
-                                        <option>Cafe</option>
-                                        <option>House</option>
-                                        <option>Restaurant</option>
-                                        <option>Store</option>
-                                        <option>Villa</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <select class="nice-select">
-                                        <option>Bedrooms</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                        <option>6</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <select class="nice-select">
-                                        <option>Bathrooms</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                        <option>6</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <div id="search-price-range"></div>
-                                </div>
-
-                                <div>
-                                    <button>search</button>
-                                </div>
-
-                            </form>
-
-                        </div>
-                        <!--Property Search end-->
-                        
-                    <div class="sidebar">
-                        <h4 class="sidebar-title"><span class="text">Add Property</span><span class="shape"></span></h4>
-                        
-                    
-                        <!--Property Search start-->
-                        <div class="property-search sidebar-property-search">
-
-                            <form action="/addImovel.php">
-                                <div>
-                                    <button>Add</button>
-                                </div>
-
-                            </form>
-                        </div>
-                        <!--Property Search end-->
-                    </div>
-                    <!--Sidebar end-->
-                    </div>
-                </div>
-                
+                <!-- Progress Table end -->
             </div>
+            
         </div>
+        <!--==================================*
+                   End Main Section
+        *====================================-->
     </div>
-    <!--New property section end-->
-    <?php require_once(realpath(dirname(__FILE__) . '/includes') .'/footer.php');?>
+    <!--=================================*
+           End Main Content Section
+    *===================================-->
+
+    <!--=================================*
+                  Footer Section
+    *===================================-->
+    <footer>
+        <div class="footer-area">
+            <p>&copy; Copyright <?= date("Y"); ?>. All right reserved. Template by Mateusfln.</p>
+        </div>
+    </footer>
+    <!--=================================*
+                End Footer Section
+    *===================================-->
 
 </div>
-
-<?php require_once(realpath(dirname(__FILE__) . '/includes') .'/scripts.php');?>
-
+<!--=========================*
+        End Page Container
+*===========================-->
+<?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/scripts.php');?>
 
 </body>
 
-
-<!-- Mirrored from htmldemo.net/khonike/khonike/properties-list-right-sidebar.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 26 Feb 2024 13:03:07 GMT -->
+<!-- Mirrored from rtsolutz.com/vizzstudio/demo-falr/falr/dark-sidebar/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Feb 2024 19:04:59 GMT -->
 </html>
