@@ -19,13 +19,19 @@ class CaracteristicaDAO extends DAO
 
         $caracteristicas = [];
 
-        $sql = "SELECT nome FROM caracteristicas";
+        $sql = "SELECT id,nome,ativo,criado,modificado,criador_id,modificador_id FROM caracteristicas";
 
         $query = $this->getConexao()->query($sql);
         
         while ($row = $query->fetch_assoc()) {
             $caracteristica = new Caracteristicas();
+            $caracteristica->setId($row['id']);
             $caracteristica->setNome($row['nome']);
+            $caracteristica->setAtivo($row['ativo']);
+            $caracteristica->setCriado(new \DateTimeImmutable());
+            $caracteristica->setModificado(new \DateTimeImmutable());
+            $caracteristica->setCriadorId($row['criador_id']);
+            $caracteristica->setModificadorId($row['modificador_id']);
             $caracteristicas[] = $caracteristica;
         }
 
@@ -55,7 +61,7 @@ class CaracteristicaDAO extends DAO
      * 
      * @throws \Exception
      */
-    public function update(Caracteristicas $caracteristicas){
+    public function update(Caracteristicas $caracteristicas, $id){
 
         $sql = "UPDATE caracteristicas
                 SET ativo = '{$caracteristicas->getAtivo()}',
@@ -64,23 +70,25 @@ class CaracteristicaDAO extends DAO
                     modificado = '{$caracteristicas->getModificado()->format('Y-m-d H:i:s')}',                
                     criador_id = '{$caracteristicas->getCriadorId()}',                
                     modificador_id = '{$caracteristicas->getModificadorId()}'                                
-                WHERE id = '{$caracteristicas->getId()}'";
+                    WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 
      /**
      * Mostra um registro na tabela caracteristicas de acordo com os dados fornecidos
      * 
+     * @param int $id   Código da característica
+     * @return Caracteristicas
      * @throws \Exception
      */
-    public function read(Caracteristicas $caracteristicas){
-
-        $sql = "SELECT (ativo, nome, criado, modificado, criador_id, modificador_id)
+    public function read(int $id) : Caracteristicas
+    {
+        $sql = "SELECT id, nome, ativo, criado, modificado, criador_id, modificador_id
                 FROM caracteristicas
-                WHERE id = '{$caracteristicas->getId()}'";
-        $this->getConexao()->query($sql);
+                WHERE id = '{$id}'";
+        $qry = $this->getConexao()->query($sql);
 
-        return $caracteristicas;
+        return (new Caracteristicas())->hydrate(mysqli_fetch_assoc($qry));
     }
 
      /**
@@ -88,10 +96,10 @@ class CaracteristicaDAO extends DAO
      * 
      * @throws \Exception
      */
-    public function delete(Caracteristicas $caracteristicas, $id){
+    public function delete($id){
 
         $sql = "DELETE FROM caracteristicas
-               WHERE id = '{$caracteristicas->getId()}'";
+               WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 

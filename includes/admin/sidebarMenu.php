@@ -10,28 +10,27 @@
                 <ul class="metismenu" id="sidebar_menu">
                     <li class="menu-title">Main</li>
                     <li>
-                        <a href="admin.php">
-                            <i class="feather ft-home"></i>
+                        <a href="https://mateusimoveis.local/admin.php">
+                        <i class="bi bi-house"></i>
                             <span>Home</span>
                         </a>
                     </li>
                     
 
-                    <li class="menu-title">Components</li>
+                    <li class="menu-title">Tabelas</li>
                     <!--=========================*
                               UI Features
                     *===========================-->
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true">
-                            <i class="feather ft-gitlab"></i>
+                        <i class="bi bi-card-checklist"></i>
                             <span>Caracteristicas</span>
-                            <span class="float-right arrow"><i class="ion ion-chevron-down"></i></span>
+                            <span class="float-right arrow"><i class="bi bi-chevron-down"></i></i></i></span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="alert.html"><i class="ti-alert"></i><span>Create</span></a></li>
-                            <li><a href="accordion.html"><i class="ti-layout-accordion-separated"></i><span>Read</span></a></li>
-                            <li><a href="buttons.html"><i class="icon-focus"></i><span>Update</span></a></li>
-                            <li><a href="badges.html"><i class="icon-ribbon"></i><span>Delete</span></a></li>
+                            <li><a href="/src/View/adminCrud/Caracteristicas/add.php"><i class="bi bi-plus-lg"></i><span>Create</span></a></li>
+                            <li><a href="/src/View/adminCrud/Caracteristicas/read.php"><i class="bi bi-eye"></i><span>Read</span></a></li>
+                            
                         </ul>
                     </li>
                     <!--=========================*
@@ -39,15 +38,14 @@
                     *===========================-->
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true">
-                            <i class="feather ft-briefcase"></i>
+                        <i class="bi bi-buildings"></i>
                             <span>Imóveis</span>
-                            <span class="float-right arrow"><i class="ion ion-chevron-down"></i></span>
+                            <span class="float-right arrow"><i class="bi bi-chevron-down"></i></span>
                         </a>
                         <ul class="submenu">
-                        <li><a href="alert.html"><i class="ti-alert"></i><span>Create</span></a></li>
-                            <li><a href="accordion.html"><i class="ti-layout-accordion-separated"></i><span>Read</span></a></li>
-                            <li><a href="buttons.html"><i class="icon-focus"></i><span>Update</span></a></li>
-                            <li><a href="badges.html"><i class="icon-ribbon"></i><span>Delete</span></a></li>
+                        <li><a href="/src/View/adminCrud/Imovel/add.php"><i class="bi bi-plus-lg"></i><span>Create</span></a></li>
+                            <li><a href="/src/View/adminCrud/Imovel/read.php"><i class="bi bi-eye"></i><span>Read</span></a></li>
+                            
                         </ul>
                     </li>
                     <!--=========================*
@@ -55,15 +53,14 @@
                     *===========================-->
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true">
-                            <i class="feather ft-award"></i>
+                        <i class="bi bi-building-fill-gear"></i>
                             <span>Tipos de Imóvel</span>
-                            <span class="float-right arrow"><i class="ion ion-chevron-down"></i></span>
+                            <span class="float-right arrow"><i class="bi bi-chevron-down"></i></span>
                         </a>
                         <ul class="submenu">
-                        <li><a href="alert.html"><i class="ti-alert"></i><span>Create</span></a></li>
-                            <li><a href="accordion.html"><i class="ti-layout-accordion-separated"></i><span>Read</span></a></li>
-                            <li><a href="buttons.html"><i class="icon-focus"></i><span>Update</span></a></li>
-                            <li><a href="badges.html"><i class="icon-ribbon"></i><span>Delete</span></a></li>
+                        <li><a href="/src/View/adminCrud/TiposDeImovel/add.php"><i class="bi bi-plus-lg"></i><span>Create</span></a></li>
+                            <li><a href="/src/View/adminCrud/TiposDeImovel/read.php"><i class="bi bi-eye"></i><span>Read</span></a></li>
+                            
                         </ul>
                     </li>
                     <!--=========================*
@@ -71,15 +68,14 @@
                     *===========================-->
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true">
-                            <i class="feather ft-map-pin"></i>
+                        <i class="bi bi-collection-play-fill"></i>
                             <span>Mídias</span>
-                            <span class="float-right arrow"><i class="ion ion-chevron-down"></i></span>
+                            <span class="float-right arrow"><i class="bi bi-chevron-down"></i></span>
                         </a>
                         <ul class="submenu">
-                        <li><a href="alert.html"><i class="ti-alert"></i><span>Create</span></a></li>
-                            <li><a href="accordion.html"><i class="ti-layout-accordion-separated"></i><span>Read</span></a></li>
-                            <li><a href="buttons.html"><i class="icon-focus"></i><span>Update</span></a></li>
-                            <li><a href="badges.html"><i class="icon-ribbon"></i><span>Delete</span></a></li>
+                        <li><a href="/src/View/adminCrud/Midias/add.php"><i class="bi bi-plus-lg"></i><span>Create</span></a></li>
+                            <li><a href="/src/View/adminCrud/Midias/read.php"><i class="bi bi-eye"></i><span>Read</span></a></li>
+                            
                         </ul>
                     </li>
                     <!--=========================*
@@ -87,15 +83,14 @@
                     *===========================-->
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true">
-                            <i class="feather ft-credit-card"></i>
+                        <i class="bi bi-briefcase"></i>
                             <span>Tipos de Negócio</span>
-                            <span class="float-right arrow"><i class="ion ion-chevron-down"></i></span>
+                            <span class="float-right arrow"><i class="bi bi-chevron-down"></i></span>
                         </a>
                         <ul class="submenu">
-                        <li><a href="alert.html"><i class="ti-alert"></i><span>Create</span></a></li>
-                            <li><a href="accordion.html"><i class="ti-layout-accordion-separated"></i><span>Read</span></a></li>
-                            <li><a href="buttons.html"><i class="icon-focus"></i><span>Update</span></a></li>
-                            <li><a href="badges.html"><i class="icon-ribbon"></i><span>Delete</span></a></li>
+                        <li><a href="/src/View/adminCrud/TiposDeNegocio/add.php"><i class="bi bi-plus-lg"></i><span>Create</span></a></li>
+                            <li><a href="/src/View/adminCrud/TiposDeNegocio/read.php"><i class="bi bi-eye"></i><span>Read</span></a></li>
+                            
                         </ul>
                     </li>
                     <!--=========================*
@@ -103,15 +98,14 @@
                     *===========================-->
                     <li>
                         <a href="javascript:void(0)" aria-expanded="true">
-                            <i class="feather ft-clipboard"></i>
+                        <i class="bi bi-person"></i>
                             <span>Pessoas</span>
-                            <span class="float-right arrow"><i class="ion ion-chevron-down"></i></span>
+                            <span class="float-right arrow"><i class="bi bi-chevron-down"></i></span>
                         </a>
                         <ul class="submenu">
-                        <li><a href="alert.html"><i class="ti-alert"></i><span>Create</span></a></li>
-                            <li><a href="accordion.html"><i class="ti-layout-accordion-separated"></i><span>Read</span></a></li>
-                            <li><a href="buttons.html"><i class="icon-focus"></i><span>Update</span></a></li>
-                            <li><a href="badges.html"><i class="icon-ribbon"></i><span>Delete</span></a></li>
+                        <li><a href="/src/View/adminCrud/Pessoas/add.php"><i class="bi bi-plus-lg"></i><span>Create</span></a></li>
+                            <li><a href="/src/View/adminCrud/Pessoas/read.php"><i class="bi bi-eye"></i><span>Read</span></a></li>
+                            
                         </ul>
                     </li>
                 </ul>

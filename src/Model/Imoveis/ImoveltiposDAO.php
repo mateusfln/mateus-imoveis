@@ -7,6 +7,31 @@ use Imobiliaria\Model\Entity\Imoveltipos;
 
 class ImoveltiposDAO extends DAO
 {
+
+    public function buscarListaDeImovelTipos() : array|Imoveltipos
+    {
+        global $_GET;
+
+        $imoveltipos = [];
+
+        $sql = "SELECT id,nome,ativo,criado,modificado,criador_id,modificador_id FROM imoveltipos";
+
+        $query = $this->getConexao()->query($sql);
+        
+        while ($row = $query->fetch_assoc()) {
+            $imoveltipo = new Imoveltipos();
+            $imoveltipo->setId($row['id']);
+            $imoveltipo->setNome($row['nome']);
+            $imoveltipo->setAtivo($row['ativo']);
+            $imoveltipo->setCriado(new \DateTimeImmutable());
+            $imoveltipo->setModificado(new \DateTimeImmutable());
+            $imoveltipo->setCriadorId($row['criador_id']);
+            $imoveltipo->setModificadorId($row['modificador_id']);
+            $imoveltipos[] = $imoveltipo;
+        }
+
+        return $imoveltipos;
+    }
    /**
      * Cria um objeto Imoveltipo
      * @return Imoveltipos
@@ -26,13 +51,17 @@ class ImoveltiposDAO extends DAO
   
     /**
      * Retorna um objeto Imoveltipo através do Id informado
+     * 
+     * @param int $id Código do tipo de imóvel
      * @return Imoveltipos
      */
-    public function read(Imoveltipos $imoveltipo) : Imoveltipos
+    public function read(int $id) : Imoveltipos
     {
         $sql = "SELECT id, nome, ativo, criado, modificado, criador_id, modificador_id
                 FROM imoveltipos
-                WHERE id = '{$imoveltipo->getId()}'";
+                WHERE id = '{$id}'";
+        // print_r($sql);
+        // die;
         $qry = $this->getConexao()->query($sql);
 
         return (new Imoveltipos())->hydrate(mysqli_fetch_assoc($qry));
@@ -40,28 +69,32 @@ class ImoveltiposDAO extends DAO
   
     /**
      * Atualiza um objeto Imoveltipo através do Id informado
+     * 
+     * @param int $id Código do tipo de imóvel
      */
-    public function update(Imoveltipos $imoveltipo){
+    public function update(Imoveltipos $imoveltipo, int $id){
 
         $sql = "UPDATE imoveltipos
                 SET nome = '{$imoveltipo->getNome()}',
-                    ativo = '{$imoveltipo->getAtivo()}'), 
-                    criado = '{$imoveltipo->getCriado()->format('Y-m-d H:i:s')}'), 
-                   modificado = '{$imoveltipo->getModificado()->format('Y-m-d H:i:s')}'), 
-                   criador_id = '{$imoveltipo->getCriadorId()}'), 
-               modificador_id = '{$imoveltipo->getModificadorId()}') 
-                WHERE id = '{$imoveltipo->getId()}'";
+                    ativo = '{$imoveltipo->getAtivo()}', 
+                    criado = '{$imoveltipo->getCriado()->format('Y-m-d H:i:s')}', 
+                   modificado = '{$imoveltipo->getModificado()->format('Y-m-d H:i:s')}', 
+                   criador_id = '{$imoveltipo->getCriadorId()}', 
+               modificador_id = '{$imoveltipo->getModificadorId()}'
+               WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 
     /**
-     * Retorna um objeto Imoveltipo através do Id informado
+     * Deleta um objeto Imoveltipo através do Id informado
+     * 
+     * @param int $id Código do tipo de imóvel
      */
-    public function delete(Imoveltipos $imoveltipo)
+    public function delete(Imoveltipos $imoveltipo, int $id)
     {
 
         $sql = "DELETE FROM imoveltipos
-                WHERE id = '{$imoveltipo->getId()}'";
+               WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 
@@ -69,6 +102,7 @@ class ImoveltiposDAO extends DAO
      * Consulta o ultimo registro feito na tabela e pega o id
      * 
      * @throws \Exception
+     * @return int
      */
     public function getInsertId() : int
     {

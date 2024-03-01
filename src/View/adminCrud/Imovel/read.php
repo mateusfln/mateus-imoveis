@@ -1,5 +1,5 @@
 <?php 
-require_once('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 use Imobiliaria\Model\Imoveis\ImovelDAO;
 
@@ -12,7 +12,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 <html class="no-js" lang="zxx">
 
 
-<?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/head.php');?>
+<?php require_once(realpath(dirname(__FILE__) . '/../../includes') .'/head.php');?>
 
 <body>
 <!--[if lt IE 8]>
@@ -24,8 +24,8 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 *===========================-->
 <div id="page-container">
 
-<?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/headerSection.php');?>
-<?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/sidebarMenu.php');?>
+<?php require_once(realpath(dirname(__FILE__) . '/../../includes') .'/headerSection.php');?>
+<?php require_once(realpath(dirname(__FILE__) . '/../../../../includes/admin') .'/sidebarMenu.php');?>
 
 
     <!--==================================*
@@ -43,11 +43,9 @@ $imoveis = $imoveis->buscarListaDeImoveis();
                         <div class="d-flex align-items-center dashboard-header flex-wrap mb-3 mb-sm-0">
                             <h5 class="mr-4 mb-0 font-weight-bold">Dashboard</h5>
                             <div class="d-flex align-items-baseline dashboard-breadcrumb">
-                                <p class="text-muted mb-0 mr-1 hover-cursor">App</p>
+                                <p class="text-muted mb-0 mr-1 hover-cursor">Imóveis</p>
                                 <i class="bi bi-chevron-right"></i>
-                                <p class="text-muted mb-0 mr-1 hover-cursor">Dashboard</p>
-                                <i class="bi bi-chevron-right"></i>
-                                <p class="text-muted mb-0 hover-cursor">Analytics</p>
+                                <p class="text-muted mb-0 mr-1 hover-cursor">Read</p>
                             </div>
                         </div>
                     </div>
@@ -59,7 +57,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card_title">
-                                Tabela de Imóveis <a href="/src/View/adminCrud/imovel/add.php"><button type="button" class="btn btn-inverse-success ml-3"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button></a>
+                                Tabela de Imóveis <a href="/src/View/adminCrud/Midias/add.php"><button type="button" class="btn btn-inverse-success ml-3"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button></a>
                             </h4>
                             <div class="single-table">
                                 <div class="table-responsive">
@@ -152,8 +150,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 <!--=========================*
         End Page Container
 *===========================-->
-<?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/scripts.php');?>
-
+<?php require_once(realpath(dirname(__FILE__) . '/../../includes') .'/scripts.php');?>
 </body>
 
 <!-- Mirrored from rtsolutz.com/vizzstudio/demo-falr/falr/dark-sidebar/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Feb 2024 19:04:59 GMT -->

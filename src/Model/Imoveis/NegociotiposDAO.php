@@ -8,9 +8,35 @@ use Imobiliaria\Model\Entity\NegocioTipos;
 class NegociotiposDAO extends DAO 
 {
 
+    public function buscarListaDeImovelTipos() : array|NegocioTipos
+    {
+        global $_GET;
+
+        $negociotipos = [];
+
+        $sql = "SELECT id,nome,ativo,criado,modificado,criador_id,modificador_id FROM negociotipos";
+
+        $query = $this->getConexao()->query($sql);
+        
+        while ($row = $query->fetch_assoc()) {
+            $negociotipo = new NegocioTipos();
+            $negociotipo->setId($row['id']);
+            $negociotipo->setNome($row['nome']);
+            $negociotipo->setAtivo($row['ativo']);
+            $negociotipo->setCriado(new \DateTimeImmutable());
+            $negociotipo->setModificado(new \DateTimeImmutable());
+            $negociotipo->setCriadorId($row['criador_id']);
+            $negociotipo->setModificadorId($row['modificador_id']);
+            $negociotipos[] = $negociotipo;
+        }
+
+        return $negociotipos;
+    }
+
     /**
-     * Cria um Registro no banco da tabela negociotipos
-     * @return NegocioTipos
+     * Deleta um objeto Negociotipos através do Id informado
+     * 
+     * @param NegocioTipos $negocioTipos Objeto do tipo de imóvel
      */
     public function create(NegocioTipos $negocioTipos) : Negociotipos
     {
@@ -25,42 +51,49 @@ class NegociotiposDAO extends DAO
     }
 
     /**
-     * Atualiza um Registro no banco da tabela negociotipos
+     * Atualiza um objeto Negociotipos através do Id informado
+     * 
+     *
+     * @param NegocioTipos $negociotipo
      */
-    public function update(Negociotipos $negociotipo){
+    public function update(Negociotipos $negociotipo, $id){
 
         $sql = "UPDATE negociotipos
                 SET nome = '{$negociotipo->getNome()}',
-                    ativo = '{$negociotipo->getAtivo()}'), 
-                    criado = '{$negociotipo->getCriado()->format('Y-m-d H:i:s')}'), 
-                    modificado = '{$negociotipo->getModificado()->format('Y-m-d H:i:s')}'), 
-                    criador_id = '{$negociotipo->getCriadorId()}'), 
-                    modificador_id = '{$negociotipo->getModificadorId()}') 
-                WHERE id = '{$negociotipo->getId()}'";
+                    ativo = '{$negociotipo->getAtivo()}', 
+                    criado = '{$negociotipo->getCriado()->format('Y-m-d H:i:s')}', 
+                    modificado = '{$negociotipo->getModificado()->format('Y-m-d H:i:s')}', 
+                    criador_id = '{$negociotipo->getCriadorId()}', 
+                    modificador_id = '{$negociotipo->getModificadorId()}' 
+                    WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 
     /**
-     * Mostra um Registro no banco da tabela negociotipos
-     * @return NegocioTipos
+     * Deleta um objeto Negociotipos através do Id informado
+     * 
+     * @param int $id Código do tipo de imóvel
      */
-    public function read(Negociotipos $negociotipo) : Negociotipos
+    public function read(int $id) : NegocioTipos
     {
-        $sql = "SELECT ativo, nome, criado, modificado, criador_id, modificador_id
-                FROM imoveltipos
-                WHERE id = '{$negociotipo->getId()}'";
+        $sql = "SELECT id, ativo, nome, criado, modificado, criador_id, modificador_id
+                FROM negociotipos
+                WHERE id = '{$id}'";
+ 
         $qry = $this->getConexao()->query($sql);
+        return (new NegocioTipos())->hydrate(mysqli_fetch_assoc($qry));
 
-        return (new Negociotipos())->hydrate(mysqli_fetch_assoc($qry));
     }
     
     /**
-     * Deleta um Registro no banco da tabela negociotipos
+     * Deleta um objeto Negociotipos através do Id informado
+     * 
+     * @param int $id Código do tipo de imóvel
      */
-    public function delete(Negociotipos $negociotipo){
+    public function delete($id){
 
         $sql = "DELETE FROM negociotipos
-                WHERE id = '{$negociotipo->getId()}'";
+                WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 
@@ -68,6 +101,7 @@ class NegociotiposDAO extends DAO
      * Consulta o ultimo registro feito na tabela e pega o id
      * 
      * @throws \Exception
+     * @return int
      */
     public function getInsertId() : int
     {

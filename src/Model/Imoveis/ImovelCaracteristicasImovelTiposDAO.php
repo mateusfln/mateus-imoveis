@@ -30,7 +30,7 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
      * 
      * @throws \Exception
      */
-    public function update(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos){
+    public function update(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos, $id){
 
         $sql = "UPDATE imoveis_caracteristicas_imoveltipos
                 SET imovel_id = '{$imovelCaracteristicasImovelTipos->getimovelId()}',
@@ -42,7 +42,7 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
                     modificado = '{$imovelCaracteristicasImovelTipos->getModificado()->format('Y-m-d H:i:s')}',
                     criador_id = '{$imovelCaracteristicasImovelTipos->getCriadorId()}',
                     modificador_id = '{$imovelCaracteristicasImovelTipos->getModificadorId()}',
-                WHERE id = '{$imovelCaracteristicasImovelTipos->getId()}'";
+                    WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 
@@ -51,11 +51,11 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
      * 
      * @throws \Exception
      */
-    public function read(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos){
+    public function read(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos, $id){
 
         $sql = "SELECT (imovel_id, caracteristica_imoveltipo_id, valor, ativo, nome, criado, modificado, criador_id, modificador_id)
                 FROM imoveis_caracteristicas_imoveltipos
-                WHERE id = '{$imovelCaracteristicasImovelTipos->getId()}'";
+                WHERE id = '{$id}'";
         
         $qry = $this->getConexao()->query($sql);
 
@@ -67,10 +67,10 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
      * 
      * @throws \Exception
      */
-    public function delete(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos){
+    public function delete(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos,$id){
 
         $sql = "DELETE FROM imoveis_caracteristicas_imoveltipos
-                WHERE id = '{$imovelCaracteristicasImovelTipos->getId()}'";
+                WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 

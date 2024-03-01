@@ -20,15 +20,22 @@ class MidiasDAO extends DAO
 
         $midias = [];
 
-        $sql = "SELECT identificacao, nome_disco, capa FROM midias";
+        $sql = "SELECT id, imovel_id, identificacao, nome_disco, capa, ativo, criado, modificado, criador_id, modificador_id FROM midias";
 
         $query = $this->getConexao()->query($sql);
         
         while ($row = $query->fetch_assoc()) {
             $midia = new Midias();
-            $midia->setNomeDisco($row['nome_disco']);
+            $midia->setId($row['id']);
+            $midia->setImovelId($row['imovel_id']);
             $midia->setIdentificacao($row['identificacao']);
+            $midia->setNomeDisco($row['nome_disco']);
             $midia->setCapa($row['capa']);
+            $midia->setAtivo($row['ativo']);
+            $midia->setCriado(new \DateTimeImmutable());
+            $midia->setModificado(new \DateTimeImmutable());
+            $midia->setCriadorId($row['criador_id']);
+            $midia->setModificadorId($row['modificador_id']);
             $midias[] = $midia;
         }
 
@@ -42,9 +49,9 @@ class MidiasDAO extends DAO
     public function create(Midias $midias) : Midias
     {
         $sql = "INSERT INTO midias (imovel_id, identificacao, nome_disco, capa, ativo, criado, modificado, criador_id, modificador_id)
-                VALUES ('{$midias->getImovelId()}', '{$midias->getIdentificacao()}', '{$midias->getNomeDisco()}',
-                        '{$midias->getCapa()}', '{$midias->getAtivo()}', '{$midias->getCriado()->format('Y-m-d H:i:s')},
-                        '{$midias->getModificado()->format('Y-m-d H:i:s')}, '{$midias->getCriadorId()}, '{$midias->getModificadorId()}')";
+                VALUES ({$midias->getImovelId()}, '{$midias->getIdentificacao()}', '{$midias->getNomeDisco()}',
+                        '{$midias->getCapa()}', {$midias->getAtivo()}, '{$midias->getCriado()->format('Y-m-d H:i:s')}',
+                        '{$midias->getModificado()->format('Y-m-d H:i:s')}', {$midias->getCriadorId()}, {$midias->getModificadorId()})";
          
          $this->getConexao()->query($sql);
         
@@ -57,33 +64,34 @@ class MidiasDAO extends DAO
      * Mostra um registro no banco na tabela midias
      * @return Midias
      */
-    public function read(Midias $midias){
+    public function read(int $id) : Midias
+    {
 
-        $sql = "SELECT imovel_id, identificacao, nome_disco, capa, ativo, criado, modificado, criador_id, modificador_id
+        $sql = "SELECT id, imovel_id, identificacao, nome_disco, capa, ativo, criado, modificado, criador_id, modificador_id
                 FROM midias
-                WHERE id = '{$midias->getId()}'";
-        $this->getConexao()->query($sql);
+                WHERE id = '{$id}'";
 
-        return $midias;
+        $qry = $this->getConexao()->query($sql);
+        return (new Midias())->hydrate(mysqli_fetch_assoc($qry));
+
     }
     
     /**
      * Atualiza um registro no banco na tabela midias
      * 
      */
-    public function update(Midias $midias){
+    public function update(Midias $midias, $id){
 
         $sql = "UPDATE midias
-                SET imovel_id = '{$midias->getImovelId()}',
-                    identificacao = '{$midias->getIdentificacao()}',
+                SET identificacao = '{$midias->getIdentificacao()}',
                     nome_disco = '{$midias->getNomeDisco()}',
                     capa = '{$midias->getCapa()}',
-                    ativo = '{$midias->getAtivo()}'), 
-                    criado = '{$midias->getCriado()->format('Y-m-d H:i:s')}'), 
-                    modificado = '{$midias->getModificado()->format('Y-m-d H:i:s')}'), 
-                    criador_id = '{$midias->getCriadorId()}'), 
-                    modificador_id = '{$midias->getModificadorId()}') 
-                WHERE id = '{$midias->getId()}'";
+                    ativo = '{$midias->getAtivo()}', 
+                    criado = '{$midias->getCriado()->format('Y-m-d H:i:s')}', 
+                    modificado = '{$midias->getModificado()->format('Y-m-d H:i:s')}', 
+                    criador_id = '{$midias->getCriadorId()}', 
+                    modificador_id = '{$midias->getModificadorId()}'
+                    WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 
@@ -91,10 +99,10 @@ class MidiasDAO extends DAO
      * Deleta um registro no banco na tabela midias
      *
      */
-    public function delete(Midias $midias){
+    public function delete($id){
 
         $sql = "DELETE FROM midias
-                WHERE id = '{$midias->getId()}'";
+                WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 

@@ -1,10 +1,16 @@
 <?php 
-require_once('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
+require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
-use Imobiliaria\Model\Imoveis\ImovelDAO;
+use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
 
-$imoveis = new ImovelDAO();
-$imoveis = $imoveis->buscarListaDeImoveis();
+$imovelTipos = new ImoveltiposDAO();
+$imovelTipos = $imovelTipos->buscarListaDeImovelTipos();
+
+if(!empty($_POST['delete_id'])){
+    $dbNegociotipo = new ImoveltiposDAO();
+    $dbNegociotipo->delete($_POST['delete_id']);
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeNegocio/read.php');
+}
 
 ?>
 
@@ -12,7 +18,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 <html class="no-js" lang="zxx">
 
 
-<?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/head.php');?>
+<?php require_once(realpath(dirname(__FILE__) . '/../../includes') .'/head.php');?>
 
 <body>
 <!--[if lt IE 8]>
@@ -24,8 +30,8 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 *===========================-->
 <div id="page-container">
 
-<?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/headerSection.php');?>
-<?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/sidebarMenu.php');?>
+<?php require_once(realpath(dirname(__FILE__) . '/../../includes') .'/headerSection.php');?>
+<?php require_once(realpath(dirname(__FILE__) . '/../../../../includes/admin') .'/sidebarMenu.php');?>
 
 
     <!--==================================*
@@ -40,14 +46,12 @@ $imoveis = $imoveis->buscarListaDeImoveis();
             <div class="row mb-4">
                 <div class="col-md-12 grid-margin">
                     <div class="d-flex justify-content-between flex-wrap">
-                        <div class="d-flex align-items-center dashboard-header flex-wrap mb-3 mb-sm-0">
+                    <div class="d-flex align-items-center dashboard-header flex-wrap mb-3 mb-sm-0">
                             <h5 class="mr-4 mb-0 font-weight-bold">Dashboard</h5>
                             <div class="d-flex align-items-baseline dashboard-breadcrumb">
-                                <p class="text-muted mb-0 mr-1 hover-cursor">App</p>
+                                <p class="text-muted mb-0 mr-1 hover-cursor">Tipos de Imóvel</p>
                                 <i class="bi bi-chevron-right"></i>
-                                <p class="text-muted mb-0 mr-1 hover-cursor">Dashboard</p>
-                                <i class="bi bi-chevron-right"></i>
-                                <p class="text-muted mb-0 hover-cursor">Analytics</p>
+                                <p class="text-muted mb-0 mr-1 hover-cursor">Read</p>
                             </div>
                         </div>
                     </div>
@@ -59,7 +63,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card_title">
-                                Tabela de Imóveis <a href="/src/View/adminCrud/imovel/add.php"><button type="button" class="btn btn-inverse-success ml-3"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button></a>
+                                Tabela de Tipos de Imóvel <a href="/src/View/adminCrud/Midias/add.php"><button type="button" class="btn btn-inverse-success ml-3"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button></a>
                             </h4>
                             <div class="single-table">
                                 <div class="table-responsive">
@@ -67,17 +71,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
                                         <thead class="text-uppercase">
                                         <tr>
                                             <th scope="col">ID</th>
-                                            <th scope="col">Identificação</th>
-                                            <th scope="col">Matricula</th>
-                                            <th scope="col">Inscrição Imobiliária</th>
-                                            <th scope="col">Logradouro</th>
-                                            <th scope="col">Numero Logradouro</th>
-                                            <th scope="col">Rua</th>
-                                            <th scope="col">Bairro</th>
-                                            <th scope="col">Cidade</th>
-                                            <th scope="col">Estado</th>
-                                            <th scope="col">Cep</th>
-                                            <th scope="col">Ibge</th>
+                                            <th scope="col">Nome</th>
                                             <th scope="col">Ativo</th>
                                             <th scope="col">Criado</th>
                                             <th scope="col">Modificado</th>
@@ -87,30 +81,20 @@ $imoveis = $imoveis->buscarListaDeImoveis();
                                         </tr>
                                         </thead>
                                         <tbody>
-                                    <?php foreach($imoveis as $imovel):?>
+                                    <?php foreach($imovelTipos as $imoveltipo):?>
                                         <tr>
-                                            <th scope="row"><?=$imovel->id?></th>
-                                            <td><?=$imovel->identificacao?></td>
-                                            <td><?=$imovel->matricula?></td>
-                                            <td><?=$imovel->inscricaoImobiliaria?></td>
-                                            <td><?=$imovel->logradouro?></td>
-                                            <td><?=$imovel->numeroLogradouro?></td>
-                                            <td><?=$imovel->rua?></td>
-                                            <td><?=$imovel->bairro?></td>
-                                            <td><?=$imovel->cidade?></td>
-                                            <td><?=$imovel->estado?></td>
-                                            <td><?=$imovel->cep?></td>
-                                            <td><?=$imovel->ibge?></td>
-                                            <td><?=$imovel->ativo?></td>
-                                            <td><?=$imovel->criado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$imovel->modificado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$imovel->criadorId?></td>
-                                            <td><?=$imovel->modificadorId?></td>
+                                            <th><?=$imoveltipo->id?></th>
+                                            <th><?=$imoveltipo->nome?></th>
+                                            <td><?=$imoveltipo->ativo?></td>
+                                            <td><?=$imoveltipo->criado->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$imoveltipo->modificado->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$imoveltipo->criadorId?></td>
+                                            <td><?=$imoveltipo->modificadorId?></td>
                                             <td>
                                                 <ul class="d-flex justify-content-center">
-                                                    <li class="mr-3"><a href="/src/View/adminCrud/Imovel/update.php?id=<?= $imovel->id?>&identificacao=<?= $imovel->identificacao?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
+                                                    <li class="mr-3"><a href="/src/View/adminCrud/TiposDeImovel/update.php?id=<?= $imoveltipo->id?>&nome=<?= $imoveltipo->nome?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
                                                     <form method="POST">
-                                                        <input type="hidden" name="delete_id" value="<?=$imovel->id?>">
+                                                        <input type="hidden" name="delete_id" value="<?=$imoveltipo->id?>">
                                                         <li class="mr-3"><button type="submit" class="btn btn-inverse-danger"><i class="bi bi-trash mr-1"></i>Delete</button></li>
                                                     </form>
                                                 </ul>
@@ -152,8 +136,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 <!--=========================*
         End Page Container
 *===========================-->
-<?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/scripts.php');?>
-
+<?php require_once(realpath(dirname(__FILE__) . '/../../includes') .'/scripts.php');?>
 </body>
 
 <!-- Mirrored from rtsolutz.com/vizzstudio/demo-falr/falr/dark-sidebar/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Feb 2024 19:04:59 GMT -->

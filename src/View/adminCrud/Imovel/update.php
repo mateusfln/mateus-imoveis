@@ -2,42 +2,53 @@
 
 require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
-use Imobiliaria\Model\Entity\Imovel;
 use Imobiliaria\Model\Imoveis\ImovelDAO;
 
-if(!empty($_POST)){
-    print_r($_POST);
-    $hoje = new \DateTimeImmutable();
-    
-    $imovel = new Imovel();
+if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php?error=Código da característica não informado');
+    exit;
+}
 
+$imovelDAO = new ImovelDAO();
+$imovel = $imovelDAO->read($_GET['id']);
+
+if(!empty($_POST['identificacao'])&& !empty($_POST['matricula'])&& !empty($_POST['inscricao_imobiliaria'])
+&& !empty($_POST['logradouro']) && !empty($_POST['numero_logradouro']) && !empty($_POST['rua']) && !empty($_POST['bairro'])
+&& !empty($_POST['cidade']) && !empty($_POST['estado']) && !empty($_POST['cep']) && !empty($_POST['ibge'])){
+    $hoje = new \DateTimeImmutable();
     $imovel->setIdentificacao($_POST['identificacao']);
     $imovel->setMatricula($_POST['matricula']);
     $imovel->setInscricaoImobiliaria($_POST['inscricao_imobiliaria']);
     $imovel->setLogradouro($_POST['logradouro']);
     $imovel->setNumeroLogradouro($_POST['numero_logradouro']);
     $imovel->setRua($_POST['rua']);
-    $imovel->setComplemento($_POST['complemento']);
     $imovel->setBairro($_POST['bairro']);
     $imovel->setCidade($_POST['cidade']);
     $imovel->setEstado($_POST['estado']);
     $imovel->setCep($_POST['cep']);
     $imovel->setIbge($_POST['ibge']);
-    $imovel->setAtivo(true);
-    $imovel->setCriado($hoje);
-    $imovel->setCriadorId(1);
+    $imovel->setAtivo(false);
+    if(!empty($_POST['ativo'])){
+        $imovel->setAtivo($_POST['ativo']);
+    }
     $imovel->setModificadorId(1);
     $imovel->setModificado($hoje);
-    $dbImovel = new ImovelDAO();
-    $dbImovel->create($imovel);
-    header('Location: https://mateusimoveis.local/Admin.php');
+    
+    $imovelDAO->update($imovel, $_GET['id']);
+
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
+    exit;
+
 }
 
 ?>
 
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
+
+
 <?php require_once(realpath(dirname(__FILE__) . '/../../includes') .'/head.php');?>
+
 <body>
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -64,12 +75,12 @@ if(!empty($_POST)){
             <div class="row mb-4">
                 <div class="col-md-12 grid-margin">
                     <div class="d-flex justify-content-between flex-wrap">
-                    <div class="d-flex align-items-center dashboard-header flex-wrap mb-3 mb-sm-0">
+                        <div class="d-flex align-items-center dashboard-header flex-wrap mb-3 mb-sm-0">
                             <h5 class="mr-4 mb-0 font-weight-bold">Dashboard</h5>
                             <div class="d-flex align-items-baseline dashboard-breadcrumb">
                                 <p class="text-muted mb-0 mr-1 hover-cursor">Imóveis</p>
                                 <i class="bi bi-chevron-right"></i>
-                                <p class="text-muted mb-0 mr-1 hover-cursor">Create</p>
+                                <p class="text-muted mb-0 mr-1 hover-cursor">Read</p>
                             </div>
                         </div>
                     </div>
@@ -82,8 +93,8 @@ if(!empty($_POST)){
                     <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form method="POST">
-                                        <h4 class="card_title">Cadastro de Imóveis</h4>
+                                <form method="POST">
+                                        <h4 class="card_title">Editar <?= $_GET['identificacao']?></h4>
                                         <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">Identificacao</label>
                                             <input class="form-control" required type="text"name="identificacao">
@@ -133,7 +144,7 @@ if(!empty($_POST)){
                                             <input class="form-control" required type="text" name="ibge">
                                         </div>
                                         <div class="form-group">
-                                        <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button>
+                                        <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Editar</button>
                                         </div>
                                     </form>
                                 </div>
@@ -166,7 +177,11 @@ if(!empty($_POST)){
     *===================================-->
 
 </div>
+
 <?php require_once(realpath(dirname(__FILE__) . '/../../includes') .'/scripts.php');?>
+
 </body>
+
+<!-- Mirrored from rtsolutz.com/vizzstudio/demo-falr/falr/dark-sidebar/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Feb 2024 19:04:59 GMT -->
 </html>
 

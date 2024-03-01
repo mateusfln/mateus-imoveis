@@ -637,13 +637,14 @@ class ImovelDAO extends DAO
         
         $sql = "INSERT INTO imoveis (identificacao, matricula, inscricao_imobiliaria, logradouro,
                 numero_logradouro, cep, rua, complemento, bairro, cidade, estado, ibge, ativo, criado, modificado, criador_id, modificador_id)
-                VALUES ('{$imovel->getIdentificacao()}', '{$imovel->getMatricula()}', '{$imovel->getInscricaoImobiliaria()}'
+                VALUES ('{$imovel->getIdentificacao()}', '{$imovel->getMatricula()}', '{$imovel->getInscricaoImobiliaria()}',
                         '{$imovel->getLogradouro()}', '{$imovel->getNumeroLogradouro()}', '{$imovel->getCep()}',
                         '{$imovel->getRua()}', '{$imovel->getComplemento()}', '{$imovel->getBairro()}',
-                        '{$imovel->getCidade()}', '{$imovel->getEstado()}'), '{$imovel->getIbge()}'), '{$imovel->getAtivo()}'),
-                        {$imovel->getCriado()->format('Y-m-d H:i:s')}), {$imovel->getModificado()->format('Y-m-d H:i:s')}),
-                        '{$imovel->getCriadorId()}'), '{$imovel->getModificadorId()}')";
-         
+                        '{$imovel->getCidade()}', '{$imovel->getEstado()}', '{$imovel->getIbge()}', {$imovel->getAtivo()},
+                        '{$imovel->getCriado()->format('Y-m-d H:i:s')}', '{$imovel->getModificado()->format('Y-m-d H:i:s')}',
+                        {$imovel->getCriadorId()}, {$imovel->getModificadorId()})";
+        print_r($sql); 
+        
          $this->getConexao()->query($sql);
         
          $imovel->setId($this->getInsertId());
@@ -656,13 +657,14 @@ class ImovelDAO extends DAO
      * 
      * @throws \Exception
      */
-    public function read(Imovel $imovel){
+    public function read(int $id) : Imovel
+    {
 
-        $sql = "SELECT identificacao, matricula, inscricao_imobiliaria, logradouro,
+        $sql = "SELECT id, identificacao, matricula, inscricao_imobiliaria, logradouro,
                         numero_logradouro, cep, rua, complemento, bairro, cidade, estado, ibge,
                         ativo, criado, modificado, criador_id, modificador_id
                 FROM imoveis
-                WHERE id = '{$imovel->getId()}'";
+                WHERE id = '{$id}'";
         
         $qry = $this->getConexao()->query($sql);
         return (new Imovel())->hydrate(mysqli_fetch_assoc($qry));
@@ -676,7 +678,7 @@ class ImovelDAO extends DAO
     public function update(Imovel $imovel, $id){
 
         $sql = "UPDATE imoveis
-                SET descricao = '{$imovel->getIdentificacao()}',
+                SET identificacao = '{$imovel->getIdentificacao()}',
                     matricula = '{$imovel->getMatricula()}',
         inscricao_imobiliaria = '{$imovel->getInscricaoImobiliaria()}',
                    logradouro = '{$imovel->getLogradouro()}',
@@ -686,14 +688,14 @@ class ImovelDAO extends DAO
                   complemento = '{$imovel->getComplemento()}', 
                        bairro = '{$imovel->getBairro()}',
                        cidade = '{$imovel->getCidade()}',
-                       estado = '{$imovel->getEstado()}'), 
-                         ibge = '{$imovel->getIbge()}'), 
-                        ativo = '{$imovel->getAtivo()}'), 
-                       criado = '{$imovel->getCriado()->format('Y-m-d H:i:s')}'), 
-                   modificado = '{$imovel->getModificado()->format('Y-m-d H:i:s')}'), 
-                   criador_id = '{$imovel->getCriadorId()}'), 
-               modificador_id = '{$imovel->getModificadorId()}') 
-            WHERE id = '{$imovel->getId()}'";
+                       estado = '{$imovel->getEstado()}', 
+                         ibge = '{$imovel->getIbge()}', 
+                        ativo = '{$imovel->getAtivo()}', 
+                       criado = '{$imovel->getCriado()->format('Y-m-d H:i:s')}', 
+                   modificado = '{$imovel->getModificado()->format('Y-m-d H:i:s')}', 
+                   criador_id = '{$imovel->getCriadorId()}', 
+               modificador_id = '{$imovel->getModificadorId()}' 
+               WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
    
@@ -702,10 +704,10 @@ class ImovelDAO extends DAO
      * 
      * @throws \Exception
      */
-    public function delete(Imovel $imovel){
+    public function delete(Imovel $imovel,$id){
 
         $sql = "DELETE FROM imoveis
-                WHERE id = '{$imovel->getId()}'";
+                WHERE id = '{$id}'";;
         $this->getConexao()->query($sql);
     }
 
