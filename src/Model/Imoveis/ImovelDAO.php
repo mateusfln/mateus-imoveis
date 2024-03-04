@@ -534,11 +534,11 @@ class ImovelDAO extends DAO
 
         $allTables = [];
 
-        $sql = "SELECT i.identificacao, matricula, inscricao_imobiliaria , logradouro, numero_logradouro, complemento, bairro, cidade, estado, cep, ibge, nt.negociotipo_id , nt.valor, ici.caracteristica_imoveltipo_id, ici.valor, m.nome_disco, m.capa, m.identificacao  
-                FROM imoveis i
-                INNER JOIN imoveis_negociotipos nt ON i.id = nt.imovel_id
-                INNER JOIN imoveis_caracteristicas_imoveltipos ici ON i.id = ici.imovel_id
-                INNER JOIN midias m ON i.id = m.imovel_id;
+        $sql = "SELECT *  
+                FROM imoveis
+                INNER JOIN imoveis_negociotipos nt ON imoveis.id = nt.imovel_id
+                INNER JOIN imoveis_caracteristicas_imoveltipos ici ON imoveis.id = ici.imovel_id
+                INNER JOIN midias m ON imoveis.id = m.imovel_id;
                 ";
 
             if (!empty($_GET)) {
@@ -609,6 +609,9 @@ class ImovelDAO extends DAO
 
         while ($row = $query->fetch_assoc()) {
             $imovel = new Imovel(); 
+            $caracteristicas = new Caracteristicas(); 
+            $imoveltipos = new Imoveltipos(); 
+            $midias = new Midias(); 
             
             $imovel->setBairro($row['bairro']);
             $imovel->setCep($row['cep']);
@@ -620,7 +623,14 @@ class ImovelDAO extends DAO
             $imovel->setInscricaoImobiliaria($row['inscricao_imobiliaria']);
             $imovel->setLogradouro($row['logradouro']);
             $imovel->setNumeroLogradouro($row['logradouro']);
-            $imovel->setMatricula($row['matricula']);
+            $imovel->setCaracteristicas($caracteristicas);
+            $caracteristicas->setNome($row['nome']);
+            $imoveltipos->setNome($row['nome']);
+            $imovel->setMidias($midias);
+            $midias->setCapa($row['capa']);
+            $midias->setIdentificacao($row['identificacao']);
+            $midias->setNomeDisco($row['nome_disco']);
+            $midias->setImovelId($row['imovel_id']);
             $allTables[] = $imovel;
         }
 
@@ -704,12 +714,13 @@ class ImovelDAO extends DAO
      * 
      * @throws \Exception
      */
-    public function delete(Imovel $imovel,$id){
+    public function delete($id){
 
         $sql = "DELETE FROM imoveis
-                WHERE id = '{$id}'";;
+               WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
+
 
     /**
      * Consulta o ultimo registro feito na tabela e pega o id

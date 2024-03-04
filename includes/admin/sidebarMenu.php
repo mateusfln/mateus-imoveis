@@ -33,6 +33,18 @@
                             
                         </ul>
                     </li>
+                    <!-- <li>
+                        <a href="javascript:void(0)" aria-expanded="true">
+                        <i class="bi bi-card-checklist"></i>
+                            <span>Caracte. Imoveltipo</span>
+                            <span class="float-right arrow"><i class="bi bi-chevron-down"></i></i></i></span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="/src/View/adminCrud/CaracteristicasImoveltipos/add.php"><i class="bi bi-plus-lg"></i><span>Create</span></a></li>
+                            <li><a href="/src/View/adminCrud/CaracteristicasImoveltipos/read.php"><i class="bi bi-eye"></i><span>Read</span></a></li>
+                            
+                        </ul>
+                    </li> -->
                     <!--=========================*
                               Advance Kit
                     *===========================-->

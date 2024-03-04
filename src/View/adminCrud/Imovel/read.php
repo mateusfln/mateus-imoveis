@@ -6,6 +6,14 @@ use Imobiliaria\Model\Imoveis\ImovelDAO;
 $imoveis = new ImovelDAO();
 $imoveis = $imoveis->buscarListaDeImoveis();
 
+$campos = array('ID','IDENTIFICACAO','MATRICULA','INSCRICAO IMOBILIARIA','LOGRADOURO','NUMERO LOGRADOURO','RUA','BAIRRO','CIDADE','ESTADO','CEP','IBGE','ATIVO','CRIADO', 'MODIFICADO', 'CRIADOR ID', 'MODIFICADOR ID');
+
+if(!empty($_POST['delete_id'])){
+    $dbNegociotipo = new ImovelDAO();
+    $dbNegociotipo->delete($_POST['delete_id']);
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -57,30 +65,36 @@ $imoveis = $imoveis->buscarListaDeImoveis();
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card_title">
-                                Tabela de Imóveis <a href="/src/View/adminCrud/Midias/add.php"><button type="button" class="btn btn-inverse-success ml-3"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button></a>
+                                Tabela de Imóveis <a href="/src/View/adminCrud/Imovel/add.php"><button type="button" class="btn btn-inverse-success ml-3"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button></a>
                             </h4>
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table class="table table-hover progress-table text-center">
                                         <thead class="text-uppercase">
                                         <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Identificação</th>
-                                            <th scope="col">Matricula</th>
-                                            <th scope="col">Inscrição Imobiliária</th>
-                                            <th scope="col">Logradouro</th>
-                                            <th scope="col">Numero Logradouro</th>
-                                            <th scope="col">Rua</th>
-                                            <th scope="col">Bairro</th>
-                                            <th scope="col">Cidade</th>
-                                            <th scope="col">Estado</th>
-                                            <th scope="col">Cep</th>
-                                            <th scope="col">Ibge</th>
-                                            <th scope="col">Ativo</th>
-                                            <th scope="col">Criado</th>
-                                            <th scope="col">Modificado</th>
-                                            <th scope="col">Criador ID</th>
-                                            <th scope="col">Modificador ID</th>
+                                        <?php foreach($campos as $campo):?>
+
+                                            <th scope="col">
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <strong>
+                                                        <?=$campo?> 
+                                                    </strong>
+                                                    <?php
+                                                    $campo = strtolower($campo);
+                                                    $campo = str_replace(" ", "_", $campo);
+                                                    ?>
+                                                    <?php if((empty($_GET['direction']))):?>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                    <?php else:?>
+                                                    <?php if(($_GET['direction']) == 'DESC'):?>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                    <?php else:?>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
+                                                    <?php endif;?>
+                                                    <?php endif;?>
+                                                </div>
+                                            </th>
+                                            <?php endforeach;?>
                                             <th scope="col">Actions</th>
                                         </tr>
                                         </thead>

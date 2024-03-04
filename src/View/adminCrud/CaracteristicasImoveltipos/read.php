@@ -1,17 +1,15 @@
 <?php 
 require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
-use Imobiliaria\Model\Imoveis\MidiasDAO;
+use Imobiliaria\Model\Imoveis\CaracteristicasImoveltiposDAO;
 
-$midias = new MidiasDAO();
-$midias = $midias->buscarListaDeMidias();
-$campos = array('ID','IMOVEL ID', 'IDENTIFICACAO', 'NOME DISCO', 'CAPA','ATIVO','CRIADO', 'MODIFICADO', 'CRIADOR ID', 'MODIFICADOR ID');
-
+$caracteristicas = new CaracteristicasImoveltiposDAO();
+$caracteristicas = $caracteristicas->buscarListaDeCaracteristicasImovelTipos();
 
 if(!empty($_POST['delete_id'])){
-    $dbMidias = new MidiasDAO();
-    $dbMidias->delete($_POST['delete_id']);
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/Midias/read.php');
+    $dbNegociotipo = new CaracteristicasImoveltiposDAO();
+    $dbNegociotipo->delete($_POST['delete_id']);
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/CaracteristicasImoveltipos/read.php');
 }
 
 ?>
@@ -51,7 +49,7 @@ if(!empty($_POST['delete_id'])){
                     <div class="d-flex align-items-center dashboard-header flex-wrap mb-3 mb-sm-0">
                             <h5 class="mr-4 mb-0 font-weight-bold">Dashboard</h5>
                             <div class="d-flex align-items-baseline dashboard-breadcrumb">
-                                <p class="text-muted mb-0 mr-1 hover-cursor">Mídias</p>
+                                <p class="text-muted mb-0 mr-1 hover-cursor">Caracteristicas</p>
                                 <i class="bi bi-chevron-right"></i>
                                 <p class="text-muted mb-0 mr-1 hover-cursor">Read</p>
                             </div>
@@ -65,56 +63,40 @@ if(!empty($_POST['delete_id'])){
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card_title">
-                                Tabela de Mídias <a href="/src/View/adminCrud/Midias/add.php"><button type="button" class="btn btn-inverse-success ml-3"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button></a>
+                                Tabela de Características s <a href="/src/View/adminCrud/CaracteristicasImoveltipos/add.php"><button type="button" class="btn btn-inverse-success ml-3"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button></a>
                             </h4>
                             <div class="single-table">
                                 <div class="table-responsive">
                                     <table class="table table-hover progress-table text-center">
                                         <thead class="text-uppercase">
                                         <tr>
-                                        <?php foreach($campos as $campo):?>
-                                            <th scope="col">
-                                                <div class="d-flex justify-content-center align-items-center">
-                                                    <strong>
-                                                        <?=$campo?> 
-                                                    </strong>
-                                                    <?php
-                                                    $campo = strtolower($campo);
-                                                    $campo = str_replace(" ", "_", $campo);
-                                                    ?>
-                                                    <?php if((empty($_GET['direction']))):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
-                                                    <?php else:?>
-                                                    <?php if(($_GET['direction']) == 'DESC'):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
-                                                    <?php else:?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
-                                                    <?php endif;?>
-                                                    <?php endif;?>
-                                                </div>
-                                            </th>
-                                            <?php endforeach;?>
-                                            <th scope="col"> Actions </th>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">ID Caracteristica</th>
+                                            <th scope="col">ID Imoveltipo</th>
+                                            <th scope="col">Ativo</th>
+                                            <th scope="col">Criado</th>
+                                            <th scope="col">Modificado</th>
+                                            <th scope="col">Criador ID</th>
+                                            <th scope="col">Modificador ID</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                    <?php foreach($midias as $midia):?>
+                                    <?php foreach($caracteristicas as $caracteristica):?>
                                         <tr>
-                                            <th><?=$midia->id?></th>
-                                            <th><?=$midia->imovelId?></th>
-                                            <td><?=$midia->identificacao?></td>
-                                            <td><?=$midia->nomeDisco?></td>
-                                            <td><?=$midia->capa?></td>
-                                            <td><?=$midia->ativo?></td>
-                                            <td><?=$midia->criado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$midia->modificado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$midia->criadorId?></td>
-                                            <td><?=$midia->modificadorId?></td>
+                                            <th><?=$caracteristica->id?></th>
+                                            <th><?=$caracteristica->caracteristicaId?></th>
+                                            <th><?=$caracteristica->imovelTipoId?></th>
+                                            <td><?=$caracteristica->ativo?></td>
+                                            <td><?=$caracteristica->criado->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$caracteristica->modificado->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$caracteristica->criadorId?></td>
+                                            <td><?=$caracteristica->modificadorId?></td>
                                             <td>
                                                 <ul class="d-flex justify-content-center">
-                                                    <li class="mr-3"><a href="/src/View/adminCrud/Midias/update.php?id=<?= $midia->id?>&identificacao=<?= $midia->identificacao?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
+                                                    <li class="mr-3"><a href="/src/View/adminCrud/CaracteristicasImoveltipos/update.php?id=<?= $caracteristica->id?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
                                                     <form method="POST">
-                                                        <input type="hidden" name="delete_id" value="<?=$midia->id?>">
+                                                        <input type="hidden" name="delete_id" value="<?=$caracteristica->id?>">
                                                         <li class="mr-3"><button type="submit" class="btn btn-inverse-danger"><i class="bi bi-trash mr-1"></i>Delete</button></li>
                                                     </form>
                                                 </ul>

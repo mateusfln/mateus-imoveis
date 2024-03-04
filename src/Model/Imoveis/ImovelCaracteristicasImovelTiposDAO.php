@@ -9,14 +9,45 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
 {
 
     /**
+     * Efetua a busca de dados referentes a tabela de ImovelCaracteristicasImovelTipos
+     * 
+     * @return array|ImovelCaracteristicasImovelTipos[]
+     */
+    public function buscarListaDeCaracteristicasImovelTipos() : array|ImovelCaracteristicasImovelTipos
+    {
+        global $_GET;
+
+        $imovelCaracteristicasImovelTipos = [];
+
+        $sql = "SELECT id, imovel_id, caracteristica_imoveltipo_id, ativo,criado,modificado,criador_id,modificador_id FROM imoveis_caracteristicas_imoveltipos";
+
+        $query = $this->getConexao()->query($sql);
+        
+        while ($row = $query->fetch_assoc()) {
+            $caracteristica = new ImovelCaracteristicasImovelTipos();
+            $caracteristica->setId($row['id']);
+            $caracteristica->setimovelId($row['imovel_id']);
+            $caracteristica->setCaracteristicaImoveltipoId($row['caracteristica_imoveltipo_id']);
+            $caracteristica->setAtivo($row['ativo']);
+            $caracteristica->setCriado(new \DateTimeImmutable());
+            $caracteristica->setModificado(new \DateTimeImmutable());
+            $caracteristica->setCriadorId($row['criador_id']);
+            $caracteristica->setModificadorId($row['modificador_id']);
+            $imovelCaracteristicasImovelTipos[] = $caracteristica;
+        }
+
+        return $imovelCaracteristicasImovelTipos;
+    }
+
+    /**
      * Cria um registro na tabela ImovelCaracteristicasImovelTipos de acordo com os dados fornecidos
      * 
      * @throws \Exception
      */
     public function create(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos)
     {
-        $sql = "INSERT INTO imoveis_caracteristicas_imoveltipos (imovel_id, caracteristica_imoveltipo_id, valor, ativo, nome, criado, modificado, criador_id, modificador_id)
-                VALUES ('{$imovelCaracteristicasImovelTipos->getimovelId()}', '{$imovelCaracteristicasImovelTipos->getCaracteristicaImoveltipoId()}', '{$imovelCaracteristicasImovelTipos->getValor()}', '{$imovelCaracteristicasImovelTipos->getAtivo()}', '{$imovelCaracteristicasImovelTipos->getvalor()}', '{$imovelCaracteristicasImovelTipos->getCriado()->format('Y-m-d H:i:s')}', '{$imovelCaracteristicasImovelTipos->getModificado()->format('Y-m-d H:i:s')}', '{$imovelCaracteristicasImovelTipos->getCriadorId()}', '{$imovelCaracteristicasImovelTipos->getModificadorId()}')";
+        $sql = "INSERT INTO imoveis_caracteristicas_imoveltipos (imovel_id, caracteristica_imoveltipo_id, valor, ativo, criado, modificado, criador_id, modificador_id)
+                VALUES ('{$imovelCaracteristicasImovelTipos->getimovelId()}', '{$imovelCaracteristicasImovelTipos->getCaracteristicaImoveltipoId()}', '{$imovelCaracteristicasImovelTipos->getValor()}', '{$imovelCaracteristicasImovelTipos->getAtivo()}', '{$imovelCaracteristicasImovelTipos->getCriado()->format('Y-m-d H:i:s')}', '{$imovelCaracteristicasImovelTipos->getModificado()->format('Y-m-d H:i:s')}', '{$imovelCaracteristicasImovelTipos->getCriadorId()}', '{$imovelCaracteristicasImovelTipos->getModificadorId()}')";
         
         $this->getConexao()->query($sql);
         
@@ -34,10 +65,9 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
 
         $sql = "UPDATE imoveis_caracteristicas_imoveltipos
                 SET imovel_id = '{$imovelCaracteristicasImovelTipos->getimovelId()}',
-                    caracteristica_imoveltipo = '{$imovelCaracteristicasImovelTipos->getCaracteristicaImoveltipoId()}',
+                    caracteristica_imoveltipo_id = '{$imovelCaracteristicasImovelTipos->getCaracteristicaImoveltipoId()}',
                     valor = '{$imovelCaracteristicasImovelTipos->getValor()}',
                     ativo = '{$imovelCaracteristicasImovelTipos->getAtivo()}',
-                    nome = '{$imovelCaracteristicasImovelTipos->getNome()}',
                     criado = '{$imovelCaracteristicasImovelTipos->getCriado()->format('Y-m-d H:i:s')}',
                     modificado = '{$imovelCaracteristicasImovelTipos->getModificado()->format('Y-m-d H:i:s')}',
                     criador_id = '{$imovelCaracteristicasImovelTipos->getCriadorId()}',
@@ -51,12 +81,11 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
      * 
      * @throws \Exception
      */
-    public function read(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos, $id){
-
-        $sql = "SELECT (imovel_id, caracteristica_imoveltipo_id, valor, ativo, nome, criado, modificado, criador_id, modificador_id)
+    public function read(int $id) : ImovelCaracteristicasImovelTipos
+    {
+        $sql = "SELECT id, caracteristica_imoveltipo_id, imovel_id, ativo, criado, modificado, criador_id, modificador_id
                 FROM imoveis_caracteristicas_imoveltipos
                 WHERE id = '{$id}'";
-        
         $qry = $this->getConexao()->query($sql);
 
         return (new ImovelCaracteristicasImovelTipos())->hydrate(mysqli_fetch_assoc($qry));
@@ -67,12 +96,13 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
      * 
      * @throws \Exception
      */
-    public function delete(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos,$id){
+    public function delete($id){
 
         $sql = "DELETE FROM imoveis_caracteristicas_imoveltipos
-                WHERE id = '{$id}'";
+               WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
+
 
     /**
      * Consulta o ultimo registro feito na tabela e pega o id

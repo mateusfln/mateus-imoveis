@@ -10,7 +10,6 @@ class ImovelCaracteristicasImovelTipos extends Tabela
     public $imovelId;
     public $caracteristicaImovelTipoId;
     public $valor;
-    public $nome;
     
     public function setimovelId($imovel_id)
     {
@@ -36,14 +35,6 @@ class ImovelCaracteristicasImovelTipos extends Tabela
     public function getValor()
     {
         return $this->valor;
-    }
-    public function setNome($nome)
-    {
-        $this->nome = $nome;
-    }
-    public function getNome()
-    {
-        return $this->nome;
     }
 
     /**

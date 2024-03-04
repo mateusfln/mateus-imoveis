@@ -8,10 +8,13 @@ use Imobiliaria\Model\Entity\Imoveltipos;
 class ImoveltiposDAO extends DAO
 {
 
+    /**
+     * Retorna um objeto Imoveltipo através do Id informado
+     * 
+     * @return array|Imoveltipos[]
+     */
     public function buscarListaDeImovelTipos() : array|Imoveltipos
     {
-        global $_GET;
-
         $imoveltipos = [];
 
         $sql = "SELECT id,nome,ativo,criado,modificado,criador_id,modificador_id FROM imoveltipos";
@@ -90,8 +93,7 @@ class ImoveltiposDAO extends DAO
      * 
      * @param int $id Código do tipo de imóvel
      */
-    public function delete(Imoveltipos $imoveltipo, int $id)
-    {
+    public function delete($id){
 
         $sql = "DELETE FROM imoveltipos
                WHERE id = '{$id}'";

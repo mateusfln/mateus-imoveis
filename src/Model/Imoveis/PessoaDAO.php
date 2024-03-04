@@ -89,27 +89,33 @@ class PessoaDAO extends DAO
         $sql = "UPDATE pessoas
                 SET cpf = '{$pessoas->getCpf()}',
                     login = '{$pessoas->getLogin()}',
-                    sennha = '{$pessoas->getSenha()}',
-                    nome = '{$pessoas->getNome()}')
-                    ativo = '{$pessoas->getAtivo()}'), 
-                    criado = '{$pessoas->getCriado()->format('Y-m-d H:i:s')}'), 
-                   modificado = '{$pessoas->getModificado()->format('Y-m-d H:i:s')}'), 
-                   criador_id = '{$pessoas->getCriadorId()}'), 
-               modificador_id = '{$pessoas->getModificadorId()}')
+                    senha = '{$pessoas->getSenha()}',
+                    nome = '{$pessoas->getNome()}',
+                    ativo = '{$pessoas->getAtivo()}', 
+                    criado = '{$pessoas->getCriado()->format('Y-m-d H:i:s')}', 
+                   modificado = '{$pessoas->getModificado()->format('Y-m-d H:i:s')}', 
+                   criador_id = {$pessoas->getCriadorId()}, 
+               modificador_id = {$pessoas->getModificadorId()}
                WHERE id = '{$id}'";
+
+        //print_r($sql); die;
         $this->getConexao()->query($sql);
     }
 
     /**
      * Mostra um objeto Imoveltipo
      */
-    public function read(Pessoas $pessoas, $id){
+    public function read($id) : Pessoas
+    {
 
-        $sql = "SELECT ativo, cpf, login, senha, nome, criado, modificado, criador_id, modificador_id
+        $sql = "SELECT id, ativo, cpf, login, senha, nome, criado, modificado, criador_id, modificador_id
                 FROM pessoas
-                WHERE id = '{$pessoas->getId()}'
                 WHERE id = '{$id}'";
-        $this->getConexao()->query($sql);
+
+        $qry = $this->getConexao()->query($sql);
+        
+        return (new Pessoas())->hydrate(mysqli_fetch_assoc($qry));
+
     }
 
     /**

@@ -19,7 +19,7 @@ if(!empty($_POST)){
     $imoveltipo->setModificado($hoje);
     $dbImoveltipo = new ImoveltiposDAO();
     $dbImoveltipo->create($imoveltipo);
-    header('Location: https://mateusimoveis.local/Admin.php');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeImovel/read.php');
 }
 
 ?>

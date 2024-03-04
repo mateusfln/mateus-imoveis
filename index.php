@@ -7,7 +7,9 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
 
 <?php
  $imoveis = new ImovelDAO();
- $imoveis = $imoveis->buscarListaDeImoveisENegocioTipoECaracteristicasImovelTiposECaracteristicasEMidias();
+ $imoveis = $imoveis->findAll();
+
+ pr($imoveis); die;
  $imoveisAVenda = new ImovelDAO();
  $imoveisAVenda = $imoveisAVenda->buscarListaDeImoveisVenda();
  $imoveisAAluguel = new ImovelDAO();
@@ -106,11 +108,11 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                             </div>
                             
                             <div>
-                            <div class="d-flex flex-column justify-content-between gap-4 ">
+                            <div class="d-flex flex-column justify-content-between gap-3">
                             <h4>Pesquisar</h4>
                             
                             <div class="form-outline" data-mdb-input-init>
-                                <input id="search-input" type="search" id="form1" class="form-control" placeholder="Digite região, bairro, cidade etc." />
+                                <input id="search-input" type="search" id="form1" class="" placeholder="Digite região, bairro, cidade etc." />
                             </div>
                             </div>
                             </div>

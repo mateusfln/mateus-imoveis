@@ -9,17 +9,17 @@ class CaracteristicasImoveltipos extends Tabela
     public $caracteristicaId;
     public $imovelTipoId;
 
-    public function setCaracteristicaId($caracteristica_id)
+    public function setCaracteristicaId($caracteristicaId)
     {
-        $this->caracteristicaId = $caracteristica_id;
+        $this->caracteristicaId = $caracteristicaId;
     }
     public function getCaracteristicaId()
     {
         return $this->caracteristicaId;
     }
-    public function setImovelTipoId($imovel_tipo_id)
+    public function setImovelTipoId($imovelTipoId)
     {
-        $this->imovelTipoId = $imovel_tipo_id;
+        $this->imovelTipoId = $imovelTipoId;
     }
     public function getImovelTipoId()
     {
@@ -43,7 +43,7 @@ class CaracteristicasImoveltipos extends Tabela
     public function hydrate(array $dados) : CaracteristicasImoveltipos
     {
         $this->setId($dados['id'] ?? null);
-        $this->setCaracteristicaId($dados['caracteristicas_id']);
+        $this->setCaracteristicaId($dados['caracteristica_id']);
         $this->setImovelTipoId($dados['imoveltipo_id']);
         $this->setAtivo($dados['ativo']);
         $this->setCriado(new \DateTimeImmutable($dados['criado']));

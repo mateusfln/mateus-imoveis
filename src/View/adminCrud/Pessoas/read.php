@@ -6,6 +6,9 @@ use Imobiliaria\Model\Imoveis\PessoaDAO;
 $pessoas = new PessoaDAO();
 $pessoas = $pessoas->buscarListaDePessoas();
 
+$campos = array('ID','NOME','CPF','LOGIN','SENHA','ATIVO','CRIADO', 'MODIFICADO', 'CRIADOR ID', 'MODIFICADOR ID');
+
+
 if(!empty($_POST['delete_id'])){
     $dbPessoas = new PessoaDAO();
     $dbPessoas->delete($_POST['delete_id']);
@@ -70,23 +73,34 @@ if(!empty($_POST['delete_id'])){
                                     <table class="table table-hover progress-table text-center">
                                         <thead class="text-uppercase">
                                         <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Nome</th>
-                                            <th scope="col">CPF</th>
-                                            <th scope="col">Login</th>
-                                            <th scope="col">Senha</th>
-                                            <th scope="col">Ativo</th>
-                                            <th scope="col">Criado</th>
-                                            <th scope="col">Modificado</th>
-                                            <th scope="col">Criador ID</th>
-                                            <th scope="col">Modificador ID</th>
-                                            <th scope="col">Actions</th>
+                                        <?php foreach($campos as $campo):?>
+                                            <th scope="col">
+                                                <div class="d-flex justify-content-center align-items-center">
+                                                    <strong>
+                                                        <?=$campo?> 
+                                                    </strong>
+                                                    <?php
+                                                    $campo = strtolower($campo);
+                                                    $campo = str_replace(" ", "_", $campo);
+                                                    ?>
+                                                    <?php if((empty($_GET['direction']))):?>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                    <?php else:?>
+                                                    <?php if(($_GET['direction']) == 'DESC'):?>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                    <?php else:?>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
+                                                    <?php endif;?>
+                                                    <?php endif;?>
+                                                </div>
+                                            </th>
+                                            <?php endforeach;?>
+                                            <th scope="col"> Actions </th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                     <?php foreach($pessoas as $pessoa):?>
                                         <tr>
-                                            <th scope="row"><?=$pessoa->id?></th>
                                             <td><?=$pessoa->id?></td>
                                             <td><?=$pessoa->nome?></td>
                                             <td><?=$pessoa->cpf?></td>
@@ -99,7 +113,7 @@ if(!empty($_POST['delete_id'])){
                                             <td><?=$pessoa->modificadorId?></td>
                                             <td>
                                                 <ul class="d-flex justify-content-center">
-                                                    <li class="mr-3"><a href="/src/View/adminCrud/Caracteristicas/update.php?id=<?= $pessoa->id?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
+                                                    <li class="mr-3"><a href="/src/View/adminCrud/Pessoas/update.php?id=<?= $pessoa->id?>&nome=<?= $pessoa->nome?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
                                                     <form method="POST">
                                                         <input type="hidden" name="delete_id" value="<?=$pessoa->id?>">
                                                         <li class="mr-3"><button type="submit" class="btn btn-inverse-danger"><i class="bi bi-trash mr-1"></i>Delete</button></li>

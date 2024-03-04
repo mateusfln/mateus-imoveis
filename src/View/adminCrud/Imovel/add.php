@@ -3,26 +3,48 @@
 require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 use Imobiliaria\Model\Entity\Imovel;
+use Imobiliaria\Model\Imoveis\CaracteristicaDAO;
+use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
 use Imobiliaria\Model\Imoveis\ImovelDAO;
 
+$imoveltipos = new ImoveltiposDAO();
+$imoveltipos = $imoveltipos->buscarListaDeImovelTipos();
+
+$caracteristicas = new CaracteristicaDAO();
+$caracteristicas = $caracteristicas->buscarListaDeCaracteristicas();
+
+$campos = array(
+    'Matricula',
+    'inscrição Imobiliaria',
+    'logradouro',
+    'Numero Logradouro',
+    'Rua',
+    'Complemento',
+    'Bairro',
+    'Cidade',
+    'Estado',
+    'Cep',
+    'Ibge');
+
 if(!empty($_POST)){
-    print_r($_POST);
+
+    print_r($_POST); die;
     $hoje = new \DateTimeImmutable();
     
     $imovel = new Imovel();
 
     $imovel->setIdentificacao($_POST['identificacao']);
-    $imovel->setMatricula($_POST['matricula']);
-    $imovel->setInscricaoImobiliaria($_POST['inscricao_imobiliaria']);
+    $imovel->setMatricula($_POST['Matricula']);
+    $imovel->setInscricaoImobiliaria($_POST['inscrição_Imobiliaria']);
     $imovel->setLogradouro($_POST['logradouro']);
-    $imovel->setNumeroLogradouro($_POST['numero_logradouro']);
-    $imovel->setRua($_POST['rua']);
-    $imovel->setComplemento($_POST['complemento']);
-    $imovel->setBairro($_POST['bairro']);
-    $imovel->setCidade($_POST['cidade']);
-    $imovel->setEstado($_POST['estado']);
-    $imovel->setCep($_POST['cep']);
-    $imovel->setIbge($_POST['ibge']);
+    $imovel->setNumeroLogradouro($_POST['Numero_Logradouro']);
+    $imovel->setRua($_POST['Rua']);
+    $imovel->setComplemento($_POST['Complemento']);
+    $imovel->setBairro($_POST['Bairro']);
+    $imovel->setCidade($_POST['Cidade']);
+    $imovel->setEstado($_POST['Estado']);
+    $imovel->setCep($_POST['Cep']);
+    $imovel->setIbge($_POST['Ibge']);
     $imovel->setAtivo(true);
     $imovel->setCriado($hoje);
     $imovel->setCriadorId(1);
@@ -30,7 +52,7 @@ if(!empty($_POST)){
     $imovel->setModificado($hoje);
     $dbImovel = new ImovelDAO();
     $dbImovel->create($imovel);
-    header('Location: https://mateusimoveis.local/Admin.php');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
 }
 
 ?>
@@ -83,57 +105,47 @@ if(!empty($_POST)){
                             <div class="card">
                                 <div class="card-body">
                                     <form method="POST">
-                                        <h4 class="card_title">Cadastro de Imóveis</h4>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Identificacao</label>
-                                            <input class="form-control" required type="text"name="identificacao">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Matricula</label>
-                                            <input class="form-control" required type="text" name="matricula">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">inscrição Imobiliaria</label>
-                                            <input class="form-control" required type="text" name="inscricao_imobiliaria">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">logradouro</label>
-                                            <input class="form-control" required type="text" name="logradouro">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Numero Logradouro</label>
-                                            <input class="form-control" required type="text" name="numero_logradouro">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Rua</label>
-                                            <input class="form-control" required type="text" name="rua">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Complemento</label>
-                                            <input class="form-control" required type="text" name="complemento">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Bairro</label>
-                                            <input class="form-control" required type="text" name="bairro">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Cidade</label>
-                                            <input class="form-control" required type="text" name="cidade">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Estado</label>
-                                            <input class="form-control" required type="text" name="estado">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Cep</label>
-                                            <input class="form-control" required type="text" name="cep">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Ibge</label>
-                                            <input class="form-control" required type="text" name="ibge">
-                                        </div>
-                                        <div class="form-group">
-                                        <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button>
+                                        <div class="card">
+                                        <div class="col-12 d-flex">
+                                                <div class="col-6 card">
+                                                    <div class="card-body">
+                                                            <h4 class="card_title">Cadastro de Imóveis</h4>
+                                                            <?php foreach ($campos as $campo):?>
+                                                                <div class="form-group">
+                                                                    <label for="example-text-input" class="col-form-label"><?=$campo?></label>
+                                                                    <input class="form-control" required type="text"name="<?=$campo?>">
+                                                                </div>
+                                                            <?php endforeach;?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 card">
+                                                    <div class="card-body">
+                                                            <h4 class="card_title">Tipo do Imóvel:</h4>
+                                                            <div class="form-group">
+                                                            <select class="form-control" name='imoveltipo'>
+                                                                <?php foreach($imoveltipos as $imoveltipo):?>
+                                                                <option value="<?=$imoveltipo->getId()?>" id="<?=$imoveltipo->getNome()?>" /><?=$imoveltipo->getNome()?></option>
+                                                                <label for="<?=$imoveltipo->getNome()?>" class="col-form-label"><?=$imoveltipo->getNome()?></label>
+                                                                <?php endforeach;?>
+                                                                </select>
+                                                            </div>
+                                                            <h4 class="card_title">Caracteristicas inclusas:</h4>
+                                                            <div class="form-group">
+                                                                <?php foreach($caracteristicas as $caracteristica):?>
+                                                                <input type="checkbox" name="caracteristicas[]" id="<?=$caracteristica->getNome()?>" value="<?=$caracteristica->getId()?>">
+                                                                <label for="<?=$caracteristica->getNome()?>" class="col-form-label"><?=$caracteristica->getNome()?></label>
+                                                                <br>
+                                                                <?php endforeach;?>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="example-text-input" class="col-form-label">Valor</label>
+                                                                <input class="form-control" required type="number" name="valor">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>

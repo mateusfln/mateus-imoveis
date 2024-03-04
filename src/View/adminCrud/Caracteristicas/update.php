@@ -85,11 +85,11 @@ if(!empty($_POST['nome'])){
                                         <h4 class="card_title">Cadastro de Caracteristicas</h4>
                                         <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">Nome</label>
-                                            <input class="form-control" required type="text"name="nome">
+                                            <input class="form-control" required type="text"name="nome" value="<?= $caracteristica->getNome()?>">
                                         </div>
                                         <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">Ativo</label>
-                                            <input class="ml-2" type="checkbox" name="ativo">
+                                            <input class="ml-2" type="checkbox" name="ativo" <?= $caracteristica->getAtivo() ? ' checked="checked"' : ''?>>
                                         </div>
                                         <div class="form-group">
                                         <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Editar</button>

@@ -1,24 +1,61 @@
 <?php
-
+use Imobiliaria\Model\Imoveis\CaracteristicasImoveltiposDAO;
 require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
+use Imobiliaria\Model\Entity\CaracteristicasImoveltipos;
 use Imobiliaria\Model\Entity\Caracteristicas;
 use Imobiliaria\Model\Imoveis\CaracteristicaDAO;
+use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
+use Imobiliaria\Model\DAO;
 
-if(!empty($_POST)){
-    $hoje = new \DateTimeImmutable();
-    
-    $caracteristica = new Caracteristicas();
 
-    $caracteristica->setNome($_POST['nome']);
-    $caracteristica->setAtivo(true);
-    $caracteristica->setCriado($hoje);
-    $caracteristica->setCriadorId(1);
-    $caracteristica->setModificadorId(1);
-    $caracteristica->setModificado($hoje);
-    $dbCaracteristicas = new CaracteristicaDAO();
-    $dbCaracteristicas->create($caracteristica);
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/Caracteristicas/read.php');
+$imoveltipos = new ImoveltiposDAO();
+$imoveltipos = $imoveltipos->buscarListaDeImovelTipos();
+
+if (!empty($_POST)) {
+
+    $db = new DAO();
+    $db->getConexao()->begin_transaction();
+
+    try {
+
+        //print_r($_POST); die;
+        $hoje = new \DateTimeImmutable();
+
+        $caracteristica = new Caracteristicas();
+        $caracteristica->setNome($_POST['nome']);
+        $caracteristica->setAtivo(true);
+        $caracteristica->setCriado($hoje);
+        $caracteristica->setCriadorId(1);
+        $caracteristica->setModificadorId(1);
+        $caracteristica->setModificado($hoje);
+        $dbCaracteristicas = new CaracteristicaDAO();
+        $dbCaracteristicas->create($caracteristica);
+        $idCaracteristica = $dbCaracteristicas->getInsertId();
+
+        foreach ($_POST['imoveltipos'] as $imovel) {
+
+            $caracteristicasImoveltipos = new CaracteristicasImoveltipos();
+
+            $caracteristicasImoveltipos->setCaracteristicaId($idCaracteristica);
+            $caracteristicasImoveltipos->setImovelTipoId($imovel);
+            $caracteristicasImoveltipos->setAtivo(true);
+            $caracteristicasImoveltipos->setCriado($hoje);
+            $caracteristicasImoveltipos->setCriadorId(1);
+            $caracteristicasImoveltipos->setModificadorId(1);
+            $caracteristicasImoveltipos->setModificado($hoje);
+
+            $dbCaracteristicaImoveltipo = new CaracteristicasImoveltiposDAO();
+            $dbCaracteristicaImoveltipo->create($caracteristicasImoveltipos);
+        }
+        header('Location: https://mateusimoveis.local/src/View/adminCrud/Caracteristicas/read.php');
+        $db->getConexao()->commit();
+    } catch (Exception $e) {
+        echo "Erro ao executar a transação: " . $e->getMessage();
+        $db->getConexao()->rollback();
+        header('Location: https://mateusimoveis.local/src/View/adminCrud/Caracteristicas/add.php');
+    }
+
 }
 
 ?>
@@ -69,25 +106,36 @@ if(!empty($_POST)){
             <div class="row">
                 <!-- Progress Table start -->
                 <div class="col-12 mt-4">
+                <form method="POST">
                     <div class="card">
-                    <div class="col-12">
-                            <div class="card">
+                    <div class="col-12 d-flex">
+                            <div class="col-6 card">
                                 <div class="card-body">
-                                    <form method="POST">
                                         <h4 class="card_title">Cadastro de Caracteristicas</h4>
                                         <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">Nome</label>
                                             <input class="form-control" required type="text"name="nome">
                                         </div>
-                                        <div class="form-group">
-                                        <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button>
-                                        </div>
-                                    </form>
                                 </div>
                             </div>
+                            <div class="col-6 card">
+                                <div class="card-body">
+                                        <h4 class="card_title">Aplicar em:</h4>
+                                        <div class="form-group">
+                                            <?php foreach($imoveltipos as $imoveltipo):?>
+                                            <?php $nomePost = str_replace(' ', '_', $imoveltipo->nome); ?>
+                                            <input type="checkbox" name="imoveltipos[]" id="<?=$nomePost?>" value="<?=$imoveltipo->getId()?>">
+                                            <label for="<?=$nomePost?>" class="col-form-label"><?=$imoveltipo->nome?></label>
+                                            <br>
+                                            <?php endforeach;?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button>
                         </div>
                     </div>
-                </div>
+                </form>
                 <!-- Progress Table end -->
             </div>
             
