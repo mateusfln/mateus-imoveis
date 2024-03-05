@@ -19,6 +19,10 @@ class ImoveltiposDAO extends DAO
 
         $sql = "SELECT id,nome,ativo,criado,modificado,criador_id,modificador_id FROM imoveltipos";
 
+        if( isset($_GET['sort']) && isset($_GET['direction']) ) {
+            $sql .= " ORDER BY {$_GET['sort']} {$_GET['direction']}";
+        }
+
         $query = $this->getConexao()->query($sql);
         
         while ($row = $query->fetch_assoc()) {
@@ -35,9 +39,12 @@ class ImoveltiposDAO extends DAO
 
         return $imoveltipos;
     }
-   /**
-     * Cria um objeto Imoveltipo
-     * @return Imoveltipos
+    /**
+     * Cria um novo registro do tipo Negociotipos na tabela de Negociotipos
+     * 
+     * @param Imoveltipos $imoveltipo Objeto do tipo de imóvel
+     * 
+     * @return Imoveltipos $imoveltipos
      */
     public function create(Imoveltipos $imoveltipo) : Imoveltipos
     {
@@ -74,8 +81,10 @@ class ImoveltiposDAO extends DAO
      * Atualiza um objeto Imoveltipo através do Id informado
      * 
      * @param int $id Código do tipo de imóvel
+     * @param Imoveltipos $imoveltipo Objeto Imoveltipos
      */
-    public function update(Imoveltipos $imoveltipo, int $id){
+    public function update(Imoveltipos $imoveltipo, int $id) : void
+    {
 
         $sql = "UPDATE imoveltipos
                 SET nome = '{$imoveltipo->getNome()}',
@@ -92,16 +101,18 @@ class ImoveltiposDAO extends DAO
      * Deleta um objeto Imoveltipo através do Id informado
      * 
      * @param int $id Código do tipo de imóvel
+     * @return void
      */
-    public function delete($id){
+    public function delete($id) : void
+    {
 
         $sql = "DELETE FROM imoveltipos
                WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 
-   /**
-     * Consulta o ultimo registro feito na tabela e pega o id
+    /**
+     * Consulta o ultimo registro feito na tabela imoveltipos e retorna o id desse registro
      * 
      * @throws \Exception
      * @return int

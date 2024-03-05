@@ -5,13 +5,24 @@ use Imobiliaria\Model\Entity\Tabela;
 
 class Caracteristicas extends Tabela
 {
-    public $nome;
-    public function setNome($nome)
+    private string $nome;
+
+    /**
+     * método que define o nome de uma Característica
+     *
+     * @param string $nome
+     * @return Caracteristicas
+     */
+    public function setNome($nome) : Caracteristicas
     {
         $this->nome = $nome;
         return $this;
     }
-    public function getNome()
+    /**
+     * método que retorna o nome de uma Característica
+     * @return string $nome
+     */
+    public function getNome() : string
     {
         return $this->nome;
     }

@@ -84,12 +84,12 @@ if(!empty($_POST['delete_id'])){
                                                     $campo = str_replace(" ", "_", $campo);
                                                     ?>
                                                     <?php if((empty($_GET['direction']))):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/TiposDeNegocio/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
                                                     <?php else:?>
                                                     <?php if(($_GET['direction']) == 'DESC'):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/TiposDeNegocio/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
                                                     <?php else:?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/TiposDeNegocio/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
                                                     <?php endif;?>
                                                     <?php endif;?>
                                                 </div>
@@ -101,18 +101,18 @@ if(!empty($_POST['delete_id'])){
                                         <tbody>
                                     <?php foreach($negociosTipos as $negociotipo):?>
                                         <tr>
-                                            <th><?=$negociotipo->id?></th>
-                                            <th><?=$negociotipo->nome?></th>
-                                            <td><?=$negociotipo->ativo?></td>
-                                            <td><?=$negociotipo->criado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$negociotipo->modificado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$negociotipo->criadorId?></td>
-                                            <td><?=$negociotipo->modificadorId?></td>
+                                            <th><?=$negociotipo->getId()?></th>
+                                            <th><?=$negociotipo->getNome()?></th>
+                                            <td><?=$negociotipo->getAtivo()?></td>
+                                            <td><?=$negociotipo->getCriado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$negociotipo->getModificado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$negociotipo->getCriadorId()?></td>
+                                            <td><?=$negociotipo->getModificadorId()?></td>
                                             <td>
                                                 <ul class="d-flex justify-content-center">
-                                                    <li class="mr-3"><a href="/src/View/adminCrud/TiposDeNegocio/update.php?id=<?= $negociotipo->id?>&nome=<?= $negociotipo->nome?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
+                                                    <li class="mr-3"><a href="/src/View/adminCrud/TiposDeNegocio/update.php?id=<?=$negociotipo->getId()?>&nome=<?=$negociotipo->getNome()?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
                                                     <form method="POST">
-                                                        <input type="hidden" name="delete_id" value="<?=$negociotipo->id?>">
+                                                        <input type="hidden" name="delete_id" value="<?=$negociotipo->getId()?>">
                                                         <li class="mr-3"><button type="submit" class="btn btn-inverse-danger"><i class="bi bi-trash mr-1"></i>Delete</button></li>
                                                     </form>
                                                 </ul>

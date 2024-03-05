@@ -12,7 +12,7 @@ if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
 $midiasDAO = new MidiasDAO();
 $midia = $midiasDAO->read($_GET['id']);
 
-if(!empty($_POST['nome_disco'] && !empty($_POST['identificacao'] && !empty($_POST['capa'])))){
+if(!empty($_POST['nome_disco'] && !empty($_POST['identificacao']))){
     $hoje = new \DateTimeImmutable();
     $midia->setIdentificacao($_POST['identificacao']);
     $midia->setCapa(false);

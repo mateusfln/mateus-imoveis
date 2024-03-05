@@ -2378,6 +2378,8 @@ header.header.is-sticky {
   width: 100%;
   -webkit-transition: all 0.5s ease 0s;
   transition: all 0.5s ease 0s;
+  height: 294px;
+  width: 376px;
 }
 .property-item .property-inner .image .property-feature {
   display: -webkit-box;
@@ -2658,9 +2660,12 @@ header.header.is-sticky {
   display: block;
   -webkit-box-shadow: 5px 5px 10px rgba(0, 67, 149, 0.3);
           box-shadow: 5px 5px 10px rgba(0, 67, 149, 0.3);
+  width: 376px;
+  height: 294px;
 }
 .property-2 .property-inner .image img {
-  width: 100%;
+  width: 376px;
+  height: 294px;
 }
 .property-2 .property-inner .content {
   background-color: #004395;

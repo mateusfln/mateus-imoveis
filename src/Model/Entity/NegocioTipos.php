@@ -4,16 +4,28 @@ namespace Imobiliaria\Model\Entity;
 
 use Imobiliaria\Model\Entity\Tabela;
 
-class NegocioTipos extends Tabela
+class Negociotipos extends Tabela
 {
-    public $nome;
+    private string $nome;
     
-    public function setNome($nome)
+
+    /**
+     * método que define o nome de um Tipo de Negócio
+     *
+     * @param string $nome
+     * @return Negociotipos
+     */
+    public function setNome(string $nome) : Negociotipos
     {
         $this->nome = $nome;
         return $this;
     }
-    public function getNome()
+
+    /**
+     * método que retorna o nome de uma Tipo de Negócio
+     * @return string $nome
+     */
+    public function getNome() : string
     {
         return $this->nome;
     }
@@ -23,7 +35,7 @@ class NegocioTipos extends Tabela
      * 
      * @param array $dados
      * [
-     *  'id' => int,
+     *  'id' => int | null,
      *  'nome' => string,
      *  'ativo' => bool,
      *  'criado' => 'Y-m-d H:i:s',
@@ -32,7 +44,7 @@ class NegocioTipos extends Tabela
      *  'modificador_id' => int,
      * ]
      */
-    public function hydrate(array $dados) : NegocioTipos
+    public function hydrate(array $dados) : Negociotipos
     {
         $this->setId($dados['id'] ?? null);
         $this->setNome($dados['nome']);

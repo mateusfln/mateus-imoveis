@@ -6,24 +6,51 @@ use Imobiliaria\Model\Entity\Tabela;
 
 class CaracteristicasImoveltipos extends Tabela
 {
-    public $caracteristicaId;
-    public $imovelTipoId;
+    private int $caracteristicaId;
+    private int $imoveltipoId;
 
-    public function setCaracteristicaId($caracteristicaId)
+    /**
+     * método que define o id de uma caracteristica dentro da tabela caracteristica_imoveltipos
+     *
+     * @param int $caracteristicaId
+     * @return CaracteristicasImoveltipos
+     */
+    public function setCaracteristicaId(int $caracteristicaId) : CaracteristicasImoveltipos
     {
         $this->caracteristicaId = $caracteristicaId;
+
+        return $this;
     }
-    public function getCaracteristicaId()
+
+    /**
+     * método que retorna o id de uma caracteristica
+     * @return int $caracteristicaId
+     */
+    public function getCaracteristicaId() : int
     {
         return $this->caracteristicaId;
     }
-    public function setImovelTipoId($imovelTipoId)
+
+    /**
+     * método que define o id de uma imoveltipo dentro da tabela caracteristica_imoveltipos
+     *
+     * @param int $imoveltipoId
+     * @return CaracteristicasImoveltipos
+     */
+    public function setImovelTipoId(int $imoveltipoId) : CaracteristicasImoveltipos
     {
-        $this->imovelTipoId = $imovelTipoId;
+        $this->imoveltipoId = $imoveltipoId;
+
+        return $this;
     }
+
+    /**
+     * método que retorna o id de um imoveltipo
+     * @return int $imoveltipoId
+     */
     public function getImovelTipoId()
     {
-        return $this->imovelTipoId;
+        return $this->imoveltipoId;
     }
 
     /**
@@ -32,7 +59,8 @@ class CaracteristicasImoveltipos extends Tabela
      * @param array $dados
      * [
      *  'id' => int,
-     *  'nome' => string,
+     *  'caracteristicaId' => int,
+     *  'imoveltipoId' => int,
      *  'ativo' => bool,
      *  'criado' => 'Y-m-d H:i:s',
      *  'modificado' => 'Y-m-d H:i:s',

@@ -84,12 +84,12 @@ if(!empty($_POST['delete_id'])){
                                                     $campo = str_replace(" ", "_", $campo);
                                                     ?>
                                                     <?php if((empty($_GET['direction']))):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/TiposDeImovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
                                                     <?php else:?>
                                                     <?php if(($_GET['direction']) == 'DESC'):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/TiposDeImovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
                                                     <?php else:?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/TiposDeImovel/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
                                                     <?php endif;?>
                                                     <?php endif;?>
                                                 </div>
@@ -101,18 +101,18 @@ if(!empty($_POST['delete_id'])){
                                         <tbody>
                                     <?php foreach($imovelTipos as $imoveltipo):?>
                                         <tr>
-                                            <th><?=$imoveltipo->id?></th>
-                                            <th><?=$imoveltipo->nome?></th>
-                                            <td><?=$imoveltipo->ativo?></td>
-                                            <td><?=$imoveltipo->criado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$imoveltipo->modificado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$imoveltipo->criadorId?></td>
-                                            <td><?=$imoveltipo->modificadorId?></td>
+                                            <th><?=$imoveltipo->getId()?></th>
+                                            <th><?=$imoveltipo->getNome()?></th>
+                                            <td><?=$imoveltipo->getAtivo()?></td>
+                                            <td><?=$imoveltipo->getCriado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$imoveltipo->getModificado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$imoveltipo->getCriadorId()?></td>
+                                            <td><?=$imoveltipo->getModificadorId()?></td>
                                             <td>
                                                 <ul class="d-flex justify-content-center">
-                                                    <li class="mr-3"><a href="/src/View/adminCrud/TiposDeImovel/update.php?id=<?= $imoveltipo->id?>&nome=<?= $imoveltipo->nome?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
+                                                    <li class="mr-3"><a href="/src/View/adminCrud/TiposDeImovel/update.php?id=<?=$imoveltipo->getId()?>&nome=<?=$imoveltipo->getNome()?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
                                                     <form method="POST">
-                                                        <input type="hidden" name="delete_id" value="<?=$imoveltipo->id?>">
+                                                        <input type="hidden" name="delete_id" value="<?=$imoveltipo->getId()?>">
                                                         <li class="mr-3"><button type="submit" class="btn btn-inverse-danger"><i class="bi bi-trash mr-1"></i>Delete</button></li>
                                                     </form>
                                                 </ul>

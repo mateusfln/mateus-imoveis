@@ -182,7 +182,7 @@ class ImovelDAO extends DAO
             $imovel = new Imovel();
             $negocioTipos = new NegocioTipos();
             $midias = new Midias();
-            $caracteristicas = new ImovelCaracteristicasImovelTipos();
+            $imovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
 
 
             $imovel->setId($row['id']);
@@ -201,8 +201,8 @@ class ImovelDAO extends DAO
             $imovel->setAtivo($row['ativo']);
             $imovel->setNegocioTipos($negocioTipos);
             $negocioTipos->setNome($row['nome']);
-            $imovel->setCaracteristicas($caracteristicas);
-            $caracteristicas->setValor($row['valor']);
+            $imovel->setImovelCaracteristicasImovelTipos($imovelCaracteristicasImovelTipos);
+            $imovelCaracteristicasImovelTipos->setValor($row['valor']);
             $imovel->setMidias($midias);
             $midias->setIdentificacao($row['midia_identificacao']);
             $midias->setNomeDisco($row['midia_nome_disco']);
@@ -245,7 +245,7 @@ class ImovelDAO extends DAO
             $imovel = new Imovel();
             $negocioTipos = new NegocioTipos();
             $midias = new Midias();
-            $caracteristicas = new ImovelCaracteristicasImovelTipos();
+            $imovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
 
             $imovel->setId($row['id']);
             $imovel->setIdentificacao($row['identificacao']);
@@ -263,8 +263,8 @@ class ImovelDAO extends DAO
             $imovel->setAtivo($row['ativo']);
             $imovel->setNegocioTipos($negocioTipos);
             $negocioTipos->setNome($row['nome']);
-            $imovel->setCaracteristicas($caracteristicas);
-            $caracteristicas->setValor($row['valor']);
+            $imovel->setImovelCaracteristicasImovelTipos($imovelCaracteristicasImovelTipos);
+            $imovelCaracteristicasImovelTipos->setValor($row['valor']);
             $imovel->setMidias($midias);
             $midias->setIdentificacao($row['midia_identificacao']);
             $midias->setNomeDisco($row['midia_nome_disco']);
@@ -386,8 +386,6 @@ class ImovelDAO extends DAO
      */
     public function buscarListaDeImoveisENegocioTipoECaracteristicasImovelTiposECaracteristicasEMidias() : array|Imovel
     {
-        global $_GET;
-
         $imoveisENegocioTipoECaracteristicas = [];
 
         $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, 
@@ -616,10 +614,10 @@ class ImovelDAO extends DAO
             $imovel->setBairro($row['bairro']);
             $imovel->setCep($row['cep']);
             $imovel->setCidade($row['cidade']);
-            $imovel->setComplemento(['complemento']);
+            $imovel->setComplemento($row['complemento']);
             $imovel->setEstado($row['estado']);
             $imovel->setIbge($row['ibge']);
-            $imovel->setIdentificacao($row['i.identificacao']);
+            $imovel->setIdentificacao($row['identificacao']);
             $imovel->setInscricaoImobiliaria($row['inscricao_imobiliaria']);
             $imovel->setLogradouro($row['logradouro']);
             $imovel->setNumeroLogradouro($row['logradouro']);
@@ -637,12 +635,13 @@ class ImovelDAO extends DAO
         return $allTables;
     }
 
-    /**
+     /**
      * Cria um registro na tabela imoveis de acordo com os dados fornecidos
      * 
-     * @throws \Exception
+     * @return Imovel Objeto Imovel com dados preenchidos
+     * @param Imovel $imovel Objeto Imovel com dados a serem preenchidos
      */
-       public function create(Imovel $imovel)
+       public function create(Imovel $imovel) : Imovel
     {
         
         $sql = "INSERT INTO imoveis (identificacao, matricula, inscricao_imobiliaria, logradouro,
@@ -663,8 +662,10 @@ class ImovelDAO extends DAO
     }
 
     /**
-     * Mostra um registro na tabela imoveis de acordo com os dados fornecidos
+     * Retorna um registro na tabela imoveis de acordo com os dados fornecidos
      * 
+     * @param int $id   Código do imovel
+     * @return Imovel
      * @throws \Exception
      */
     public function read(int $id) : Imovel
@@ -681,11 +682,15 @@ class ImovelDAO extends DAO
     }
     
     /**
-     * Atualiza um registro na tabela imoveis de acordo com os dados fornecidos
+     * Edita um registro na tabela imoveis de acordo com os dados fornecidos
      * 
      * @throws \Exception
+     * @param int $id Código do imóvel
+     * @param Imovel $imovel Objeto Imovel
+     * @return void
      */
-    public function update(Imovel $imovel, $id){
+    public function update(Imovel $imovel, int $id) : void
+    {
 
         $sql = "UPDATE imoveis
                 SET identificacao = '{$imovel->getIdentificacao()}',
@@ -713,8 +718,11 @@ class ImovelDAO extends DAO
      * Deleta um registro na tabela imoveis de acordo com os dados fornecidos
      * 
      * @throws \Exception
+     * @param int $id
+     * @return void
      */
-    public function delete($id){
+    public function delete(int $id) : void
+    {
 
         $sql = "DELETE FROM imoveis
                WHERE id = '{$id}'";
@@ -723,9 +731,10 @@ class ImovelDAO extends DAO
 
 
     /**
-     * Consulta o ultimo registro feito na tabela e pega o id
+     * Consulta o ultimo registro feito na tabela imoveis e retorna o id desse registro
      * 
      * @throws \Exception
+     * @return int
      */
     public function getInsertId() : int
     {

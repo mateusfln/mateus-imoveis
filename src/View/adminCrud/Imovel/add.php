@@ -1,23 +1,36 @@
 <?php
-
 require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 use Imobiliaria\Model\Entity\Imovel;
+use Imobiliaria\Model\Entity\ImovelNegociostipos;
+use Imobiliaria\Model\Entity\ImovelCaracteristicasImovelTipos;
+use Imobiliaria\Model\Imoveis\ImovelCaracteristicasImovelTiposDAO;
 use Imobiliaria\Model\Imoveis\CaracteristicaDAO;
 use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
 use Imobiliaria\Model\Imoveis\ImovelDAO;
+use Imobiliaria\Model\Imoveis\ImovelNegociotiposDAO;
+use Imobiliaria\Model\Imoveis\NegociotiposDAO;
+
+$imoveis = new ImovelDAO;
+
+$imoveis = $imoveis->buscarListaDeImoveis();
+
 
 $imoveltipos = new ImoveltiposDAO();
 $imoveltipos = $imoveltipos->buscarListaDeImovelTipos();
+
+$negociotipos = new NegociotiposDAO();
+$negociotipos = $negociotipos->buscarListaDeNegocioTipos();
 
 $caracteristicas = new CaracteristicaDAO();
 $caracteristicas = $caracteristicas->buscarListaDeCaracteristicas();
 
 $campos = array(
+    'Identificacao',
     'Matricula',
-    'inscrição Imobiliaria',
+    'inscricaoImobiliaria',
     'logradouro',
-    'Numero Logradouro',
+    'NumeroLogradouro',
     'Rua',
     'Complemento',
     'Bairro',
@@ -26,18 +39,17 @@ $campos = array(
     'Cep',
     'Ibge');
 
-if(!empty($_POST)){
+if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
 
-    print_r($_POST); die;
     $hoje = new \DateTimeImmutable();
     
     $imovel = new Imovel();
 
-    $imovel->setIdentificacao($_POST['identificacao']);
+    $imovel->setIdentificacao($_POST['Identificacao']);
     $imovel->setMatricula($_POST['Matricula']);
-    $imovel->setInscricaoImobiliaria($_POST['inscrição_Imobiliaria']);
+    $imovel->setInscricaoImobiliaria($_POST['inscricaoImobiliaria']);
     $imovel->setLogradouro($_POST['logradouro']);
-    $imovel->setNumeroLogradouro($_POST['Numero_Logradouro']);
+    $imovel->setNumeroLogradouro($_POST['NumeroLogradouro']);
     $imovel->setRua($_POST['Rua']);
     $imovel->setComplemento($_POST['Complemento']);
     $imovel->setBairro($_POST['Bairro']);
@@ -52,6 +64,38 @@ if(!empty($_POST)){
     $imovel->setModificado($hoje);
     $dbImovel = new ImovelDAO();
     $dbImovel->create($imovel);
+    $idImovel = $dbImovel->getInsertId();
+    
+    $imovelNegociotipos = new ImovelNegociostipos();
+
+    $imovelNegociotipos->setimovelId($idImovel);
+    $imovelNegociotipos->setNegocioTipoId($_POST['negociotipo']);
+    $imovelNegociotipos->setValor(0);
+    $imovelNegociotipos->setAtivo(true);
+    $imovelNegociotipos->setCriado($hoje);
+    $imovelNegociotipos->setCriadorId(1);
+    $imovelNegociotipos->setModificadorId(1);
+    $imovelNegociotipos->setModificado($hoje);
+
+    $dbImovelNegociotipos = new ImovelNegociotiposDAO();
+    $dbImovelNegociotipos->create($imovelNegociotipos);
+
+    foreach ($_POST['caracteristicas[]'] as $caracteristica){}
+
+    $imovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
+
+    $imovelCaracteristicasImovelTipos->setimovelId($idImovel);
+    $imovelCaracteristicasImovelTipos->setCaracteristicaImoveltipoId($_POST['caracteristicas[]']);
+    $imovelCaracteristicasImovelTipos->setValor($_POST['valor']);
+    $imovelCaracteristicasImovelTipos->setAtivo(true);
+    $imovelCaracteristicasImovelTipos->setCriado($hoje);
+    $imovelCaracteristicasImovelTipos->setCriadorId(1);
+    $imovelCaracteristicasImovelTipos->setModificadorId(1);
+    $imovelCaracteristicasImovelTipos->setModificado($hoje);
+
+    $dbImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTiposDAO();
+    $dbImovelCaracteristicasImovelTipos->create($imovelCaracteristicasImovelTipos);
+   
     header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
 }
 
@@ -111,10 +155,21 @@ if(!empty($_POST)){
                                                     <div class="card-body">
                                                             <h4 class="card_title">Cadastro de Imóveis</h4>
                                                             <?php foreach ($campos as $campo):?>
-                                                                <div class="form-group">
+                                                                <?php if ($campo == 'Estado'):?>
+                                                                    <div class="form-group">
+                                                                        <label for="example-text-input" class="col-form-label"><?=$campo?></label>
+                                                                        <select class="form-control" name="<?=$campo?>">
+                                                                            <?php foreach ($imoveis as $imovel):?>
+                                                                                <option><?= $imovel->getEstado() ?></option>
+                                                                            <?php endforeach;?>
+                                                                        </select>
+                                                                    </div>
+                                                                <?php else:?>
+                                                                    <div class="form-group">
                                                                     <label for="example-text-input" class="col-form-label"><?=$campo?></label>
                                                                     <input class="form-control" required type="text"name="<?=$campo?>">
                                                                 </div>
+                                                                <?php endif;?>
                                                             <?php endforeach;?>
                                                     </div>
                                                 </div>
@@ -126,6 +181,15 @@ if(!empty($_POST)){
                                                                 <?php foreach($imoveltipos as $imoveltipo):?>
                                                                 <option value="<?=$imoveltipo->getId()?>" id="<?=$imoveltipo->getNome()?>" /><?=$imoveltipo->getNome()?></option>
                                                                 <label for="<?=$imoveltipo->getNome()?>" class="col-form-label"><?=$imoveltipo->getNome()?></label>
+                                                                <?php endforeach;?>
+                                                                </select>
+                                                            </div>
+                                                            <h4 class="card_title">Tipo de Negócio:</h4>
+                                                            <div class="form-group">
+                                                            <select class="form-control" name='negociotipo'>
+                                                                <?php foreach($negociotipos as $negociotipo):?>
+                                                                <option value="<?=$negociotipo->getId()?>" id="<?=$negociotipo->getNome()?>" /><?=$negociotipo->getNome()?></option>
+                                                                <label for="<?=$negociotipo->getNome()?>" class="col-form-label"><?=$negociotipo->getNome()?></label>
                                                                 <?php endforeach;?>
                                                                 </select>
                                                             </div>

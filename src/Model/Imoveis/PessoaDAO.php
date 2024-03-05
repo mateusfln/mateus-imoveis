@@ -8,6 +8,11 @@ use Imobiliaria\Model\Entity\Pessoas;
 class PessoaDAO extends DAO 
 {
 
+    /**
+     * Efetua a busca de dados referentes a tabela de pessoas
+     * 
+     * @return array|Pessoas[]
+     */
     public function buscarListaDePessoas() : array|Pessoas
     {
         global $_GET;
@@ -65,9 +70,11 @@ class PessoaDAO extends DAO
         return $pessoas;
     }
 
-    /**
-     * Cria um objeto Imoveltipo
-     * @return Pessoas
+     /**
+     * Cria um registro na tabela pessoas de acordo com os dados fornecidos
+     * 
+     * @return Pessoas Objeto pessoas com dados preenchidos
+     * @param Pessoas $pessoas Objeto pessoas com dados a serem preenchidos
      */
     public function create(Pessoas $pessoas)
     {
@@ -82,7 +89,12 @@ class PessoaDAO extends DAO
     }
     
     /**
-     * Atualiza um objeto Imoveltipo
+     * Edita um registro na tabela pessoa de acordo com os dados fornecidos
+     * 
+     * @throws \Exception
+     * @param int $id Código da pessoa
+     * @param Pessoas $pessoas Objeto pessoas
+     * @return void
      */
     public function update(Pessoas $pessoas, $id){
 
@@ -103,7 +115,11 @@ class PessoaDAO extends DAO
     }
 
     /**
-     * Mostra um objeto Imoveltipo
+     * Retorna um registro na tabela pessoas de acordo com os dados fornecidos
+     * 
+     * @param int $id   Código da pessoa
+     * @return Pessoas
+     * @throws \Exception
      */
     public function read($id) : Pessoas
     {
@@ -119,19 +135,25 @@ class PessoaDAO extends DAO
     }
 
     /**
-     * Deleta um objeto Imoveltipo
+     * Deleta um registro na tabela pessoas de acordo com os dados fornecidos
+     * 
+     * @throws \Exception
+     * @param int $id
+     * @return void
      */
-    public function delete($id){
+    public function delete($id) : void
+    {
 
         $sql = "DELETE FROM pessoas
                 WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }
 
-     /**
-     * Consulta o ultimo registro feito na tabela e pega o id
+    /**
+     * Consulta o ultimo registro feito na tabela pessoas e retorna o id desse registro
      * 
      * @throws \Exception
+     * @return int
      */
     public function getInsertId() : int
     {

@@ -11,6 +11,14 @@ class DAO
 
     public $request;
 
+
+    /**
+     * Construtor da classe
+     * 
+     * @param \Mysqli $conexao Conexão com o banco de dados MySQL
+     * @return void
+     * @throws \Exception Se a conexão com o banco de dados falhar.
+     */
     public function __construct(\Mysqli $conexao = null)
     {
         $this->conexao = (is_null($conexao)) ? $this->connect() : $conexao;

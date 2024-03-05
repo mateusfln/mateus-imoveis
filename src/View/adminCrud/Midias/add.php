@@ -30,7 +30,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
         $nomeDoArquivo = uniqid();
         $extensao = strtolower(pathinfo($arquivo['name'], PATHINFO_EXTENSION));
         $path = $pasta.$nomeDoArquivo.".".$extensao;
-        $caminho = "/assets/images/imoveis/".$nomeDoArquivo.$extensao;
+        $caminho = "/assets/images/imoveis/".$nomeDoArquivo.'.'.$extensao;
         
         if($extensao != 'jpg' && $extensao != 'png' ){
             echo('Tipo de arquivo não aceito');
@@ -113,7 +113,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
                                             <label class="col-form-label">ID do Imovel</label>
                                             <select class="form-control" name='imovel_id'>
                                                 <?php foreach ($imoveis as $imovel):?>
-                                                    <option value="<?=$imovel->id?>"/><?=$imovel->id?></option>
+                                                    <option value="<?=$imovel->getId()?>"/><?=$imovel->getId()?></option>
                                                 <?php endforeach;?>
                                             </select>
                                         </div>

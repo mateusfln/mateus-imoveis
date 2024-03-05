@@ -16,11 +16,13 @@ class MidiasDAO extends DAO
      */
     public function buscarListaDeMidias() : array|Midias
     {
-        global $_GET;
-
         $midias = [];
 
         $sql = "SELECT id, imovel_id, identificacao, nome_disco, capa, ativo, criado, modificado, criador_id, modificador_id FROM midias";
+
+        if( isset($_GET['sort']) && isset($_GET['direction']) ) {
+            $sql .= " ORDER BY {$_GET['sort']} {$_GET['direction']}";
+        }
 
         $query = $this->getConexao()->query($sql);
         
@@ -43,7 +45,8 @@ class MidiasDAO extends DAO
     }
 
     /**
-     * Cria um registro no banco na tabela midias
+     * Cria um registro na tabela midias de acordo com os dados fornecidos
+     * 
      * @return Midias
      */
     public function create(Midias $midias) : Midias
@@ -61,8 +64,11 @@ class MidiasDAO extends DAO
     }
 
     /**
-     * Mostra um registro no banco na tabela midias
+     * Retorna um registro na tabela midias de acordo com os dados fornecidos
+     * 
+     * @param int $id   Código da midias
      * @return Midias
+     * @throws \Exception
      */
     public function read(int $id) : Midias
     {
@@ -77,10 +83,15 @@ class MidiasDAO extends DAO
     }
     
     /**
-     * Atualiza um registro no banco na tabela midias
+     * Atualiza um registro na tabela midias de acordo com os dados fornecidos
      * 
+     * @throws \Exception
+     * @param int $id Código da midia
+     * @param Midias $midias Objeto midias
+     * @return void
      */
-    public function update(Midias $midias, $id){
+    public function update(Midias $midias, $id) : void
+    {
 
         $sql = "UPDATE midias
                 SET identificacao = '{$midias->getIdentificacao()}',
@@ -98,8 +109,11 @@ class MidiasDAO extends DAO
     /**
      * Deleta um registro no banco na tabela midias
      *
+     * @param int $id Código da midia
+     * @return void
      */
-    public function delete($id){
+    public function delete(int $id) : void
+    {
 
         $sql = "DELETE FROM midias
                 WHERE id = '{$id}'";
@@ -107,9 +121,10 @@ class MidiasDAO extends DAO
     }
 
     /**
-     * Consulta o ultimo registro feito na tabela e pega o id
+     * Consulta o ultimo registro feito na tabela midias e retorna o id desse registro
      * 
      * @throws \Exception
+     * @return int
      */
     public function getInsertId() : int
     {

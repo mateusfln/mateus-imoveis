@@ -101,28 +101,28 @@ if(!empty($_POST['delete_id'])){
                                         <tbody>
                                     <?php foreach($imoveis as $imovel):?>
                                         <tr>
-                                            <th scope="row"><?=$imovel->id?></th>
-                                            <td><?=$imovel->identificacao?></td>
-                                            <td><?=$imovel->matricula?></td>
-                                            <td><?=$imovel->inscricaoImobiliaria?></td>
-                                            <td><?=$imovel->logradouro?></td>
-                                            <td><?=$imovel->numeroLogradouro?></td>
-                                            <td><?=$imovel->rua?></td>
-                                            <td><?=$imovel->bairro?></td>
-                                            <td><?=$imovel->cidade?></td>
-                                            <td><?=$imovel->estado?></td>
-                                            <td><?=$imovel->cep?></td>
-                                            <td><?=$imovel->ibge?></td>
-                                            <td><?=$imovel->ativo?></td>
-                                            <td><?=$imovel->criado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$imovel->modificado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$imovel->criadorId?></td>
-                                            <td><?=$imovel->modificadorId?></td>
+                                            <th scope="row"><?=$imovel->getId()?></th>
+                                            <td><?=$imovel->getIdentificacao()?></td>
+                                            <td><?=$imovel->getMatricula()?></td>
+                                            <td><?=$imovel->getInscricaoImobiliaria()?></td>
+                                            <td><?=$imovel->getLogradouro()?></td>
+                                            <td><?=$imovel->getNumeroLogradouro()?></td>
+                                            <td><?=$imovel->getRua()?></td>
+                                            <td><?=$imovel->getBairro()?></td>
+                                            <td><?=$imovel->getCidade()?></td>
+                                            <td><?=$imovel->getEstado()?></td>
+                                            <td><?=$imovel->getCep()?></td>
+                                            <td><?=$imovel->getIbge()?></td>
+                                            <td><?=$imovel->getAtivo()?></td>
+                                            <td><?=$imovel->getCriado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$imovel->getModificado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$imovel->getCriadorId()?></td>
+                                            <td><?=$imovel->getModificadorId()?></td>
                                             <td>
                                                 <ul class="d-flex justify-content-center">
-                                                    <li class="mr-3"><a href="/src/View/adminCrud/Imovel/update.php?id=<?= $imovel->id?>&identificacao=<?= $imovel->identificacao?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
+                                                    <li class="mr-3"><a href="/src/View/adminCrud/Imovel/update.php?id=<?=$imovel->getId()?>&identificacao=<?=$imovel->getIdentificacao()?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
                                                     <form method="POST">
-                                                        <input type="hidden" name="delete_id" value="<?=$imovel->id?>">
+                                                        <input type="hidden" name="delete_id" value="<?=$imovel->getId()?>">
                                                         <li class="mr-3"><button type="submit" class="btn btn-inverse-danger"><i class="bi bi-trash mr-1"></i>Delete</button></li>
                                                     </form>
                                                 </ul>

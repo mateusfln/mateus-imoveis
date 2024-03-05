@@ -9,7 +9,7 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
 {
 
     /**
-     * Efetua a busca de dados referentes a tabela de ImovelCaracteristicasImovelTipos
+     * Efetua a busca de dados referentes a tabela de Caracteristicas
      * 
      * @return array|ImovelCaracteristicasImovelTipos[]
      */
@@ -20,6 +20,10 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
         $imovelCaracteristicasImovelTipos = [];
 
         $sql = "SELECT id, imovel_id, caracteristica_imoveltipo_id, ativo,criado,modificado,criador_id,modificador_id FROM imoveis_caracteristicas_imoveltipos";
+
+        if( isset($_GET['sort']) && isset($_GET['direction']) ) {
+            $sql .= " ORDER BY {$_GET['sort']} {$_GET['direction']}";
+        }
 
         $query = $this->getConexao()->query($sql);
         
@@ -40,14 +44,15 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
     }
 
     /**
-     * Cria um registro na tabela ImovelCaracteristicasImovelTipos de acordo com os dados fornecidos
+     * Cria um registro na tabela imovel_caracteristicas_imoveltipos de acordo com os dados fornecidos
      * 
-     * @throws \Exception
+     * @return ImovelCaracteristicasImovelTipos Objeto ImovelCaracteristicasImovelTipos com dados preenchidos
+     * @param ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos Objeto ImovelCaracteristicasImovelTipos com dados a serem preenchidos
      */
     public function create(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos)
     {
         $sql = "INSERT INTO imoveis_caracteristicas_imoveltipos (imovel_id, caracteristica_imoveltipo_id, valor, ativo, criado, modificado, criador_id, modificador_id)
-                VALUES ('{$imovelCaracteristicasImovelTipos->getimovelId()}', '{$imovelCaracteristicasImovelTipos->getCaracteristicaImoveltipoId()}', '{$imovelCaracteristicasImovelTipos->getValor()}', '{$imovelCaracteristicasImovelTipos->getAtivo()}', '{$imovelCaracteristicasImovelTipos->getCriado()->format('Y-m-d H:i:s')}', '{$imovelCaracteristicasImovelTipos->getModificado()->format('Y-m-d H:i:s')}', '{$imovelCaracteristicasImovelTipos->getCriadorId()}', '{$imovelCaracteristicasImovelTipos->getModificadorId()}')";
+                VALUES ({$imovelCaracteristicasImovelTipos->getimovelId()}, {$imovelCaracteristicasImovelTipos->getCaracteristicaImoveltipoId()}, '{$imovelCaracteristicasImovelTipos->getValor()}', '{$imovelCaracteristicasImovelTipos->getAtivo()}', '{$imovelCaracteristicasImovelTipos->getCriado()->format('Y-m-d H:i:s')}', '{$imovelCaracteristicasImovelTipos->getModificado()->format('Y-m-d H:i:s')}', '{$imovelCaracteristicasImovelTipos->getCriadorId()}', '{$imovelCaracteristicasImovelTipos->getModificadorId()}')";
         
         $this->getConexao()->query($sql);
         
@@ -57,11 +62,15 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
     }
     
     /**
-     * Edita um registro na tabela ImovelCaracteristicasImovelTipos de acordo com os dados fornecidos
+     * Edita um registro na tabela imovel_caracteristicas_imoveltipos de acordo com os dados fornecidos
      * 
      * @throws \Exception
+     * @param int $id Código do imovel_caracteristicas_imoveltipos
+     * @param ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos Objeto ImovelCaracteristicasImovelTipos
+     * @return void
      */
-    public function update(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos, $id){
+    public function update(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos, $id) : void
+    {
 
         $sql = "UPDATE imoveis_caracteristicas_imoveltipos
                 SET imovel_id = '{$imovelCaracteristicasImovelTipos->getimovelId()}',
@@ -77,8 +86,10 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
     }
 
     /**
-     * Mostra um registro na tabela ImovelCaracteristicasImovelTipos de acordo com os dados fornecidos
+     * Retorna um registro na tabela imovel_caracteristicas_imoveltipos de acordo com os dados fornecidos
      * 
+     * @param int $id   Código do imovel_caracteristicas_imoveltipos
+     * @return ImovelCaracteristicasImovelTipos
      * @throws \Exception
      */
     public function read(int $id) : ImovelCaracteristicasImovelTipos
@@ -92,11 +103,14 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
     }
 
     /**
-     * Deleta um registro na tabela ImovelCaracteristicasImovelTipos de acordo com os dados fornecidos
+     * Deleta um registro na tabela imoveis_caracteristicas_imoveltipos de acordo com os dados fornecidos
      * 
      * @throws \Exception
+     * @param int $id
+     * @return void
      */
-    public function delete($id){
+    public function delete($id) : void
+    {
 
         $sql = "DELETE FROM imoveis_caracteristicas_imoveltipos
                WHERE id = '{$id}'";
@@ -105,11 +119,11 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
 
 
     /**
-     * Consulta o ultimo registro feito na tabela e pega o id
+     * Consulta o ultimo registro feito na tabela imoveis_caracteristicas_imoveltipos e retorna o id desse registro
      * 
      * @throws \Exception
+     * @return int
      */
-
     public function getInsertId() : int
     {
         $sql = "SELECT LAST_INSERT_ID() AS id";

@@ -123,9 +123,9 @@ if (!empty($_POST)) {
                                         <h4 class="card_title">Aplicar em:</h4>
                                         <div class="form-group">
                                             <?php foreach($imoveltipos as $imoveltipo):?>
-                                            <?php $nomePost = str_replace(' ', '_', $imoveltipo->nome); ?>
+                                            <?php $nomePost = str_replace(' ', '_', $imoveltipo->getNome()); ?>
                                             <input type="checkbox" name="imoveltipos[]" id="<?=$nomePost?>" value="<?=$imoveltipo->getId()?>">
-                                            <label for="<?=$nomePost?>" class="col-form-label"><?=$imoveltipo->nome?></label>
+                                            <label for="<?=$nomePost?>" class="col-form-label"><?=$imoveltipo->getNome()?></label>
                                             <br>
                                             <?php endforeach;?>
                                         </div>

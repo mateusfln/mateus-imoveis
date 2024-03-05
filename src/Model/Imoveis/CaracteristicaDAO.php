@@ -15,11 +15,13 @@ class CaracteristicaDAO extends DAO
      */
     public function buscarListaDeCaracteristicas() : array|Caracteristicas
     {
-        global $_GET;
-
         $caracteristicas = [];
 
-        $sql = "SELECT id,nome,ativo,criado,modificado,criador_id,modificador_id FROM caracteristicas";
+        $sql = "SELECT id, nome, ativo, criado, modificado, criador_id, modificador_id FROM caracteristicas";
+
+        if( isset($_GET['sort']) && isset($_GET['direction']) ) {
+            $sql .= " ORDER BY {$_GET['sort']} {$_GET['direction']}";
+        }
 
         $query = $this->getConexao()->query($sql);
         
@@ -41,13 +43,18 @@ class CaracteristicaDAO extends DAO
      /**
      * Cria um registro na tabela caracteristicas de acordo com os dados fornecidos
      * 
-     * @throws \Exception
+     * @return Caracteristicas Objeto caracteristicas com dados preenchidos
+     * @param Caracteristicas $caracteristicas Objeto caracteristicas com dados a serem preenchidos
      */
-    public function create(Caracteristicas $caracteristicas)
+    public function create(Caracteristicas $caracteristicas) : Caracteristicas
     {
         $sql = "INSERT INTO caracteristicas (ativo, nome, criado, modificado, criador_id, modificador_id)
-                VALUES ('{$caracteristicas->getAtivo()}', '{$caracteristicas->getNome()}', '{$caracteristicas->getCriado()->format('Y-m-d H:i:s')}',
-                 '{$caracteristicas->getModificado()->format('Y-m-d H:i:s')}', '{$caracteristicas->getCriadorId()}', '{$caracteristicas->getModificadorId()}')";
+                VALUES ('{$caracteristicas->getAtivo()}', '{$caracteristicas->getNome()}',
+                '{$caracteristicas->getCriado()->format('Y-m-d H:i:s')}',
+                '{$caracteristicas->getModificado()->format('Y-m-d H:i:s')}',
+                '{$caracteristicas->getCriadorId()}',
+                '{$caracteristicas->getModificadorId()}')";
+        
         $this->getConexao()->query($sql);
         
         $caracteristicas->setId($this->getInsertId());
@@ -57,11 +64,15 @@ class CaracteristicaDAO extends DAO
 
 
      /**
-     * edita um registro na tabela caracteristicas de acordo com os dados fornecidos
+     * Edita um registro na tabela caracteristicas de acordo com os dados fornecidos
      * 
      * @throws \Exception
+     * @param int $id Código da característica
+     * @param Caracteristicas $caracteristicas Objeto caracteristicas
+     * @return void
      */
-    public function update(Caracteristicas $caracteristicas, $id){
+    public function update(Caracteristicas $caracteristicas, int $id) : void
+    {
 
         $sql = "UPDATE caracteristicas
                 SET ativo = '{$caracteristicas->getAtivo()}',
@@ -75,7 +86,7 @@ class CaracteristicaDAO extends DAO
     }
 
      /**
-     * Mostra um registro na tabela caracteristicas de acordo com os dados fornecidos
+     * Retorna um registro na tabela caracteristicas de acordo com os dados fornecidos
      * 
      * @param int $id   Código da característica
      * @return Caracteristicas
@@ -95,8 +106,11 @@ class CaracteristicaDAO extends DAO
      * Deleta um registro na tabela caracteristicas de acordo com os dados fornecidos
      * 
      * @throws \Exception
+     * @param int $id
+     * @return void
      */
-    public function delete($id){
+    public function delete(int $id) : void
+    {
 
         $sql = "DELETE FROM caracteristicas
                WHERE id = '{$id}'";
@@ -104,9 +118,10 @@ class CaracteristicaDAO extends DAO
     }
 
      /**
-     * Consulta o ultimo registro feito na tabela e pega o id
+     * Consulta o ultimo registro feito na tabela caracteristicas e retorna o id desse registro
      * 
      * @throws \Exception
+     * @return int
      */
     public function getInsertId() : int
     {

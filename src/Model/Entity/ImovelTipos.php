@@ -6,8 +6,15 @@ use Imobiliaria\Model\Entity\Tabela;
 
 class Imoveltipos extends Tabela
 {
-    public string $nome;
+    private string $nome;
     
+
+    /**
+     * método que define o nome de um Tipo de Imóvel
+     *
+     * @param string $nome
+     * @return Imoveltipos
+     */
     public function setNome(string $nome) : Imoveltipos
     {
         $this->nome = $nome;
@@ -15,6 +22,11 @@ class Imoveltipos extends Tabela
         return $this;
     }
     
+
+    /**
+     * método que retorna o nome de um Imóvel
+     * @return string $nome
+     */
     public function getNome() : string
     {
         return $this->nome;
@@ -25,7 +37,7 @@ class Imoveltipos extends Tabela
      * 
      * @param array $dados
      * [
-     *  'id' => int,
+     *  'id' => int | null,
      *  'nome' => string,
      *  'ativo' => bool,
      *  'criado' => 'Y-m-d H:i:s',

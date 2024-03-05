@@ -84,12 +84,12 @@ if(!empty($_POST['delete_id'])){
                                                     $campo = str_replace(" ", "_", $campo);
                                                     ?>
                                                     <?php if((empty($_GET['direction']))):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Pessoas/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
                                                     <?php else:?>
                                                     <?php if(($_GET['direction']) == 'DESC'):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Pessoas/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
                                                     <?php else:?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Pessoas/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
                                                     <?php endif;?>
                                                     <?php endif;?>
                                                 </div>
@@ -101,21 +101,21 @@ if(!empty($_POST['delete_id'])){
                                         <tbody>
                                     <?php foreach($pessoas as $pessoa):?>
                                         <tr>
-                                            <td><?=$pessoa->id?></td>
-                                            <td><?=$pessoa->nome?></td>
-                                            <td><?=$pessoa->cpf?></td>
-                                            <td><?=$pessoa->login?></td>
-                                            <td><?=$pessoa->senha?></td>
-                                            <td><?=$pessoa->ativo?></td>
-                                            <td><?=$pessoa->criado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$pessoa->modificado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$pessoa->criadorId?></td>
-                                            <td><?=$pessoa->modificadorId?></td>
+                                            <td><?=$pessoa->getId()?></td>
+                                            <td><?=$pessoa->getNome()?></td>
+                                            <td><?=$pessoa->getCpf()?></td>
+                                            <td><?=$pessoa->getLogin()?></td>
+                                            <td><?=$pessoa->getSenha()?></td>
+                                            <td><?=$pessoa->getAtivo()?></td>
+                                            <td><?=$pessoa->getCriado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$pessoa->getModificado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$pessoa->getCriadorId()?></td>
+                                            <td><?=$pessoa->getModificadorId()?></td>
                                             <td>
                                                 <ul class="d-flex justify-content-center">
-                                                    <li class="mr-3"><a href="/src/View/adminCrud/Pessoas/update.php?id=<?= $pessoa->id?>&nome=<?= $pessoa->nome?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
+                                                    <li class="mr-3"><a href="/src/View/adminCrud/Pessoas/update.php?id=<?=$pessoa->getId()?>&nome=<?=$pessoa->getNome()?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
                                                     <form method="POST">
-                                                        <input type="hidden" name="delete_id" value="<?=$pessoa->id?>">
+                                                        <input type="hidden" name="delete_id" value="<?=$pessoa->getId()?>">
                                                         <li class="mr-3"><button type="submit" class="btn btn-inverse-danger"><i class="bi bi-trash mr-1"></i>Delete</button></li>
                                                     </form>
                                                 </ul>

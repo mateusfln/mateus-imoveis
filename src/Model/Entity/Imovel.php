@@ -7,157 +7,395 @@ use Imobiliaria\Model\Entity\Tabela;
 
 class Imovel extends Tabela
 {
-    public $identificacao;
-    public $matricula;
-    public $inscricaoImobiliaria;
-    public $logradouro;
-    public $numeroLogradouro;
-    public $complemento;
-    public $rua;
-    public $bairro;
-    public $cidade;
-    public $estado;
-    public $cep;
-    public $ibge;
-    public $caracteristicas;
-    public $imovelCaracteristicasImovelTipos;
-    public $negocioTipos;
-    public $imovelTipos;
-    public $midias;
+    private string $identificacao;
+    private string $matricula;
+    private string $inscricaoImobiliaria;
+    private string $logradouro;
+    private string $numeroLogradouro;
+    private string $complemento;
+    private string $rua;
+    private string $bairro;
+    private string $cidade;
+    private string $estado;
+    private string $cep;
+    private string $ibge;
+    public Caracteristicas $caracteristicas;
+    public ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos;
+    public Negociotipos $negocioTipos;
+    public Imoveltipos $imovelTipos;
+    public Midias $midias;
 
-    public function setIdentificacao($identificacao)
+
+    /**
+     * método que a identificacao de um Imóvel
+     *
+     * @param string $identificacao
+     * @return Imovel
+     */
+    public function setIdentificacao(string $identificacao) : Imovel
     {
         $this->identificacao = $identificacao;
+
+        return $this;
     }
-    public function getIdentificacao()
+
+    /**
+     * método que retorna a identificacao de um Imóvel
+     * @return string $identificacao
+     */
+    public function getIdentificacao() : string
     {
         return $this->identificacao;
     }
-    public function setMatricula($matricula)
+
+    /**
+     * método que define a matricula de um Imóvel
+     *
+     * @param string $matricula
+     * @return Imovel
+     */
+    public function setMatricula(string $matricula) : Imovel
     {
         $this->matricula = $matricula;
+
+        return $this;
     }
-    public function getMatricula()
+
+    /**
+     * método que retorna a matricula de um Imóvel
+     * @return string $matricula
+     */
+    public function getMatricula() : string
     {
         return $this->matricula;
     }
-    public function setInscricaoImobiliaria($inscricaoImobiliaria)
+
+    /**
+     * método que define a inscrição imobiliaria de um Imóvel
+     *
+     * @param string $inscricaoImobiliaria
+     * @return Imovel
+     */
+    public function setInscricaoImobiliaria(string $inscricaoImobiliaria) : Imovel
     {
         $this->inscricaoImobiliaria = $inscricaoImobiliaria;
+
+        return $this;
     }
-    public function getInscricaoImobiliaria()
+
+    /**
+     * método que retorna a inscrição imobiliaria de um Imóvel
+     * @return string $inscricaoImobiliaria
+     */
+    public function getInscricaoImobiliaria() : string
     {
         return $this->inscricaoImobiliaria;
     }
-    public function setLogradouro($logradouro)
+
+    /**
+     * método que define o logradouro de um Imóvel
+     *
+     * @param string $logradouro
+     * @return Imovel
+     */
+    public function setLogradouro(string $logradouro) : Imovel
     {
         $this->logradouro = $logradouro;
+
+        return $this;
     }
-    public function getLogradouro()
+
+    /**
+     * método que retorna o logradouro de um Imóvel
+     * @return string $logradouro
+     */
+    public function getLogradouro() : string
     {
         return $this->logradouro;
     }
-    public function setNumeroLogradouro($numeroLogradouro)
+
+    /**
+     * método que define o numero do logradouro de um Imóvel
+     *
+     * @param string $numeroLogradouro
+     * @return Imovel
+     */
+    public function setNumeroLogradouro(string $numeroLogradouro) : Imovel
     {
         $this->numeroLogradouro = $numeroLogradouro;
+
+        return $this;
     }
-    public function getNumeroLogradouro()
+
+    /**
+     * método que retorna o numero do logradouro de um Imóvel
+     * @return string $numeroLogradouro
+     */
+    public function getNumeroLogradouro() : string
     {
         return $this->numeroLogradouro;
     }
-    public function setComplemento($complemento)
+
+    /**
+     * método que define o complemento de um Imóvel
+     *
+     * @param string $complemento
+     * @return Imovel
+     */
+    public function setComplemento(string $complemento) : Imovel
     {
         $this->complemento = $complemento;
+
+        return $this;
     }
-    public function getComplemento()
+
+    /**
+     * método que retorna o complemento de um Imóvel
+     * @return string $complemento
+     */
+    public function getComplemento() : string
     {
         return $this->complemento;
     }
-    public function setRua($rua)
+
+    /**
+     * método que define a rua de um Imóvel
+     *
+     * @param string $rua
+     * @return Imovel
+     */
+    public function setRua(string $rua) : Imovel
     {
         $this->rua = $rua;
+
+        return $this;
     }
-    public function getRua()
+
+    /**
+     * método que retorna a rua de um Imóvel
+     * @return string $rua
+     */
+    public function getRua() : string
     {
         return $this->rua;
     }
-    public function setBairro($bairro)
+
+    /**
+     * método que define o bairro de um Imóvel
+     *
+     * @param string $bairro
+     * @return Imovel
+     */
+    public function setBairro(string $bairro) : Imovel
     {
         $this->bairro = $bairro;
+
+        return $this;
     }
-    public function getBairro()
+
+    /**
+     * método que retorna o bairro de um Imóvel
+     * @return string $bairro
+     */
+    public function getBairro() : string
     {
         return $this->bairro;
     }
-    public function setCidade($cidade)
+
+    /**
+     * método que define a cidade de um Imóvel
+     *
+     * @param string $cidade
+     * @return Imovel
+     */
+    public function setCidade(string $cidade) : Imovel
     {
         $this->cidade = $cidade;
+
+        return $this;
     }
-    public function getCidade()
+
+    /**
+     * método que retorna a cidade de um Imóvel
+     * @return string $cidade
+     */
+    public function getCidade() : string
     {
         return $this->cidade;
     }
-    public function setEstado($estado)
+
+    /**
+     * método que define o Estado de um Imóvel
+     *
+     * @param string $estado
+     * @return Imovel
+     */
+    public function setEstado(string $estado) : Imovel
     {
         $this->estado = $estado;
+
+        return $this;
     }
-    public function getEstado()
+
+    /**
+     * método que retorna o Estado de um Imóvel
+     * @return string $estado
+     */
+    public function getEstado() : string
     {
         return $this->estado;
     }
-    public function setCep($cep)
+
+    /**
+     * método que define os dados referentes ao ibge de um Imóvel
+     *
+     * @param string $cep
+     * @return Imovel
+     */
+    public function setCep(string $cep) : Imovel
     {
         $this->cep = $cep;
+
+        return $this;
     }
-    public function getCep()
+
+    /**
+     * método que retorna o cep de um Imóvel
+     * @return string $cep
+     */
+    public function getCep() : string
     {
         return $this->cep;
     }
-    public function setIbge($ibge)
+
+    /**
+     * método que define os dados referentes ao ibge de um Imóvel
+     *
+     * @param string $ibge
+     * @return Imovel
+     */
+    public function setIbge(string $ibge) : Imovel
     {
         $this->ibge = $ibge;
+
+        return $this;
     }
-    public function getIbge()
+
+    /**
+     * método que retorna os dados referentes ao ibge de um Imóvel
+     * @return string $ibge
+     */
+    public function getIbge() : string
     {
         return $this->ibge;
     }
-    public function setCaracteristicas($caracteristicas)
+
+    /**
+     * método que define o objeto Imoveltipos
+     *
+     * @param Caracteristicas $caracteristicas
+     * @return Imovel
+     */
+    public function setCaracteristicas(Caracteristicas $caracteristicas) : Imovel
     {
         $this->caracteristicas = $caracteristicas;
+
+        return $this;
     }
-    public function getCaracteristicas()
+
+    /**
+     * método que retorna as caracteristicas de um Imóvel
+     * @return Caracteristicas $caracteristicas
+     */
+    public function getCaracteristicas() : Caracteristicas
     {
         return $this->caracteristicas;
     }
-    public function setImovelCaracteristicasImovelTipos($imovelCaracteristicasImovelTipos)
+
+    /**
+     * método que define o objeto Imoveltipos
+     *
+     * @param ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos
+     * @return Imovel
+     */
+    public function setImovelCaracteristicasImovelTipos(ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos) : Imovel
     {
         $this->imovelCaracteristicasImovelTipos = $imovelCaracteristicasImovelTipos;
+
+        return $this;
     }
-    public function getImovelCaracteristicasImovelTipos()
+
+    /**
+     * método que retorna o objeto ImovelCaracteristicasImovelTipos com seus dados populados
+     * @return ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos
+     */
+    public function getImovelCaracteristicasImovelTipos() : ImovelCaracteristicasImovelTipos
     {
         return $this->imovelCaracteristicasImovelTipos;
     }
-    public function setNegocioTipos($negocio_tipos)
+
+    /**
+     * método que define o objeto Imoveltipos
+     *
+     * @param Negociotipos $negocio_tipos
+     * @return Imovel
+     */
+    public function setNegocioTipos(Negociotipos $negocio_tipos) : Imovel
     {
         $this->negocioTipos = $negocio_tipos;
+
+        return $this;
     }
-    public function getNegocioTipos()
+
+    /**
+     * método que retorna o objeto Negociotipos com seus dados populados
+     * @return Negociotipos $negocioTipos
+     */
+    public function getNegocioTipos() : Negociotipos 
     {
         return $this->negocioTipos;
     }
-    public function setImoveltipos($imovelTipos)
+
+    /**
+     * método que define o objeto Imoveltipos
+     *
+     * @param Imoveltipos $imovelTipos
+     * @return Imovel
+     */
+    public function setImoveltipos(Imoveltipos $imovelTipos) : Imovel
     {
         $this->imovelTipos = $imovelTipos;
+
+        return $this;
     }
-    public function getImoveltipos()
+
+    /**
+     * método que retorna o objeto Imoveltipos com seus dados populados
+     * @return Imoveltipos $imovelTipos
+     */
+    public function getImoveltipos() : Imoveltipos
     {
         return $this->imovelTipos;
     }
-    public function setMidias($midias)
+
+    /**
+     * método que define o objeto Midias
+     *
+     * @param Midias $midias
+     * @return Imovel
+     */
+    public function setMidias(Midias $midias) : Imovel
     {
         $this->midias = $midias;
+
+        return $this;
     }
-    public function getMidias()
+
+    /**
+     * método que retorna o objeto Midias com seus dados populados
+     * @return Midias $midias
+     */
+    public function getMidias() : Midias
     {
         return $this->midias;
     }
@@ -168,7 +406,18 @@ class Imovel extends Tabela
      * @param array $dados
      * [
      *  'id' => int,
-     *  'nome' => string,
+     *  'identificacao' => string,
+     *  'matricula' => string,
+     *  'inscricaoImobiliaria' => string,
+     *  'logradouro' => string,
+     *  'numeroLogradouro' => string,
+     *  'complemento' => string,
+     *  'bairro' => string,
+     *  'cidade' => string,
+     *  'estado' => string,
+     *  'ibge' => string,
+     *  'cep' => string,
+     *  'rua' => string,
      *  'ativo' => bool,
      *  'criado' => 'Y-m-d H:i:s',
      *  'modificado' => 'Y-m-d H:i:s',

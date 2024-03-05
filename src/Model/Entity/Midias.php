@@ -6,40 +6,96 @@ use Imobiliaria\Model\Entity\Tabela;
 
 class Midias extends Tabela
 {
-    public $imovelId;
-    public $identificacao;
-    public $nomeDisco;
-    public $capa;
+    private int $imovelId;
+    private string $identificacao;
+    private string $nomeDisco;
+    private bool $capa;
 
-    public function setImovelId($imovel_id)
+
+    /**
+     * método que define o id do imovel que contem esta midia
+     *
+     * @param int $imovel_id
+     * @return Midias
+     */
+    public function setImovelId(int $imovel_id) : Midias
     {
         $this->imovelId = $imovel_id;
+
+        return $this;
     }
-    public function getImovelId()
+
+    /**
+     * método que retorna o id do imovel que contem esta midia
+     * @return int $imovelId
+     */
+    public function getImovelId() : int
     {
         return $this->imovelId;
     }
-    public function setIdentificacao($identificacao)
+
+    /**
+     * método que define a identificacao de uma midia
+     *
+     * @param string $identificacao
+     * @return Midias
+     */
+    public function setIdentificacao(string $identificacao) : Midias
     {
         $this->identificacao = $identificacao;
+
+        return $this;
     }
-    public function getIdentificacao()
+
+    /**
+     * método que retorna a identificacao de uma midia
+     * @return string $identificacao
+     */
+    public function getIdentificacao() : string
     {
         return $this->identificacao;
     }
-    public function setNomeDisco($nome_disco)
+
+    /**
+     * método que define o caminho (path) de onde a midia está armazenada
+     *
+     * @param string $nome_disco
+     * @return Midias
+     */
+    public function setNomeDisco(string $nome_disco) : Midias
     {
         $this->nomeDisco = $nome_disco;
+
+        return $this;
     }
-    public function getNomeDisco()
+
+    /**
+     * método que retorna o caminho (path) de onde a midia está armazenada
+     * @return string $nomeDisco
+     */
+    public function getNomeDisco() : string
     {
         return $this->nomeDisco;
     }
-    public function setCapa($capa)
+
+    /**
+     * método que define o status de capa de uma midia (é ou não é uma capa)
+     *
+     * @param bool $capa
+     * @return Midias
+     */
+    public function setCapa(bool $capa) : Midias
     {
         $this->capa = $capa;
+
+        return $this;
     }
-    public function getCapa()
+
+    /**
+     * método que retorna o status de capa de uma midia (é ou não é uma capa)
+     * @return bool $capa
+     */
+    public function getCapa() : bool
     {
         return $this->capa;
     }
@@ -49,8 +105,11 @@ class Midias extends Tabela
      * 
      * @param array $dados
      * [
-     *  'id' => int,
-     *  'nome' => string,
+     *  'id' => int | null,
+     *  'ImovelId' => int,
+     *  'capa' => bool,
+     *  'nomeDisco' => string,
+     *  'identificacao' => string,
      *  'ativo' => bool,
      *  'criado' => 'Y-m-d H:i:s',
      *  'modificado' => 'Y-m-d H:i:s',

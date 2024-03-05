@@ -7,40 +7,96 @@ use Imobiliaria\Model\Entity\Tabela;
 class Pessoas extends Tabela
 {
 
-    public $nome;
-    public $cpf;
-    public $login;
-    public $senha;
+    private string $nome;
+    private string $cpf;
+    private string $login;
+    private string $senha;
     
-    public function setNome($nome)
+
+    /**
+     * método que define o nome de uma Pessoa
+     *
+     * @param string $nome
+     * @return Pessoas
+     */
+    public function setNome(string $nome) : Pessoas
     {
         $this->nome = $nome;
+
+        return $this;
     }
-    public function getNome()
+
+    /**
+     * método que retorna o nome de uma Pessoa
+     * @return string $nome
+     */
+    public function getNome() : string
     {
         return $this->nome;
     }
-    public function setCpf($cpf)
+
+    /**
+     * método que define o cpf de uma Pessoa
+     *
+     * @param string $cpf
+     * @return Pessoas
+     */
+    public function setCpf(string $cpf) : Pessoas
     {
         $this->cpf = $cpf;
+
+        return $this;
     }
-    public function getCpf()
+
+    /**
+     * método que retorna o cpf de uma Pessoa
+     * @return string $cpf
+     */
+    public function getCpf() : string
     {
         return $this->cpf;
     }
-    public function setLogin($login)
+
+    /**
+     * método que define o login de uma Pessoa
+     *
+     * @param string $login
+     * @return Pessoas
+     */
+    public function setLogin(string $login) : Pessoas
     {
         $this->login = $login;
+
+        return $this;
     }
-    public function getLogin()
+
+    /**
+     * método que retorna o login de uma Pessoa
+     * @return string $login
+     */
+    public function getLogin() : string
     {
         return $this->login;
     }
-    public function setSenha($senha)
+
+    /**
+     * método que define a senha de uma Pessoa
+     *
+     * @param string $senha
+     * @return Pessoas
+     */
+    public function setSenha(string $senha) : Pessoas
     {
         $this->senha = $senha;
+
+        return $this;
     }
-    public function getSenha()
+
+    /**
+     * método que retorna a senha de uma Pessoa
+     * @return string $senha
+     */
+    public function getSenha() : string
     {
         return $this->senha;
     }
@@ -50,8 +106,11 @@ class Pessoas extends Tabela
      * 
      * @param array $dados
      * [
-     *  'id' => int,
+     *  'id' => int | null,
      *  'nome' => string,
+     *  'cpf' => string,
+     *  'login' => string,
+     *  'senha' => string,
      *  'ativo' => bool,
      *  'criado' => 'Y-m-d H:i:s',
      *  'modificado' => 'Y-m-d H:i:s',

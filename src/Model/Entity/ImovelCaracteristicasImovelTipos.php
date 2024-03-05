@@ -7,32 +7,73 @@ use Imobiliaria\Model\Entity\Tabela;
 
 class ImovelCaracteristicasImovelTipos extends Tabela
 {
-    public $imovelId;
-    public $caracteristicaImovelTipoId;
-    public $valor;
+    private int $imovelId;
+    private int $caracteristicaImovelTipoId;
+    private string $valor;
     
-    public function setimovelId($imovel_id)
+
+    /**
+     * método que define id de um imovel dentro da tabela imovel_caracteristicas_negociotipos
+     *
+     * @param int $imovel_id
+     * @return ImovelCaracteristicasImovelTipos
+     */
+    public function setimovelId(int $imovel_id) : ImovelCaracteristicasImovelTipos
     {
         $this->imovelId = $imovel_id;
+
+        return $this;
     }
-    public function getimovelId()
+
+    /**
+     * método que retorna o id de um imovel dentro da tabela imovel_negociotipos
+     * @return int $imovelId
+     */
+    public function getimovelId() : int
     {
         return $this->imovelId;
     }
-    public function setCaracteristicaImoveltipoId($caracteristicaImovelTipoId)
+
+    /**
+     * método que define id de uma caracteristicaImovelTipoId dentro da tabela imovel_caracteristicas_negociotipos
+     *
+     * @param int $caracteristicaImovelTipoId
+     * @return ImovelCaracteristicasImovelTipos
+     */
+    public function setCaracteristicaImoveltipoId(int $caracteristicaImovelTipoId) :ImovelCaracteristicasImovelTipos
     {
         $this->caracteristicaImovelTipoId = $caracteristicaImovelTipoId;
+
+        return $this;
     }
-    public function getCaracteristicaImoveltipoId()
+
+    /**
+     * método que retorna o id de uma caracteristicaImovelTipoId dentro da tabela imovel_caracteristicas_negociotipos
+     * @return int $caracteristicaImovelTipoId
+     */
+    public function getCaracteristicaImoveltipoId() : int
     {
         return $this->caracteristicaImovelTipoId;
     }
 
-    public function setValor($valor)
+    /**
+     * método que define o valor de um imovel de acordo com o tipo de negocio dele
+     *
+     * @param string $valor
+     * @return ImovelCaracteristicasImovelTipos
+     */
+    public function setValor(string $valor) : ImovelCaracteristicasImovelTipos
     {
         $this->valor = $valor;
+
+        return $this;
     }
-    public function getValor()
+
+    /**
+     * método que retorna o valor de um imovel de acordo com o tipo de negocio dele
+     * @return string $valor
+     */
+    public function getValor() : string
     {
         return $this->valor;
     }
@@ -42,8 +83,10 @@ class ImovelCaracteristicasImovelTipos extends Tabela
      * 
      * @param array $dados
      * [
-     *  'id' => int,
-     *  'nome' => string,
+     *  'id' => int | null,
+     *  'imovelId' => int,
+     *  'caracteristicaImoveltipoId' => int,
+     *  'valor' => string,
      *  'ativo' => bool,
      *  'criado' => 'Y-m-d H:i:s',
      *  'modificado' => 'Y-m-d H:i:s',

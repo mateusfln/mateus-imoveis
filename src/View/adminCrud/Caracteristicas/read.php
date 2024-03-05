@@ -83,12 +83,12 @@ if(!empty($_POST['delete_id'])){
                                                     $campo = str_replace(" ", "_", $campo);
                                                     ?>
                                                     <?php if((empty($_GET['direction']))):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Caracteristicas/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
                                                     <?php else:?>
                                                     <?php if(($_GET['direction']) == 'DESC'):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Caracteristicas/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
                                                     <?php else:?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Caracteristicas/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
                                                     <?php endif;?>
                                                     <?php endif;?>
                                                 </div>
@@ -100,18 +100,18 @@ if(!empty($_POST['delete_id'])){
                                         <tbody>
                                     <?php foreach($caracteristicas as $caracteristica):?>
                                         <tr>
-                                            <th><?=$caracteristica->id?></th>
-                                            <th><?=$caracteristica->nome?></th>
-                                            <td><?=$caracteristica->ativo?></td>
-                                            <td><?=$caracteristica->criado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$caracteristica->modificado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$caracteristica->criadorId?></td>
-                                            <td><?=$caracteristica->modificadorId?></td>
+                                            <th><?=$caracteristica->getId()?></th>
+                                            <th><?=$caracteristica->getNome()?></th>
+                                            <td><?=$caracteristica->getAtivo()?></td>
+                                            <td><?=$caracteristica->getCriado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$caracteristica->getModificado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$caracteristica->getCriadorId()?></td>
+                                            <td><?=$caracteristica->getModificadorId()?></td>
                                             <td>
                                                 <ul class="d-flex justify-content-center">
-                                                    <li class="mr-3"><a href="/src/View/adminCrud/Caracteristicas/update.php?id=<?= $caracteristica->id?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
+                                                    <li class="mr-3"><a href="/src/View/adminCrud/Caracteristicas/update.php?id=<?= $caracteristica->getId()?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
                                                     <form method="POST">
-                                                        <input type="hidden" name="delete_id" value="<?=$caracteristica->id?>">
+                                                        <input type="hidden" name="delete_id" value="<?=$caracteristica->getId()?>">
                                                         <li class="mr-3"><button type="submit" class="btn btn-inverse-danger"><i class="bi bi-trash mr-1"></i>Delete</button></li>
                                                     </form>
                                                 </ul>

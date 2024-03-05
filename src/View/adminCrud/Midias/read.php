@@ -83,12 +83,12 @@ if(!empty($_POST['delete_id'])){
                                                     $campo = str_replace(" ", "_", $campo);
                                                     ?>
                                                     <?php if((empty($_GET['direction']))):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Midias/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
                                                     <?php else:?>
                                                     <?php if(($_GET['direction']) == 'DESC'):?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Midias/read.php?sort=<?=$campo?>&direction=ASC"><i class="bi bi-filter"></i></a>
                                                     <?php else:?>
-                                                        <a class="ml-1" href="/src/View/adminCrud/Imovel/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
+                                                        <a class="ml-1" href="/src/View/adminCrud/Midias/read.php?sort=<?=$campo?>&direction=DESC"><i class="bi bi-filter"></i></a>
                                                     <?php endif;?>
                                                     <?php endif;?>
                                                 </div>
@@ -100,21 +100,21 @@ if(!empty($_POST['delete_id'])){
                                         <tbody>
                                     <?php foreach($midias as $midia):?>
                                         <tr>
-                                            <th><?=$midia->id?></th>
-                                            <th><?=$midia->imovelId?></th>
-                                            <td><?=$midia->identificacao?></td>
-                                            <td><?=$midia->nomeDisco?></td>
-                                            <td><?=$midia->capa?></td>
-                                            <td><?=$midia->ativo?></td>
-                                            <td><?=$midia->criado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$midia->modificado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$midia->criadorId?></td>
-                                            <td><?=$midia->modificadorId?></td>
+                                            <th><?=$midia->getId()?></th>
+                                            <th><?=$midia->getImovelId()?></th>
+                                            <td><?=$midia->getIdentificacao()?></td>
+                                            <td><?=$midia->getNomeDisco()?></td>
+                                            <td><?=$midia->getCapa()?></td>
+                                            <td><?=$midia->getAtivo()?></td>
+                                            <td><?=$midia->getCriado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$midia->getModificado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$midia->getCriadorId()?></td>
+                                            <td><?=$midia->getModificadorId()?></td>
                                             <td>
                                                 <ul class="d-flex justify-content-center">
-                                                    <li class="mr-3"><a href="/src/View/adminCrud/Midias/update.php?id=<?= $midia->id?>&identificacao=<?= $midia->identificacao?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
+                                                    <li class="mr-3"><a href="/src/View/adminCrud/Midias/update.php?id=<?=$midia->getId()?>&identificacao=<?=$midia->getIdentificacao()?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
                                                     <form method="POST">
-                                                        <input type="hidden" name="delete_id" value="<?=$midia->id?>">
+                                                        <input type="hidden" name="delete_id" value="<?=$midia->getId()?>">
                                                         <li class="mr-3"><button type="submit" class="btn btn-inverse-danger"><i class="bi bi-trash mr-1"></i>Delete</button></li>
                                                     </form>
                                                 </ul>

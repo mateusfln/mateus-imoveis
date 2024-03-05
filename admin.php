@@ -89,23 +89,23 @@ $imoveis = $imoveis->buscarListaDeImoveis();
                                         <tbody>
                                     <?php foreach($imoveis as $imovel):?>
                                         <tr>
-                                            <th scope="row"><?=$imovel->id?></th>
-                                            <td><?=$imovel->identificacao?></td>
-                                            <td><?=$imovel->matricula?></td>
-                                            <td><?=$imovel->inscricaoImobiliaria?></td>
-                                            <td><?=$imovel->logradouro?></td>
-                                            <td><?=$imovel->numeroLogradouro?></td>
-                                            <td><?=$imovel->rua?></td>
-                                            <td><?=$imovel->bairro?></td>
-                                            <td><?=$imovel->cidade?></td>
-                                            <td><?=$imovel->estado?></td>
-                                            <td><?=$imovel->cep?></td>
-                                            <td><?=$imovel->ibge?></td>
-                                            <td><?=$imovel->ativo?></td>
-                                            <td><?=$imovel->criado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$imovel->modificado->format('Y-m-d H:i:s')?></td>
-                                            <td><?=$imovel->criadorId?></td>
-                                            <td><?=$imovel->modificadorId?></td>
+                                        <th scope="row"><?=$imovel->getId()?></th>
+                                            <td><?=$imovel->getIdentificacao()?></td>
+                                            <td><?=$imovel->getMatricula()?></td>
+                                            <td><?=$imovel->getInscricaoImobiliaria()?></td>
+                                            <td><?=$imovel->getLogradouro()?></td>
+                                            <td><?=$imovel->getNumeroLogradouro()?></td>
+                                            <td><?=$imovel->getRua()?></td>
+                                            <td><?=$imovel->getBairro()?></td>
+                                            <td><?=$imovel->getCidade()?></td>
+                                            <td><?=$imovel->getEstado()?></td>
+                                            <td><?=$imovel->getCep()?></td>
+                                            <td><?=$imovel->getIbge()?></td>
+                                            <td><?=$imovel->getAtivo()?></td>
+                                            <td><?=$imovel->getCriado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$imovel->getModificado()->format('Y-m-d H:i:s')?></td>
+                                            <td><?=$imovel->getCriadorId()?></td>
+                                            <td><?=$imovel->getModificadorId()?></td>
                                             <td>
                                                 <ul class="d-flex justify-content-center">
                                                     <li class="mr-3"><a href="/src/View/adminCrud/Imovel/update.php?id=<?= $imovel->id?>&identificacao=<?= $imovel->identificacao?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
@@ -152,9 +152,40 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 <!--=========================*
         End Page Container
 *===========================-->
+
+<script src="adminAssets/js/jquery.min.js"></script>
+<!-- bootstrap 4 js -->
+<script src="adminAssets/js/popper.min.js"></script>
+<script src="adminAssets/js/bootstrap.min.js"></script>
+<!-- Owl Carousel Js -->
+<script src="adminAssets/js/owl.carousel.min.js"></script>
+<!-- Metis Menu Js -->
+<script src="adminAssets/js/metisMenu.min.js"></script>
+<!-- SlimScroll Js -->
+<script src="adminAssets/js/jquery.slimscroll.min.js"></script>
+<!-- Slick Nav -->
+<script src="adminAssets/js/jquery.slicknav.min.js"></script>
+<!-- ========== This Page js ========== -->
+
+<!--Chart Js-->
+<script src="adminAssets/vendors/charts/charts-bundle/Chart.bundle.js"></script>
+
+<!-- Flot Chart -->
+<script src="adminAssets/vendors/charts/flot/jquery.flot.js"></script>
+<script src="adminAssets/vendors/charts/flot/jquery.flot.resize.js"></script>
+<script src="adminAssets/vendors/charts/flot/jquery.flot.categories.js"></script>
+<script src="adminAssets/vendors/charts/flot/jquery.flot.fillbetween.js"></script>
+<script src="adminAssets/vendors/charts/flot/jquery.flot.stack.js"></script>
+<script src="adminAssets/vendors/charts/float-bundle/jquery.flot.pie.js"></script>
+
+<!--Home Script-->
+<script src="adminAssets/js/home.js"></script>
+
+<!-- ========== This Page js ========== -->
+
+<!-- Main Js -->
+<script src="adminAssets/js/main.js"></script>
 <?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/scripts.php');?>
 
 </body>
-
-<!-- Mirrored from rtsolutz.com/vizzstudio/demo-falr/falr/dark-sidebar/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Feb 2024 19:04:59 GMT -->
 </html>

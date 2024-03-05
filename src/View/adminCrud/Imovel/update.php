@@ -9,6 +9,8 @@ if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
     exit;
 }
 
+$campos = array('IDENTIFICACAO','MATRICULA','INSCRICAO IMOBILIARIA','LOGRADOURO','NUMERO LOGRADOURO','RUA','BAIRRO','CIDADE','ESTADO','CEP','IBGE');
+
 $imovelDAO = new ImovelDAO();
 $imovel = $imovelDAO->read($_GET['id']);
 
@@ -94,59 +96,24 @@ if(!empty($_POST['identificacao'])&& !empty($_POST['matricula'])&& !empty($_POST
                             <div class="card">
                                 <div class="card-body">
                                 <form method="POST">
-                                        <h4 class="card_title">Editar <?= $_GET['identificacao']?></h4>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Identificacao</label>
-                                            <input class="form-control" required type="text"name="identificacao" value="<?= $imovel->getIdentificacao()?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Matricula</label>
-                                            <input class="form-control" required type="text" name="matricula" value="<?= $imovel->getMatricula()?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">inscrição Imobiliaria</label>
-                                            <input class="form-control" required type="text" name="inscricao_imobiliaria" value="<?= $imovel->getInscricaoImobiliaria()?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">logradouro</label>
-                                            <input class="form-control" required type="text" name="logradouro" value="<?= $imovel->getLogradouro()?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Numero Logradouro</label>
-                                            <input class="form-control" required type="text" name="numero_logradouro" value="<?= $imovel->getNumeroLogradouro()?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Rua</label>
-                                            <input class="form-control" required type="text" name="rua" value="<?= $imovel->getRua()?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Complemento</label>
-                                            <input class="form-control" required type="text" name="complemento" value="<?= $imovel->getComplemento()?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Bairro</label>
-                                            <input class="form-control" required type="text" name="bairro" value="<?= $imovel->getBairro()?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Cidade</label>
-                                            <input class="form-control" required type="text" name="cidade" value="<?= $imovel->getCidade()?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Estado</label>
-                                            <input class="form-control" required type="text" name="estado" value="<?= $imovel->getEstado()?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Cep</label>
-                                            <input class="form-control" required type="text" name="cep" value="<?= $imovel->getCep()?>">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="col-form-label">Ibge</label>
-                                            <input class="form-control" required type="text" name="ibge" value="<?= $imovel->getIbge()?>">
-                                        </div>
+                                        <h4 class="card_title">Editar "<?= $_GET['identificacao']?>"</h4>
+                                        <?php foreach ($campos as $campo):?>
+                                            <div class="form-group">
+                                                <label for="example-text-input" class="col-form-label"><?=$campo?></label>
+                                                <?php
+                                             $campo = strtolower($campo);
+                                             $campo = str_replace(" ", "", $campo);
+                                             $methodName = "get" . ucfirst($campo);
+                                             $method = $imovel->$methodName();
+                                            ?>
+                                                <input class="form-control" required type="text"name="<?=$campo?>" value="<?= $method ?>">
+                                            </div>
+                                        <?php endforeach;?>
                                         <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">Ativo</label>
                                             <input class="ml-2" type="checkbox" name="ativo" <?= $imovel->getAtivo() ? ' checked="checked"' : ''?>>
                                         </div>
+                                        
                                         <div class="form-group">
                                         <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Editar</button>
                                         </div>
