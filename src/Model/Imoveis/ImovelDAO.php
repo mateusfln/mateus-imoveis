@@ -36,6 +36,28 @@ class ImovelDAO extends DAO
         return $negociosTipos;
     }
      /**
+     * Efetua a busca de dados referentes Estados Cadastrados
+     * 
+     * @return array|Imovel[]
+     */
+    public function buscarListaDeEstados() : array|Imovel
+    {
+        $negociosTipos = [];
+
+        $sql = "select restrict imoveis.estado from imoveis;";
+ 
+        $query = $this->getConexao()->query($sql);
+        
+        while ($row = $query->fetch_assoc()) {
+            $imovel = new NegocioTipos();
+            $imovel->setId($row['id']);
+            $imovel->setNome($row['nome']);
+            $negociosTipos[] = $imovel;
+        }
+
+        return $negociosTipos;
+    }
+     /**
      * Efetua a busca de dados referentes a tabela de Imoveis
      * 
      * @return array|Imovel[]

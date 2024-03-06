@@ -53,7 +53,7 @@ class ImovelCaracteristicasImovelTiposDAO extends DAO
     {
         $sql = "INSERT INTO imoveis_caracteristicas_imoveltipos (imovel_id, caracteristica_imoveltipo_id, valor, ativo, criado, modificado, criador_id, modificador_id)
                 VALUES ({$imovelCaracteristicasImovelTipos->getimovelId()}, {$imovelCaracteristicasImovelTipos->getCaracteristicaImoveltipoId()}, '{$imovelCaracteristicasImovelTipos->getValor()}', '{$imovelCaracteristicasImovelTipos->getAtivo()}', '{$imovelCaracteristicasImovelTipos->getCriado()->format('Y-m-d H:i:s')}', '{$imovelCaracteristicasImovelTipos->getModificado()->format('Y-m-d H:i:s')}', '{$imovelCaracteristicasImovelTipos->getCriadorId()}', '{$imovelCaracteristicasImovelTipos->getModificadorId()}')";
-        
+        print_r($sql); 
         $this->getConexao()->query($sql);
         
         $imovelCaracteristicasImovelTipos->setId($this->getInsertId());

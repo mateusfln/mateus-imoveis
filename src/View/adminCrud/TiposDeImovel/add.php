@@ -3,7 +3,13 @@
 require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 use Imobiliaria\Model\Entity\Imoveltipos;
+use Imobiliaria\Model\Entity\CaracteristicasImoveltipos;
+use Imobiliaria\Model\Imoveis\CaracteristicasImoveltiposDAO;
+use Imobiliaria\Model\Imoveis\CaracteristicaDAO;
 use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
+
+$caracteristicas = new CaracteristicaDAO();
+$caracteristicas = $caracteristicas->buscarListaDeCaracteristicas();
 
 if(!empty($_POST)){
     print_r($_POST);
@@ -19,6 +25,23 @@ if(!empty($_POST)){
     $imoveltipo->setModificado($hoje);
     $dbImoveltipo = new ImoveltiposDAO();
     $dbImoveltipo->create($imoveltipo);
+    $idImoveltipo = $dbImoveltipo->getInsertId();
+
+    foreach ($_POST['caracteristicas'] as $caracteristica) {
+
+        $caracteristicasImoveltipos = new CaracteristicasImoveltipos();
+
+        $caracteristicasImoveltipos->setCaracteristicaId($caracteristica);
+        $caracteristicasImoveltipos->setImovelTipoId($idImoveltipo);
+        $caracteristicasImoveltipos->setAtivo(true);
+        $caracteristicasImoveltipos->setCriado($hoje);
+        $caracteristicasImoveltipos->setCriadorId(1);
+        $caracteristicasImoveltipos->setModificadorId(1);
+        $caracteristicasImoveltipos->setModificado($hoje);
+
+        $dbCaracteristicaImoveltipo = new CaracteristicasImoveltiposDAO();
+        $dbCaracteristicaImoveltipo->create($caracteristicasImoveltipos);
+    }
     header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeImovel/read.php');
 }
 
@@ -71,16 +94,36 @@ if(!empty($_POST)){
                     <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form method="POST">
-                                        <h4 class="card_title">Cadastro de Tipos de Imóveis</h4>
+                                <form method="POST">
+                    <div class="card">
+                    <div class="col-12 d-flex">
+                            <div class="col-6 card">
+                                <div class="card-body">
+                                        <h4 class="card_title">Cadastro de Tipos de Imóvel</h4>
                                         <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">Nome</label>
                                             <input class="form-control" required type="text"name="nome">
                                         </div>
+                                </div>
+                            </div>
+                            <div class="col-6 card">
+                                <div class="card-body">
+                                        <h4 class="card_title">Caracteristicas deste imovel:</h4>
                                         <div class="form-group">
-                                        <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button>
+                                            <?php foreach($caracteristicas as $caracteristica):?>
+                                            <?php $nomePost = str_replace(' ', '_', $caracteristica->getNome()); ?>
+                                            <input type="checkbox" name="caracteristicas[]" id="<?=$nomePost?>" value="<?=$caracteristica->getId()?>">
+                                            <label for="<?=$nomePost?>" class="col-form-label"><?=$caracteristica->getNome()?></label>
+                                            <br>
+                                            <?php endforeach;?>
                                         </div>
-                                    </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button>
+                        </div>
+                    </div>
+                </form>
                                 </div>
                             </div>
                         </div>

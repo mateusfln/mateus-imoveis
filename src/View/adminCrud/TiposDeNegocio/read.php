@@ -4,7 +4,7 @@ require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 use Imobiliaria\Model\Imoveis\NegociotiposDAO;
 
 $negociosTipos = new NegociotiposDAO();
-$negociosTipos = $negociosTipos->buscarListaDeImovelTipos();
+$negociosTipos = $negociosTipos->buscarListaDeNegocioTipos();
 
 $campos = array('ID','NOME','ATIVO','CRIADO', 'MODIFICADO', 'CRIADOR ID', 'MODIFICADOR ID');
 

@@ -9,7 +9,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 ?>
 
 <!DOCTYPE html>
-<html class="no-js" lang="zxx">
+<html lang="zxx">
 
 
 <?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/head.php');?>
@@ -108,9 +108,9 @@ $imoveis = $imoveis->buscarListaDeImoveis();
                                             <td><?=$imovel->getModificadorId()?></td>
                                             <td>
                                                 <ul class="d-flex justify-content-center">
-                                                    <li class="mr-3"><a href="/src/View/adminCrud/Imovel/update.php?id=<?= $imovel->id?>&identificacao=<?= $imovel->identificacao?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
+                                                    <li class="mr-3"><a href="/src/View/adminCrud/Imovel/update.php?id=<?= $imovel->getId()?>&identificacao=<?= $imovel->getIdentificacao()?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>
                                                     <form method="POST">
-                                                        <input type="hidden" name="delete_id" value="<?=$imovel->id?>">
+                                                        <input type="hidden" name="delete_id" value="<?=$imovel->getId()?>">
                                                         <li class="mr-3"><button type="submit" class="btn btn-inverse-danger"><i class="bi bi-trash mr-1"></i>Delete</button></li>
                                                     </form>
                                                 </ul>
@@ -152,6 +152,8 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 <!--=========================*
         End Page Container
 *===========================-->
+</body>
+
 
 <script src="adminAssets/js/jquery.min.js"></script>
 <!-- bootstrap 4 js -->
@@ -187,5 +189,5 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 <script src="adminAssets/js/main.js"></script>
 <?php require_once(realpath(dirname(__FILE__) . '/includes/admin') .'/scripts.php');?>
 
-</body>
+
 </html>

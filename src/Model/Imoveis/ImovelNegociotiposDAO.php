@@ -52,7 +52,7 @@ class ImovelNegociotiposDAO extends DAO
     {
         $sql = "INSERT INTO imoveis_negociotipos (imovel_id, negociotipo_id, valor, ativo,criado,modificado,criador_id,modificador_id)
                 VALUES ('{$imovelNegociostipos->getimovelId()}', '{$imovelNegociostipos->getNegocioTipoId()}', '{$imovelNegociostipos->getValor()}', '{$imovelNegociostipos->getAtivo()}', '{$imovelNegociostipos->getCriado()->format('Y-m-d H:i:s')}', '{$imovelNegociostipos->getModificado()->format('Y-m-d H:i:s')}', '{$imovelNegociostipos->getCriadorId()}', '{$imovelNegociostipos->getModificadorId()}')";
-
+//print_r($sql); die;
         $this->getConexao()->query($sql);
         
         $imovelNegociostipos->setId($this->getInsertId());

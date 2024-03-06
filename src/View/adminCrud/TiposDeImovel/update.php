@@ -3,6 +3,8 @@
 require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
+use Imobiliaria\Model\Imoveis\CaracteristicasImoveltiposDAO;
+use Imobiliaria\Model\Entity\CaracteristicasImoveltipos;
 
 if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
     header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeImovel/read.php?error=Código da característica não informado');
@@ -23,6 +25,22 @@ if(!empty($_POST['nome'])){
     $imoveltipos->setModificado($hoje);
     
     $imoveltiposDAO->update($imoveltipos, $_GET['id']);
+
+    foreach ($_POST['caracteristicas'] as $caracteristica) {
+
+        $caracteristicasImoveltipos = new CaracteristicasImoveltipos();
+
+        $caracteristicasImoveltipos->setCaracteristicaId($caracteristica);
+        $caracteristicasImoveltipos->setImovelTipoId($_GET['id']);
+        $caracteristicasImoveltipos->setAtivo(true);
+        $caracteristicasImoveltipos->setCriado($hoje);
+        $caracteristicasImoveltipos->setCriadorId(1);
+        $caracteristicasImoveltipos->setModificadorId(1);
+        $caracteristicasImoveltipos->setModificado($hoje);
+
+        $dbCaracteristicaImoveltipo = new CaracteristicasImoveltiposDAO();
+        $dbCaracteristicaImoveltipo->create($caracteristicasImoveltipos);
+    }
 
     header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeImovel/read.php');
     exit;

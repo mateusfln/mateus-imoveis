@@ -439,7 +439,7 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                                 </div>
                                 <div class="right">
                                     <div class="type-wrap">
-                                        <span class="price">R$<?= $imovel->imovelCaracteristicasImoveltipos->getValor()?></span>
+                                        <span class="price">R$<?= $imovel->imovelCaracteristicasImovelTipos->getValor()?></span>
                                         <span class="type"><?= $imovel->negocioTipos->getNome()?></span>
                                     </div>
                                 </div>

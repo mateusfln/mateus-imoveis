@@ -12,7 +12,7 @@ $campos = array('ID','NOME','ATIVO','CRIADO', 'MODIFICADO', 'CRIADOR ID', 'MODIF
 if(!empty($_POST['delete_id'])){
     $dbNegociotipo = new ImoveltiposDAO();
     $dbNegociotipo->delete($_POST['delete_id']);
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeNegocio/read.php');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeImovel/read.php');
 }
 
 ?>
@@ -66,7 +66,7 @@ if(!empty($_POST['delete_id'])){
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card_title">
-                                Tabela de Tipos de Imóvel <a href="/src/View/adminCrud/Midias/add.php"><button type="button" class="btn btn-inverse-success ml-3"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button></a>
+                                Tabela de Tipos de Imóvel <a href="/src/View/adminCrud/TiposDeImovel/add.php"><button type="button" class="btn btn-inverse-success ml-3"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button></a>
                             </h4>
                             <div class="single-table">
                                 <div class="table-responsive">

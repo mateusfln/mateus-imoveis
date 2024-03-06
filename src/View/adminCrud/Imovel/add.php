@@ -80,22 +80,24 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
     $dbImovelNegociotipos = new ImovelNegociotiposDAO();
     $dbImovelNegociotipos->create($imovelNegociotipos);
 
-    foreach ($_POST['caracteristicas[]'] as $caracteristica){}
+    foreach ($_POST['caracteristicas'] as $caracteristica){
 
-    $imovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
+        // print($caracteristica); die;
 
-    $imovelCaracteristicasImovelTipos->setimovelId($idImovel);
-    $imovelCaracteristicasImovelTipos->setCaracteristicaImoveltipoId($_POST['caracteristicas[]']);
-    $imovelCaracteristicasImovelTipos->setValor($_POST['valor']);
-    $imovelCaracteristicasImovelTipos->setAtivo(true);
-    $imovelCaracteristicasImovelTipos->setCriado($hoje);
-    $imovelCaracteristicasImovelTipos->setCriadorId(1);
-    $imovelCaracteristicasImovelTipos->setModificadorId(1);
-    $imovelCaracteristicasImovelTipos->setModificado($hoje);
+        $imovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
 
-    $dbImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTiposDAO();
-    $dbImovelCaracteristicasImovelTipos->create($imovelCaracteristicasImovelTipos);
-   
+        $imovelCaracteristicasImovelTipos->setimovelId($idImovel);
+        $imovelCaracteristicasImovelTipos->setCaracteristicaImoveltipoId($caracteristica);
+        $imovelCaracteristicasImovelTipos->setValor($_POST['valor']);
+        $imovelCaracteristicasImovelTipos->setAtivo(true);
+        $imovelCaracteristicasImovelTipos->setCriado($hoje);
+        $imovelCaracteristicasImovelTipos->setCriadorId(1);
+        $imovelCaracteristicasImovelTipos->setModificadorId(1);
+        $imovelCaracteristicasImovelTipos->setModificado($hoje);
+    
+        $dbImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTiposDAO();
+        $dbImovelCaracteristicasImovelTipos->create($imovelCaracteristicasImovelTipos);
+    }   
     header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
 }
 
