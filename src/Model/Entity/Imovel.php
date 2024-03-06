@@ -19,6 +19,11 @@ class Imovel extends Tabela
     private string $estado;
     private string $cep;
     private string $ibge;
+    private string $metrosQuadrados;
+    private string $quartos;
+    private string $banheiros;
+    private string $vagasGaragem;
+    
     public Caracteristicas $caracteristicas;
     public ImovelCaracteristicasImovelTipos $imovelCaracteristicasImovelTipos;
     public Negociotipos $negocioTipos;
@@ -289,6 +294,92 @@ class Imovel extends Tabela
     {
         return $this->ibge;
     }
+    /**
+     * método que define os dados referentes ao metro quadrado de um Imóvel
+     *
+     * @param string $metrosQuadrados
+     * @return Imovel
+     */
+    public function setMetrosQuadrados(string $metrosQuadrados) : Imovel
+    {
+        $this->metrosQuadrados = $metrosQuadrados;
+
+        return $this;
+    }
+
+    /**
+     * método que retorna os dados referentes ao metro quadrado de um Imóvel
+     * @return string $metrosQuadrados
+     */
+    public function getMetrosQuadrados() : string
+    {
+        return $this->metrosQuadrados;
+    }
+    /**
+     * método que define os dados referentes aos quartos de um Imóvel
+     *
+     * @param string $quartos
+     * @return Imovel
+     */
+
+  
+    public function setQuartos(string $quartos) : Imovel
+    {
+        $this->quartos = $quartos;
+
+        return $this;
+    }
+
+    /**
+     * método que retorna os dados referentes aos quartos de um Imóvel
+     * @return string $quartos
+     */
+    public function getQuartos() : string
+    {
+        return $this->quartos;
+    }
+    /**
+     * método que define os dados referentes ao banheiros de um Imóvel
+     *
+     * @param string $banheiros
+     * @return Imovel
+     */
+    public function setBanheiros(string $banheiros) : Imovel
+    {
+        $this->banheiros = $banheiros;
+
+        return $this;
+    }
+
+    /**
+     * método que retorna os dados referentes ao banheiros de um Imóvel
+     * @return string $banheiros
+     */
+    public function getBanheiros() : string
+    {
+        return $this->banheiros;
+    }
+    /**
+     * método que define os dados referentes ao vagasGaragem de um Imóvel
+     *
+     * @param string $vagasGaragem
+     * @return Imovel
+     */
+    public function setVagasGaragem(string $vagasGaragem) : Imovel
+    {
+        $this->vagasGaragem = $vagasGaragem;
+
+        return $this;
+    }
+
+    /**
+     * método que retorna os dados referentes ao vagasGaragem de um Imóvel
+     * @return string $vagasGaragem
+     */
+    public function getVagasGaragem() : string
+    {
+        return $this->vagasGaragem;
+    }
 
     /**
      * método que define o objeto Imoveltipos
@@ -427,6 +518,7 @@ class Imovel extends Tabela
      */
     public function hydrate(array $dados) : Imovel
     {
+        //$midias = new Midias();
         $this->setId($dados['id'] ?? null);
         $this->setIdentificacao($dados['identificacao']);
         $this->setMatricula($dados['matricula']);
@@ -440,7 +532,16 @@ class Imovel extends Tabela
         $this->setIbge($dados['ibge']);
         $this->setCep($dados['cep']);
         $this->setRua($dados['rua']);
+        $this->setMetrosQuadrados($dados['metros_quadrados']);
+        $this->setQuartos($dados['quartos']);
+        $this->setBanheiros($dados['banheiros']);
+        $this->setVagasGaragem($dados['garagem']);
         $this->setAtivo($dados['ativo']);
+        //$this->setMidias($midias);
+        // $midias->setCapa($dados['capa']);
+        // $midias->setNomeDisco($dados['nome_disco']);
+        // $midias->setIdentificacao($dados['m.identificacao']);
+        // $midias->setImovelId($dados['imovel_id']);
         $this->setCriado(new \DateTimeImmutable($dados['criado']));
         $this->setModificado(new \DateTimeImmutable($dados['modificado']));
         $this->setCriadorId($dados['criador_id']);

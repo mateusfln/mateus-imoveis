@@ -7,7 +7,10 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
 
 <?php
  $imoveis = new ImovelDAO();
- $imoveis = $imoveis->buscarListaDeImoveisENegocioTipoECaracteristicasImovelTiposECaracteristicasEMidias();
+ $imoveis = $imoveis->findAll();
+
+ $estados = new ImovelDAO();
+ $estados = $estados->buscarListaDeEstados();
 
  //pr($imoveis); die;
  $imoveisAVenda = new ImovelDAO();
@@ -18,6 +21,9 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
  $imoveisTipos = $imoveisTipos->buscarListaDeImoveisTipo();
  $negociosTipos = new ImovelDAO();
  $negociosTipos = $negociosTipos->buscarListaDeNegociosTipo();
+
+ $imoveisNossosServicos = new ImovelDAO();
+ $imoveisNossosServicos = $imoveisNossosServicos->findAllNoFilters();
 ?>
 
 <!doctype html>
@@ -82,32 +88,35 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
 
                             <div>
                                 <h4>Pretensão</h4>
-                                <select class="nice-select">
+                                <select class="nice-select" name="pretensao">
+                                <option value="">Todos</option>
                                 <?php foreach($negociosTipos as $tipo): ?>
-                                        <option><?= $tipo->getNome() ?></option>
+                                        <option value="<?= $tipo->getNome() ?>"><?= $tipo->getNome() ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
                             <div>
                                 <h4>Tipo</h4>
-                                <select class="nice-select">
+                                <select class="nice-select" name="tipo">
+                                    <option value="">Todos</option>
                                     <?php foreach($imoveisTipos as $tipo): ?>
-                                        <option><?= $tipo->getNome() ?></option>
+                                        <option value="<?= $tipo->getNome() ?>"><?= $tipo->getNome() ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
                             <div>
                                 <h4>Estado</h4>
-                                <select class="nice-select">
-                                    <?php foreach($imoveis as $imovel): ?>
-                                    <option><?= $imovel->getEstado() ?></option>
+                                <select class="nice-select" name="estado">
+                                <option value="">Todos</option>
+                                    <?php foreach($estados as $estado): ?>
+                                    <option value="<?= $estado->getEstado() ?>"><?= $estado->getEstado() ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
                             
-                            <div>
+                            <!-- <div>
                             <div class="d-flex flex-column justify-content-between gap-3">
                             <h4>Pesquisar</h4>
                             
@@ -115,7 +124,7 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                                 <input id="search-input" type="search" id="form1" class="" placeholder="Digite região, bairro, cidade etc." />
                             </div>
                             </div>
-                            </div>
+                            </div> -->
                             
 
                             <div>
@@ -158,25 +167,25 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                 <div class="property-item col-lg-4 col-md-6 col-12 mb-40">
                     <div class="property-inner">
                         <div class="image">
-                            <a href="single-properties.html"><img src="<?= $imovel->midias->getNomeDisco()?>" alt="<?= $imovel->midias->getIdentificacao()?>"></a>
+                            <a href="comprar.php?id=<?=$imovel->getId()?>"><img src="<?= $imovel->midias->getNomeDisco()?>" alt="<?= $imovel->midias->getIdentificacao()?>"></a>
                             <ul class="property-feature">
                                 <li>
-                                    <span class="area"><img src="assets/images/icons/area.png" alt="">550 SqFt</span>
+                                    <span class="area"><img src="assets/images/icons/area.png" alt=""><?= $imovel->getMetrosQuadrados()?></span>
                                 </li>
                                 <li>
-                                    <span class="bed"><img src="assets/images/icons/bed.png" alt="">6</span>
+                                    <span class="bed"><img src="assets/images/icons/bed.png" alt=""><?= $imovel->getQuartos()?></span>
                                 </li>
                                 <li>
-                                    <span class="bath"><img src="assets/images/icons/bath.png" alt="">4</span>
+                                    <span class="bath"><img src="assets/images/icons/bath.png" alt=""><?= $imovel->getBanheiros()?></span>
                                 </li>
                                 <li>
-                                    <span class="parking"><img src="assets/images/icons/parking.png" alt="">3</span>
+                                    <span class="parking"><img src="assets/images/icons/parking.png" alt=""><?= $imovel->getVagasGaragem()?></span>
                                 </li>
                             </ul>
                         </div>
                         <div class="content" >
                             <div class="left">
-                                <h3 class="title"><a href="single-properties.html"><?= $imovel->getIdentificacao()?></a></h3>
+                                <h3 class="title"><a href="comprar.php?id=<?=$imovel->getId()?>"><?= $imovel->getIdentificacao()?></a></h3>
                                 <span class="location"><img src="assets/images/icons/marker.png" alt=""><?= $imovel->getRua(). ", " .$imovel->getBairro().", ".$imovel->getCidade().", ".$imovel->getEstado() ?></span>
                             </div>
                             <div class="right">
@@ -221,12 +230,12 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                 <div class="col-lg-5 col-12 mb-30">
                     <div class="property-slider-2">
                         
-                        <?php foreach($imoveis as $imovel):?>
+                        <?php foreach($imoveisNossosServicos as $imovel):?>
                         <div class="property-2">
                             <div class="property-inner">
-                                <a href="single-properties.html" class="image"><img src="<?= $imovel->midias->getNomeDisco()?>" alt="<?= $imovel->midias->getIdentificacao()?>"></a>
+                                <a href="comprar.php?id=<?=$imovel->getId()?>" class="image"><img src="<?= $imovel->midias->getNomeDisco()?>" alt="<?= $imovel->midias->getIdentificacao()?>"></a>
                                 <div class="content">
-                                    <h4 class="title"><a href="single-properties.html"><?= $imovel->getIdentificacao()?></a></h4>
+                                    <h4 class="title"><a href="comprar.php?id=<?=$imovel->getId()?>"><?= $imovel->getIdentificacao()?></a></h4>
                                     <span class="location"><?= $imovel->getRua(). ", " .$imovel->getBairro().", ".$imovel->getCidade().", ".$imovel->getEstado() ?></span>
                                     <h4 class="type"><?= $imovel->negocioTipos->getNome()?> <span>R$<?= $imovel->imovelCaracteristicasImovelTipos->getValor()?>
                                      <?php if($imovel->negocioTipos->getNome() == 'Aluguel'):?>
@@ -331,25 +340,25 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                     <div class="property-item col">
                         <div class="property-inner">
                             <div class="image">
-                                <a href="single-properties.html"><img src="<?= $imovel->midias->getNomeDisco()?>" alt="<?= $imovel->midias->getIdentificacao()?>"></></a>
+                                <a href="comprar.php?id=<?=$imovel->getId()?>"><img src="<?= $imovel->midias->getNomeDisco()?>" alt="<?= $imovel->midias->getIdentificacao()?>"></></a>
                                 <ul class="property-feature">
                                     <li>
-                                        <span class="area"><img src="assets/images/icons/area.png" alt="">550 SqFt</span>
+                                        <span class="area"><img src="assets/images/icons/area.png" alt=""><?=$imovel->getMetrosQuadrados()?></span>
                                     </li>
                                     <li>
-                                        <span class="bed"><img src="assets/images/icons/bed.png" alt="">6</span>
+                                        <span class="bed"><img src="assets/images/icons/bed.png" alt=""><?=$imovel->getQuartos()?></span>
                                     </li>
                                     <li>
-                                        <span class="bath"><img src="assets/images/icons/bath.png" alt="">4</span>
+                                        <span class="bath"><img src="assets/images/icons/bath.png" alt=""><?=$imovel->getBanheiros()?></span>
                                     </li>
                                     <li>
-                                        <span class="parking"><img src="assets/images/icons/parking.png" alt="">3</span>
+                                        <span class="parking"><img src="assets/images/icons/parking.png" alt=""><?=$imovel->getVagasGaragem()?></span>
                                     </li>
                                 </ul>
                             </div>
                             <div class="content">
                                 <div class="left">
-                                    <h3 class="title"><a href="single-properties.html"><?= $imovel->getIdentificacao()?></a></h3>
+                                    <h3 class="title"><a href="comprar.php?id=<?=$imovel->getId()?>"><?= $imovel->getIdentificacao()?></a></h3>
                                     <span class="location"><img src="assets/images/icons/marker.png" alt=""><?= $imovel->getRua(). ", " .$imovel->getBairro().", ".$imovel->getCidade().", ".$imovel->getEstado() ?></span>
                                 </div>
                                 <div class="right">
@@ -416,25 +425,25 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                     <div class="property-item col">
                         <div class="property-inner">
                             <div class="image">
-                                <a href="single-properties.html"><img src="<?= $imovel->midias->getNomeDisco()?>" alt="<?= $imovel->midias->getIdentificacao()?>"></></a>
+                                <a href="comprar.php?id=<?=$imovel->getId()?>"><img src="<?= $imovel->midias->getNomeDisco()?>" alt="<?= $imovel->midias->getIdentificacao()?>"></></a>
                                 <ul class="property-feature">
                                     <li>
-                                        <span class="area"><img src="assets/images/icons/area.png" alt="">550 SqFt</span>
+                                        <span class="area"><img src="assets/images/icons/area.png" alt=""><?=$imovel->getMetrosQuadrados()?></span>
                                     </li>
                                     <li>
-                                        <span class="bed"><img src="assets/images/icons/bed.png" alt="">6</span>
+                                        <span class="bed"><img src="assets/images/icons/bed.png" alt=""><?=$imovel->getQuartos()?></span>
                                     </li>
                                     <li>
-                                        <span class="bath"><img src="assets/images/icons/bath.png" alt="">4</span>
+                                        <span class="bath"><img src="assets/images/icons/bath.png" alt=""><?=$imovel->getBanheiros()?></span>
                                     </li>
                                     <li>
-                                        <span class="parking"><img src="assets/images/icons/parking.png" alt="">3</span>
+                                        <span class="parking"><img src="assets/images/icons/parking.png" alt=""><?=$imovel->getVagasGaragem()?></span>
                                     </li>
                                 </ul>
                             </div>
                             <div class="content">
                                 <div class="left">
-                                    <h3 class="title"><a href="single-properties.html"><?= $imovel->getIdentificacao()?></a></h3>
+                                    <h3 class="title"><a href="comprar.php?id=<?=$imovel->getId()?>"><?= $imovel->getIdentificacao()?></a></h3>
                                     <span class="location"><img src="assets/images/icons/marker.png" alt=""><?= $imovel->getRua(). ", " .$imovel->getBairro().", ".$imovel->getCidade().", ".$imovel->getEstado() ?></span>
                                 </div>
                                 <div class="right">

@@ -37,9 +37,15 @@ $campos = array(
     'Cidade',
     'Estado',
     'Cep',
-    'Ibge');
+    'Ibge',
+    'metrosQuadrados',
+    'Quartos',
+    'Banheiros',
+    'Garagem',);
 
 if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
+
+    //print_r($_POST); die;
 
     $hoje = new \DateTimeImmutable();
     
@@ -57,6 +63,10 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
     $imovel->setEstado($_POST['Estado']);
     $imovel->setCep($_POST['Cep']);
     $imovel->setIbge($_POST['Ibge']);
+    $imovel->setMetrosQuadrados($_POST['metrosQuadrados']);
+    $imovel->setQuartos($_POST['Quartos']);
+    $imovel->setBanheiros($_POST['Banheiros']);
+    $imovel->setVagasGaragem($_POST['Garagem']);
     $imovel->setAtivo(true);
     $imovel->setCriado($hoje);
     $imovel->setCriadorId(1);
@@ -157,21 +167,25 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
                                                     <div class="card-body">
                                                             <h4 class="card_title">Cadastro de Imóveis</h4>
                                                             <?php foreach ($campos as $campo):?>
-                                                                <?php if ($campo == 'Estado'):?>
-                                                                    <div class="form-group">
-                                                                        <label for="example-text-input" class="col-form-label"><?=$campo?></label>
-                                                                        <select class="form-control" name="<?=$campo?>">
-                                                                            <?php foreach ($imoveis as $imovel):?>
-                                                                                <option><?= $imovel->getEstado() ?></option>
-                                                                            <?php endforeach;?>
-                                                                        </select>
-                                                                    </div>
+                                                                
+                                                                <?php if ($campo == 'Quartos' || $campo == 'Banheiros' || $campo == 'Garagem'):?>
+                                                                <div class="form-group">
+                                                                    <label for="example-text-input" class="col-form-label"><?=$campo?></label> 
+                                                                    <select class="form-control" name="<?=$campo?>">
+                                                                    <option value="1">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    </select>
+                                                                </div>
                                                                 <?php else:?>
                                                                     <div class="form-group">
                                                                     <label for="example-text-input" class="col-form-label"><?=$campo?></label>
                                                                     <input class="form-control" required type="text"name="<?=$campo?>">
                                                                 </div>
                                                                 <?php endif;?>
+                                                                
                                                             <?php endforeach;?>
                                                     </div>
                                                 </div>

@@ -42,20 +42,19 @@ class ImovelDAO extends DAO
      */
     public function buscarListaDeEstados() : array|Imovel
     {
-        $negociosTipos = [];
+        $estados = [];
 
-        $sql = "select restrict imoveis.estado from imoveis;";
+        $sql = "SELECT DISTINCT estado FROM imoveis;";
  
         $query = $this->getConexao()->query($sql);
         
         while ($row = $query->fetch_assoc()) {
-            $imovel = new NegocioTipos();
-            $imovel->setId($row['id']);
-            $imovel->setNome($row['nome']);
-            $negociosTipos[] = $imovel;
+            $estado = new Imovel();
+            $estado->setEstado($row['estado']);
+            $estados[] = $estado;
         }
 
-        return $negociosTipos;
+        return $estados;
     }
      /**
      * Efetua a busca de dados referentes a tabela de Imoveis
@@ -64,8 +63,6 @@ class ImovelDAO extends DAO
      */
     public function buscarListaDeImoveisTipo() : array|Imovel
     {
-        global $_GET;
-
         $imovelTipos = [];
 
         $sql = "SELECT id, nome FROM imoveltipos";
@@ -92,7 +89,7 @@ class ImovelDAO extends DAO
 
         $imoveis = [];
 
-        $sql = "SELECT id, identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, complemento, rua, bairro, cidade, estado, cep, ibge, ativo, criado, modificado, criador_id, modificador_id FROM imoveis";
+        $sql = "SELECT id, identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, complemento, rua, bairro, cidade, estado, cep, ibge, metros_quadrados, quartos, banheiros, garagem, ativo, criado, modificado, criador_id, modificador_id FROM imoveis";
  
        if (!empty($_GET)) {
             $where = [];
@@ -167,6 +164,10 @@ class ImovelDAO extends DAO
             $imovel->setEstado($row['estado']);
             $imovel->setCep($row['cep']);
             $imovel->setIbge($row['ibge']);
+            $imovel->setMetrosQuadrados($row['metros_quadrados']);
+            $imovel->setQuartos($row['quartos']);
+            $imovel->setBanheiros($row['banheiros']);
+            $imovel->setVagasGaragem($row['garagem']);
             $imovel->setAtivo($row['ativo']);
             $imovel->setCriado(new \DateTimeImmutable());
             $imovel->setModificado(new \DateTimeImmutable());
@@ -188,7 +189,7 @@ class ImovelDAO extends DAO
 
         $imoveisENegocioTipo = [];
 
-        $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, 
+        $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, metros_quadrados, quartos, banheiros, garagem, 
         complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, n.nome, ict.valor,
         m.identificacao AS midia_identificacao, m.nome_disco AS midia_nome_disco, m.capa AS midia_capa
         FROM imoveis i
@@ -220,6 +221,10 @@ class ImovelDAO extends DAO
             $imovel->setEstado($row['estado']);
             $imovel->setCep($row['cep']);
             $imovel->setIbge($row['ibge']);
+            $imovel->setMetrosQuadrados($row['metros_quadrados']);
+            $imovel->setQuartos($row['quartos']);
+            $imovel->setBanheiros($row['banheiros']);
+            $imovel->setVagasGaragem($row['garagem']);
             $imovel->setAtivo($row['ativo']);
             $imovel->setNegocioTipos($negocioTipos);
             $negocioTipos->setNome($row['nome']);
@@ -252,7 +257,7 @@ class ImovelDAO extends DAO
         $imoveisENegocioTipo = [];
 
         $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, 
-        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, n.nome, ict.valor,
+        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, n.nome, ict.valor, metros_quadrados, quartos, banheiros, garagem,
         m.identificacao AS midia_identificacao, m.nome_disco AS midia_nome_disco, m.capa AS midia_capa
         FROM imoveis i
         INNER JOIN imoveis_negociotipos nt ON i.id = nt.imovel_id
@@ -282,6 +287,10 @@ class ImovelDAO extends DAO
             $imovel->setEstado($row['estado']);
             $imovel->setCep($row['cep']);
             $imovel->setIbge($row['ibge']);
+            $imovel->setMetrosQuadrados($row['metros_quadrados']);
+            $imovel->setQuartos($row['quartos']);
+            $imovel->setBanheiros($row['banheiros']);
+            $imovel->setVagasGaragem($row['garagem']);
             $imovel->setAtivo($row['ativo']);
             $imovel->setNegocioTipos($negocioTipos);
             $negocioTipos->setNome($row['nome']);
@@ -309,7 +318,7 @@ class ImovelDAO extends DAO
         $imoveisENegocioTipo = [];
 
         $sql = "SELECT i.id, identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, 
-        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, n.nome
+        complemento, rua, bairro, cidade, estado, cep, ibge, metros_quadrados, quartos, banheiros, garagem, i.ativo, n.nome
         FROM imoveis i
         INNER JOIN imoveis_negociotipos nt ON i.id = nt.imovel_id
         INNER JOIN negociotipos n ON nt.negociotipo_id = n.id;";
@@ -392,6 +401,10 @@ class ImovelDAO extends DAO
             $imovel->setEstado($row['estado']);
             $imovel->setCep($row['cep']);
             $imovel->setIbge($row['ibge']);
+            $imovel->setMetrosQuadrados($row['metros_quadrados']);
+            $imovel->setQuartos($row['quartos']);
+            $imovel->setBanheiros($row['banheiros']);
+            $imovel->setVagasGaragem($row['garagem']);
             $imovel->setAtivo($row['ativo']);
             $imovel->setNegocioTipos($negocioTipos);
             $negocioTipos->setNome($row['nome']);
@@ -406,12 +419,12 @@ class ImovelDAO extends DAO
      * 
      * @return array|Imovel[]
      */
-    public function buscarListaDeImoveisENegocioTipoECaracteristicasImovelTiposECaracteristicasEMidias() : array|Imovel
+    public function findAll() : array|Imovel
     {
         $imoveisENegocioTipoECaracteristicas = [];
 
         $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, 
-                complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, n.nome as nnome, ict.valor, c.nome as cnome,
+                complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, metros_quadrados, quartos, banheiros, garagem, n.nome as nnome, ict.valor, c.nome as cnome,
                 m.identificacao AS midia_identificacao, m.nome_disco AS midia_nome_disco, m.capa AS midia_capa
                 FROM imoveis i
                 INNER JOIN imoveis_negociotipos nt ON i.id = nt.imovel_id
@@ -420,63 +433,66 @@ class ImovelDAO extends DAO
                 INNER JOIN caracteristicas_imoveltipos ci ON ict.caracteristica_imoveltipo_id = ci.id
                 INNER JOIN caracteristicas c ON ci.caracteristica_id = c.id
                 INNER JOIN midias m ON i.id = m.imovel_id";
+
+                // print_r($sql); die;
         
        if (!empty($_GET)) {
             $where = [];
 
-            if( isset($_GET['identificacao']) ) {
-                $where[] = "identificacao LIKE '%{$_GET['identificacao']}%'";
+            if( isset($_GET['tipo']) ) {
+                $where[] = "i.identificacao LIKE '%{$_GET['tipo']}%'";
             }
 
-            if( isset($_GET['id']) ) {
-                $where[] = "id LIKE '%{$_GET['id']}%'";
+            if( isset($_GET['i.id']) ) {
+                $where[] = "i.id LIKE '%{$_GET['pesquisa']}%'";
             }
 
             if( isset($_GET['matricula']) ) {
-                $where[] = "matricula LIKE '%{$_GET['matricula']}%'";
+                $where[] = "matricula LIKE '%{$_GET['pesquisa']}%'";
             }
             if( isset($_GET['inscricao_imobiliaria']) ) {
-                $where[] = "inscricao_imobiliaria LIKE '%{$_GET['inscricao_imobiliaria']}%'";
+                $where[] = "inscricao_imobiliaria LIKE '%{$_GET['pesquisa']}%'";
             }
             if( isset($_GET['logradouro']) ) {
-                $where[] = "logradouro LIKE '%{$_GET['logradouro']}%'";
+                $where[] = "logradouro LIKE '%{$_GET['pesquisa']}%'";
             }
             if( isset($_GET['numero_logradouro']) ) {
-                $where[] = "numero_logradouro LIKE '%{$_GET['numero_logradouro']}%'";
+                $where[] = "numero_logradouro LIKE '%{$_GET['pesquisa']}%'";
             }
             if( isset($_GET['complemento']) ) {
-                $where[] = "complemento LIKE '%{$_GET['complemento']}%'";
+                $where[] = "complemento LIKE '%{$_GET['pesquisa']}%'";
             }
             if( isset($_GET['rua']) ) {
-                $where[] = "rua LIKE '%{$_GET['rua']}%'";
+                $where[] = "rua LIKE '%{$_GET['pesquisa']}%'";
             }
             if( isset($_GET['bairro']) ) {
-                $where[] = "bairro LIKE '%{$_GET['bairro']}%'";
+                $where[] = "bairro LIKE '%{$_GET['pesquisa']}%'";
             }
             if( isset($_GET['cidade']) ) {
-                $where[] = "cidade LIKE '%{$_GET['cidade']}%'";
+                $where[] = "cidade LIKE '%{$_GET['pesquisa']}%'";
             }
             if( isset($_GET['estado']) ) {
                 $where[] = "estado LIKE '%{$_GET['estado']}%'";
             }
             if( isset($_GET['cep']) ) {
-                $where[] = "cep LIKE '%{$_GET['cep']}%'";
+                $where[] = "cep LIKE '%{$_GET['pesquisa']}%'";
             }
             if( isset($_GET['ibge']) ) {
-                $where[] = "ibge LIKE '%{$_GET['ibge']}%'";
+                $where[] = "ibge LIKE '%{$_GET['pesquisa']}%'";
             }
             if( isset($_GET['ativo']) ) {
-                $where[] = "ativo LIKE '%{$_GET['ativo']}%'";
+                $where[] = "ativo LIKE '%{$_GET['pesquisa']}%'";
             }
-            if( isset($_GET['nome']) ) {
-                $where[] = "n.nome LIKE '%{$_GET['nome']}%'";
+            if( isset($_GET['pretensao']) ) {
+                $where[] = "n.nome LIKE '%{$_GET['pretensao']}%'";
             }
             if( isset($_GET['valor']) ) {
-                $where[] = "valor LIKE '%{$_GET['valor']}%'";
+                $where[] = "valor LIKE '%{$_GET['pesquisa']}%'";
             }
             if (!empty($where)) {
                 $sql .= ' WHERE ' . implode(' AND ', $where);
             }
+            //print_r($sql); die;
         }      
 
         if( isset($_GET['sort']) && isset($_GET['direction']) ) {
@@ -505,6 +521,73 @@ class ImovelDAO extends DAO
             $imovel->setEstado($row['estado']);
             $imovel->setCep($row['cep']);
             $imovel->setIbge($row['ibge']);
+            $imovel->setMetrosQuadrados($row['metros_quadrados']);
+            $imovel->setQuartos($row['quartos']);
+            $imovel->setBanheiros($row['banheiros']);
+            $imovel->setVagasGaragem($row['garagem']);
+            $imovel->setAtivo($row['ativo']);
+            $imovel->setNegocioTipos($negocioTipos);
+            $negocioTipos->setNome($row['nnome']);
+            $imovel->setImovelCaracteristicasImovelTipos($ImovelCaracteristicasImovelTipos);
+            $ImovelCaracteristicasImovelTipos->setValor($row['valor']);
+            $imovel->setCaracteristicas($caracteristicas);
+            $caracteristicas->setNome($row['cnome']);
+            $imovel->setMidias($midias);
+            $midias->setIdentificacao($row['midia_identificacao']);
+            $midias->setNomeDisco($row['midia_nome_disco']);
+            $midias->setCapa($row['midia_capa']);
+            
+            $imoveisENegocioTipoECaracteristicas[] = $imovel;
+        }
+
+        return $imoveisENegocioTipoECaracteristicas;
+    }
+    /**
+     * Efetua a busca de dados referente as tabelas de Imoveis, Tipos de negocio e caracteristicas sem filtragem
+     * 
+     * @return array|Imovel[]
+     */
+    public function findAllNoFilters() : array|Imovel
+    {
+        $imoveisENegocioTipoECaracteristicas = [];
+
+        $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, 
+                complemento, rua, bairro, cidade, estado, cep, ibge, metros_quadrados, quartos, banheiros, garagem, i.ativo, n.nome as nnome, ict.valor, c.nome as cnome,
+                m.identificacao AS midia_identificacao, m.nome_disco AS midia_nome_disco, m.capa AS midia_capa
+                FROM imoveis i
+                INNER JOIN imoveis_negociotipos nt ON i.id = nt.imovel_id
+                INNER JOIN negociotipos n ON nt.negociotipo_id = n.id
+                INNER JOIN imoveis_caracteristicas_imoveltipos ict ON i.id = ict.imovel_id
+                INNER JOIN caracteristicas_imoveltipos ci ON ict.caracteristica_imoveltipo_id = ci.id
+                INNER JOIN caracteristicas c ON ci.caracteristica_id = c.id
+                INNER JOIN midias m ON i.id = m.imovel_id";
+
+        $query = $this->getConexao()->query($sql);
+        
+        while ($row = $query->fetch_assoc()) {
+            $imovel = new Imovel();
+            $negocioTipos = new NegocioTipos();
+            $caracteristicas = new Caracteristicas();
+            $midias = new Midias();
+            $ImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
+
+            $imovel->setId($row['id']);
+            $imovel->setIdentificacao($row['identificacao']);
+            $imovel->setMatricula($row['matricula']);
+            $imovel->setInscricaoImobiliaria($row['inscricao_imobiliaria']);
+            $imovel->setLogradouro($row['logradouro']);
+            $imovel->setNumeroLogradouro($row['numero_logradouro']);
+            $imovel->setComplemento($row['complemento']);
+            $imovel->setBairro($row['bairro']);
+            $imovel->setRua($row['rua']);
+            $imovel->setCidade($row['cidade']);
+            $imovel->setEstado($row['estado']);
+            $imovel->setCep($row['cep']);
+            $imovel->setIbge($row['ibge']);
+            $imovel->setMetrosQuadrados($row['metros_quadrados']);
+            $imovel->setQuartos($row['quartos']);
+            $imovel->setBanheiros($row['banheiros']);
+            $imovel->setVagasGaragem($row['garagem']);
             $imovel->setAtivo($row['ativo']);
             $imovel->setNegocioTipos($negocioTipos);
             $negocioTipos->setNome($row['nnome']);
@@ -543,119 +626,6 @@ class ImovelDAO extends DAO
              
     }
 
-     /**
-     * Efetua a busca de todos os dados úteis de todas as tabelas do banco de dados
-     * 
-     * @return \mysqli
-     */
-    public function findAll() : array
-    {
-        global $_GET;
-
-        $allTables = [];
-
-        $sql = "SELECT *  
-                FROM imoveis
-                INNER JOIN imoveis_negociotipos nt ON imoveis.id = nt.imovel_id
-                INNER JOIN imoveis_caracteristicas_imoveltipos ici ON imoveis.id = ici.imovel_id
-                INNER JOIN midias m ON imoveis.id = m.imovel_id;
-                ";
-
-            if (!empty($_GET)) {
-            $where = [];
-
-                if( isset($_GET['pesquisa']) ) {
-                        $where[] = "i.identificacao LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "matricula LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "inscricao_imobiliaria LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "logradouro LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "numero_logradouro LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "complemento '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "bairro LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "cidade LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "estado LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "cep LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "ibge LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "nt.negociotipo_id LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "nt.valor LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "ici.caracteristica_imoveltipo_id LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "ici.valor LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "m.nome_disco '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = " m.capa LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if( isset($_GET['pesquisa']) ) {
-                    $where[] = "m.identificacao LIKE '%{$_GET['pesquisa']}%'";
-                }
-                if (!empty($where)) {
-                    $sql .= ' WHERE ' . implode(' OR ', $where);
-                }
-            }else{
-                echo'Nenhum resultado encontrado';
-            }
-        
-        $query = $this->getConexao()->query($sql);
-
-        while ($row = $query->fetch_assoc()) {
-            $imovel = new Imovel(); 
-            $caracteristicas = new Caracteristicas(); 
-            $imoveltipos = new Imoveltipos(); 
-            $midias = new Midias(); 
-            
-            $imovel->setBairro($row['bairro']);
-            $imovel->setCep($row['cep']);
-            $imovel->setCidade($row['cidade']);
-            $imovel->setComplemento($row['complemento']);
-            $imovel->setEstado($row['estado']);
-            $imovel->setIbge($row['ibge']);
-            $imovel->setIdentificacao($row['identificacao']);
-            $imovel->setInscricaoImobiliaria($row['inscricao_imobiliaria']);
-            $imovel->setLogradouro($row['logradouro']);
-            $imovel->setNumeroLogradouro($row['logradouro']);
-            $imovel->setCaracteristicas($caracteristicas);
-            $caracteristicas->setNome($row['nome']);
-            $imoveltipos->setNome($row['nome']);
-            $imovel->setMidias($midias);
-            $midias->setCapa($row['capa']);
-            $midias->setIdentificacao($row['identificacao']);
-            $midias->setNomeDisco($row['nome_disco']);
-            $midias->setImovelId($row['imovel_id']);
-            $allTables[] = $imovel;
-        }
-
-        return $allTables;
-    }
 
      /**
      * Cria um registro na tabela imoveis de acordo com os dados fornecidos
@@ -667,13 +637,14 @@ class ImovelDAO extends DAO
     {
         
         $sql = "INSERT INTO imoveis (identificacao, matricula, inscricao_imobiliaria, logradouro,
-                numero_logradouro, cep, rua, complemento, bairro, cidade, estado, ibge, ativo, criado, modificado, criador_id, modificador_id)
+                numero_logradouro, cep, rua, complemento, bairro, cidade, estado, ibge, ativo, criado, modificado, criador_id, modificador_id, metros_quadrados, quartos, banheiros, garagem)
                 VALUES ('{$imovel->getIdentificacao()}', '{$imovel->getMatricula()}', '{$imovel->getInscricaoImobiliaria()}',
                         '{$imovel->getLogradouro()}', '{$imovel->getNumeroLogradouro()}', '{$imovel->getCep()}',
                         '{$imovel->getRua()}', '{$imovel->getComplemento()}', '{$imovel->getBairro()}',
                         '{$imovel->getCidade()}', '{$imovel->getEstado()}', '{$imovel->getIbge()}', {$imovel->getAtivo()},
                         '{$imovel->getCriado()->format('Y-m-d H:i:s')}', '{$imovel->getModificado()->format('Y-m-d H:i:s')}',
-                        {$imovel->getCriadorId()}, {$imovel->getModificadorId()})";
+                        {$imovel->getCriadorId()}, {$imovel->getModificadorId()}, '{$imovel->getMetrosQuadrados()}',
+                        '{$imovel->getQuartos()}', '{$imovel->getBanheiros()}', '{$imovel->getVagasGaragem()}')";
         print_r($sql); 
         
          $this->getConexao()->query($sql);
@@ -695,7 +666,7 @@ class ImovelDAO extends DAO
 
         $sql = "SELECT id, identificacao, matricula, inscricao_imobiliaria, logradouro,
                         numero_logradouro, cep, rua, complemento, bairro, cidade, estado, ibge,
-                        ativo, criado, modificado, criador_id, modificador_id
+                        ativo, criado, modificado, criador_id, modificador_id, metros_quadrados, quartos, banheiros, garagem
                 FROM imoveis
                 WHERE id = '{$id}'";
         
@@ -731,7 +702,12 @@ class ImovelDAO extends DAO
                        criado = '{$imovel->getCriado()->format('Y-m-d H:i:s')}', 
                    modificado = '{$imovel->getModificado()->format('Y-m-d H:i:s')}', 
                    criador_id = '{$imovel->getCriadorId()}', 
-               modificador_id = '{$imovel->getModificadorId()}' 
+               modificador_id = '{$imovel->getModificadorId()}'
+               metros_quadrados ='{$imovel->getMetrosQuadrados()}'
+               quartos = '{$imovel->getQuartos()}'
+               banheiros = '{$imovel->getBanheiros()}'
+               garagem = '{$imovel->getVagasGaragem()}'
+                
                WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
     }

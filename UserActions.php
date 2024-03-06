@@ -7,7 +7,7 @@ require_once(realpath(dirname(__FILE__) . '/') . '/src/Model/Imoveis/ImovelDAO.p
 require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
 
 $imoveis = new ImovelDAO();
-$imoveis = $imoveis->buscarListaDeImoveisENegocioTipoECaracteristicasImovelTiposECaracteristicasEMidias();
+$imoveis = $imoveis->findAll();
 
 ?>
 

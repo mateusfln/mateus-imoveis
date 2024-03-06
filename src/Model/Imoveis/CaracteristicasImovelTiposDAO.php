@@ -105,6 +105,15 @@ class CaracteristicasImoveltiposDAO extends DAO
 
         return (new CaracteristicasImoveltipos())->hydrate(mysqli_fetch_assoc($qry));
     }
+    public function readTeste(int $id) : CaracteristicasImoveltipos
+    {
+        $sql = "SELECT id, caracteristica_id, imoveltipo_id, ativo, criado, modificado, criador_id, modificador_id
+                FROM caracteristicas_imoveltipos
+                WHERE caracteristica_id = '{$id}'";
+        $qry = $this->getConexao()->query($sql);
+
+        return (new CaracteristicasImoveltipos())->hydrate(mysqli_fetch_assoc($qry));
+    }
 
      /**
      * Deleta um registro na tabela caracteristicas_imoveltipos de acordo com os dados fornecidos

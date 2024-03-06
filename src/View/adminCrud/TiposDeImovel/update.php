@@ -3,6 +3,7 @@
 require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
+use Imobiliaria\Model\Imoveis\CaracteristicaDAO;
 use Imobiliaria\Model\Imoveis\CaracteristicasImoveltiposDAO;
 use Imobiliaria\Model\Entity\CaracteristicasImoveltipos;
 
@@ -13,6 +14,10 @@ if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
 
 $imoveltiposDAO = new ImoveltiposDAO();
 $imoveltipos = $imoveltiposDAO->read($_GET['id']);
+
+$caracteristicasDAO = new CaracteristicaDAO();
+$caracteristicas = $caracteristicasDAO->buscarListaDeCaracteristicas();
+
 
 if(!empty($_POST['nome'])){
     $hoje = new \DateTimeImmutable();
@@ -95,26 +100,36 @@ if(!empty($_POST['nome'])){
             <div class="row">
                 <!-- Progress Table start -->
                 <div class="col-12 mt-4">
-                    <div class="card">
-                    <div class="col-12">
-                            <div class="card">
+                <div class="card">
+                <div class="col-12 d-flex">
+                            <div class="col-6 card">
                                 <div class="card-body">
-                                    <form method="POST">
-                                        <h4 class="card_title">Editar <?=$_GET['nome']?></h4>
+                                <h4 class="card_title">Editar <?=$imoveltipos->getNome()?></h4>
                                         <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">Nome</label>
-                                            <input class="form-control" required type="text"name="nome" value="<?= $imoveltipos->getNome()?>" />
+                                            <input class="form-control" required type="text"name="nome" value="<?= $imoveltipos->getNome()?>">
                                         </div>
                                         <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">Ativo</label>
-                                            <input class="ml-2" type="checkbox" name="ativo"<?= $imoveltipos->getAtivo() ? ' checked="checked"' : ''?> />
+                                            <input class="ml-2" type="checkbox" name="ativo" <?= $imoveltipos->getAtivo() ? ' checked="checked"' : ''?>>
                                         </div>
-                                        <div class="form-group">
-                                        <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Editar</button>
-                                        </div>
-                                    </form>
                                 </div>
                             </div>
+                            <div class="col-6 card">
+                                <div class="card-body">
+                                        <h4 class="card_title">Caracteristicas:</h4>
+                                        <div class="form-group">
+                                            <?php foreach($caracteristicas as $caracteristica):?>
+                                            <?php $nomePost = str_replace(' ', '_', $caracteristica->getNome()); ?>
+                                            <input type="checkbox" name="caracteristicas[]" id="<?=$nomePost?>" value="<?=$caracteristica->getId()?>">
+                                            <label for="<?=$nomePost?>" class="col-form-label"><?=$caracteristica->getNome()?></label>
+                                            <br>
+                                            <?php endforeach;?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button>
                         </div>
                     </div>
                 </div>

@@ -6,7 +6,7 @@ use Imobiliaria\Model\Imoveis\ImovelDAO;
 $imoveis = new ImovelDAO();
 $imoveis = $imoveis->buscarListaDeImoveis();
 
-$campos = array('ID','IDENTIFICACAO','MATRICULA','INSCRICAO IMOBILIARIA','LOGRADOURO','NUMERO LOGRADOURO','RUA','BAIRRO','CIDADE','ESTADO','CEP','IBGE','ATIVO','CRIADO', 'MODIFICADO', 'CRIADOR ID', 'MODIFICADOR ID');
+$campos = array('ID','IDENTIFICACAO','MATRICULA','INSCRICAO IMOBILIARIA','LOGRADOURO','NUMERO LOGRADOURO','RUA','BAIRRO','CIDADE','ESTADO','CEP','IBGE', 'METROS QUADRADOS', 'QUARTOS', 'BANHEIROS' , 'GARAGEM','ATIVO','CRIADO', 'MODIFICADO', 'CRIADOR ID', 'MODIFICADOR ID');
 
 if(!empty($_POST['delete_id'])){
     $dbNegociotipo = new ImovelDAO();
@@ -113,11 +113,16 @@ if(!empty($_POST['delete_id'])){
                                             <td><?=$imovel->getEstado()?></td>
                                             <td><?=$imovel->getCep()?></td>
                                             <td><?=$imovel->getIbge()?></td>
+                                            <td><?=$imovel->getMetrosQuadrados()?></td>
+                                            <td><?=$imovel->getQuartos()?></td>
+                                            <td><?=$imovel->getBanheiros()?></td>
+                                            <td><?=$imovel->getVagasGaragem()?></td>
                                             <td><?=$imovel->getAtivo()?></td>
                                             <td><?=$imovel->getCriado()->format('Y-m-d H:i:s')?></td>
                                             <td><?=$imovel->getModificado()->format('Y-m-d H:i:s')?></td>
                                             <td><?=$imovel->getCriadorId()?></td>
                                             <td><?=$imovel->getModificadorId()?></td>
+                                            
                                             <td>
                                                 <ul class="d-flex justify-content-center">
                                                     <li class="mr-3"><a href="/src/View/adminCrud/Imovel/update.php?id=<?=$imovel->getId()?>&identificacao=<?=$imovel->getIdentificacao()?>" class="btn btn-inverse-warning"><i class="bi bi-pencil-square mr-1"></i>Edit</a></li>

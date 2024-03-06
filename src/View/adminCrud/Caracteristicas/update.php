@@ -3,11 +3,19 @@
 require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 use Imobiliaria\Model\Imoveis\CaracteristicaDAO;
+use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
+use Imobiliaria\Model\Imoveis\CaracteristicasImoveltiposDAO;
 
 if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
     header('Location: https://mateusimoveis.local/src/View/adminCrud/Caracteristicas/read.php?error=Código da característica não informado');
     exit;
 }
+
+$imoveltipos = new ImoveltiposDAO();
+$imoveltipos = $imoveltipos->buscarListaDeImovelTipos();
+
+$caracteristicasImoveltipos = new CaracteristicasImoveltiposDAO();
+$caracteristicasImoveltipos = $caracteristicasImoveltipos->read($_GET['id']);
 
 $caracteristicaDao = new CaracteristicaDAO();
 $caracteristica = $caracteristicaDao->read($_GET['id']);
@@ -78,11 +86,11 @@ if(!empty($_POST['nome'])){
                 <!-- Progress Table start -->
                 <div class="col-12 mt-4">
                     <div class="card">
-                    <div class="col-12">
-                            <div class="card">
+
+                    <div class="col-12 d-flex">
+                            <div class="col-6 card">
                                 <div class="card-body">
-                                    <form method="POST">
-                                        <h4 class="card_title">Cadastro de Caracteristicas</h4>
+                                <h4 class="card_title">Cadastro de Caracteristicas</h4>
                                         <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">Nome</label>
                                             <input class="form-control" required type="text"name="nome" value="<?= $caracteristica->getNome()?>">
@@ -91,12 +99,23 @@ if(!empty($_POST['nome'])){
                                             <label for="example-text-input" class="col-form-label">Ativo</label>
                                             <input class="ml-2" type="checkbox" name="ativo" <?= $caracteristica->getAtivo() ? ' checked="checked"' : ''?>>
                                         </div>
-                                        <div class="form-group">
-                                        <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Editar</button>
-                                        </div>
-                                    </form>
                                 </div>
                             </div>
+                            <div class="col-6 card">
+                                <div class="card-body">
+                                        <h4 class="card_title">Aplicar em:</h4>
+                                        <div class="form-group">
+                                            <?php foreach($imoveltipos as $imoveltipo):?>
+                                            <?php $nomePost = str_replace(' ', '_', $imoveltipo->getNome()); ?>
+                                            <input type="checkbox" name="imoveltipos[]" id="<?=$nomePost?>" value="<?=$imoveltipo->getId()?>">
+                                            <label for="<?=$nomePost?>" class="col-form-label"><?=$imoveltipo->getNome()?></label>
+                                            <br>
+                                            <?php endforeach;?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button>
                         </div>
                     </div>
                 </div>

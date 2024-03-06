@@ -2,8 +2,21 @@
 require_once('vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 use Imobiliaria\Model\Imoveis\ImovelDAO;
-$imoveis = new ImovelDAO();
-$imoveis = $imoveis->buscarListaDeImoveisENegocioTipoECaracteristicasImovelTiposECaracteristicasEMidias();
+use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
+// $imoveis = new ImovelDAO();
+// $imoveis = $imoveis->buscarListaDeImoveisENegocioTipoECaracteristicasImovelTiposECaracteristicasEMidias();
+
+$imoveisDAO = new ImovelDAO();
+$imovel = $imoveisDAO->read($_GET['id']);
+
+$estados = new ImovelDAO();
+$estados = $estados->buscarListaDeEstados();
+
+$tipos = new ImoveltiposDAO();
+$tipos = $tipos->buscarListaDeImovelTipos();
+
+$estados = new ImovelDAO();
+$estados = $estados->buscarListaDeEstados();
 ?>
 
 <!doctype html>
@@ -24,7 +37,7 @@ $imoveis = $imoveis->buscarListaDeImoveisENegocioTipoECaracteristicasImovelTipos
                     <h1 class="page-banner-title">Imóveis</h1>
                     <ul class="page-breadcrumb">
                         <li><a href="index.html">Home</a></li>
-                        <li class="active"><?=$_GET['imovelNome']?></li>
+                        <li class="active"><?=$imovel->getIdentificacao()?></li>
                     </ul>
                 </div>
             </div>
@@ -46,8 +59,8 @@ $imoveis = $imoveis->buscarListaDeImoveisENegocioTipoECaracteristicasImovelTipos
                                
                                 <div class="head">
                                     <div class="left">
-                                        <h1 class="title">Friuli-Venezia Giulia</h1>
-                                        <span class="location"><img src="assets/images/icons/marker.png" alt="">568 E 1st Ave, Miami</span>
+                                        <h1 class="title"><?=$imovel->getIdentificacao()?></h1>
+                                        <span class="location"><img src="assets/images/icons/marker.png" alt=""><?=$imovel->getRua()?>, <?=$imovel->getBairro()?>, <?=$imovel->getEstado()?></span>
                                     </div>
                                     <div class="right">
                                         <div class="type-wrap">
@@ -93,47 +106,25 @@ $imoveis = $imoveis->buscarListaDeImoveisENegocioTipoECaracteristicasImovelTipos
 
                                 <div>
                                     <select class="nice-select">
-                                        <option>All Cities</option>
-                                        <option>Athina</option>
-                                        <option>Austin</option>
-                                        <option>Baytown</option>
-                                        <option>Brampton</option>
-                                        <option>Cedar Hill</option>
-                                        <option>Chester</option>
-                                        <option>Chicago</option>
-                                        <option>Coleman</option>
-                                        <option>Corpus Christi</option>
-                                        <option>Dallas</option>
-                                        <option>distrito federal</option>
-                                        <option>Fayetteville</option>
-                                        <option>Galveston</option>
-                                        <option>Jersey City</option>
-                                        <option>Los Angeles</option>
-                                        <option>Midland</option>
-                                        <option>New York</option>
-                                        <option>Odessa</option>
-                                        <option>Reno</option>
-                                        <option>San Angelo</option>
-                                        <option>San Antonio</option>
+                                        <?php foreach($estados as $estado):?>
+                                        <option><?=$estado->getEstado()?></option>
+                                        <?php endforeach;?>
                                     </select>
                                 </div>
 
                                 <div>
                                     <select class="nice-select">
-                                        <option>For Rent</option>
-                                        <option>For Sale</option>
+                                    <?php foreach($negocios as $negocio):?>
+                                        <option><?=$negocio->getNome()?></option>
+                                        <?php endforeach;?>
                                     </select>
                                 </div>
 
                                 <div>
                                     <select class="nice-select">
-                                        <option>Type</option>
-                                        <option>Apartment</option>
-                                        <option>Cafe</option>
-                                        <option>House</option>
-                                        <option>Restaurant</option>
-                                        <option>Store</option>
-                                        <option>Villa</option>
+                                    <?php foreach($tipos as $tipo):?>
+                                        <option><?=$tipo->getNome()?></option>
+                                        <?php endforeach;?>
                                     </select>
                                 </div>
 
@@ -176,57 +167,6 @@ $imoveis = $imoveis->buscarListaDeImoveisENegocioTipoECaracteristicasImovelTipos
                         
                     </div>
                     <!--Sidebar end-->
-                    
-                    <!--Sidebar start-->
-                    <div class="sidebar">
-                        <h4 class="sidebar-title"><span class="text">Feature Property</span><span class="shape"></span></h4>
-                        
-                        <!--Sidebar Property start-->
-                        <div class="sidebar-property-list">
-                            <?php foreach($imoveis as $imovel)?>
-                            <div class="sidebar-property">
-                                <div class="image">
-                                    <span class="type"><?=$imovel->negocioTipos->nome?></span>
-                                    <a href="single-properties.html"><img src="assets/images/property/sidebar-property-1.jpg" alt=""></a>
-                                </div>
-                                <div class="content">
-                                    <h5 class="title"><a href="single-properties.html">Friuli-Venezia Giulia</a></h5>
-                                    <span class="location"><img src="assets/images/icons/marker.png" alt="">568 E 1st Ave, Miami</span>
-                                    <span class="price">$550 <span>Month</span></span>
-                                </div>
-                            </div>
-                            
-                            <div class="sidebar-property">
-                                <div class="image">
-                                    <span class="type">For Sale</span>
-                                    <a href="single-properties.html"><img src="assets/images/property/sidebar-property-2.jpg" alt=""></a>
-                                </div>
-                                <div class="content">
-                                    <h5 class="title"><a href="single-properties.html">Marvel de Villa</a></h5>
-                                    <span class="location"><img src="assets/images/icons/marker.png" alt="">450 E 1st Ave, New Jersey</span>
-                                    <span class="price">$2550</span>
-                                </div>
-                            </div>
-                            
-                            <div class="sidebar-property">
-                                <div class="image">
-                                    <span class="type">For Rent</span>
-                                    <a href="single-properties.html"><img src="assets/images/property/sidebar-property-3.jpg" alt=""></a>
-                                </div>
-                                <div class="content">
-                                    <h5 class="title"><a href="single-properties.html">Ruposi Bangla Cottage</a></h5>
-                                    <span class="location"><img src="assets/images/icons/marker.png" alt="">215 L AH Rod, California</span>
-                                    <span class="price">$550 <span>Month</span></span>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <!--Sidebar Property end-->
-                        
-                    </div>
-                    
-                    
-                        
                     </div>
             
                 </div>
