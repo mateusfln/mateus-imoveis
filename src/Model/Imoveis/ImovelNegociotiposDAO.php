@@ -96,6 +96,26 @@ class ImovelNegociotiposDAO extends DAO
         $sql = "SELECT id, imovel_id, negociotipo_id, valor, ativo,criado,modificado,criador_id,modificador_id
                 FROM imoveis_negociotipos
                 WHERE id = '{$id}'";
+
+                print_r($sql); die ;
+        $qry = $this->getConexao()->query($sql);
+
+        return (new ImovelNegociostipos())->hydrate(mysqli_fetch_assoc($qry));
+    }
+    /**
+     * Retorna um registro na tabela imoveis_negociotipos de acordo com os dados fornecidos
+     * 
+     * @param int $id   Código do imoveis_negociotipos
+     * @return ImovelNegociostipos
+     * @throws \Exception
+     */
+    public function readPorImoveltipoId(int $id) : ImovelNegociostipos
+    {
+        $sql = "SELECT id, imovel_id, negociotipo_id, valor, ativo,criado,modificado,criador_id,modificador_id
+                FROM imoveis_negociotipos
+                WHERE imovel_id = '{$id}'";
+
+                //print_r($sql); die ;
         $qry = $this->getConexao()->query($sql);
 
         return (new ImovelNegociostipos())->hydrate(mysqli_fetch_assoc($qry));

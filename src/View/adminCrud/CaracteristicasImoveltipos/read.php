@@ -9,7 +9,7 @@ $caracteristicas = $caracteristicas->buscarListaDeCaracteristicasImovelTipos();
 if(!empty($_POST['delete_id'])){
     $dbNegociotipo = new CaracteristicasImoveltiposDAO();
     $dbNegociotipo->delete($_POST['delete_id']);
-    header('Location: http://localhost:8000/src/View/adminCrud/CaracteristicasImoveltipos/read.php');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/CaracteristicasImoveltipos/read.php');
 }
 
 ?>

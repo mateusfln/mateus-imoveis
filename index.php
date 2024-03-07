@@ -238,7 +238,7 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                                 <div class="content">
                                     <h4 class="title"><a href="comprar.php?id=<?=$imovel->getId()?>"><?= $imovel->getIdentificacao()?></a></h4>
                                     <span class="location"><?= $imovel->getRua(). ", " .$imovel->getBairro().", ".$imovel->getCidade().", ".$imovel->getEstado() ?></span>
-                                    <h4 class="type"><?= $imovel->negocioTipos->getNome()?> <span>R$<?= $imovel->imovelCaracteristicasImovelTipos->getValor()?>
+                                    <h4 class="type"><?= $imovel->negocioTipos->getNome()?> <span>R$<?= $imovel->negocioTipos->getValor()?>
                                      <?php if($imovel->negocioTipos->getNome() == 'Aluguel'):?>
                                         <span>Mês</span>
                                         <?php else:?>
@@ -246,7 +246,7 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                                         <?php endif;?>
                                     </span></h4>
                                     <ul>
-                                        <li><?= $imovel->caracteristicas->getNome() ?></li>
+                                        <li>caracteristicas</li>
                                     </ul>
                                 </div>
                             </div>

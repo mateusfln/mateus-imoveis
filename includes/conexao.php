@@ -1,6 +1,6 @@
 <?php
 
-$hostname = "localhost";
+$hostname = "mateusimoveis.local";
 $db = "imobiliaria";
 $user = "root";
-$password = "Cookie20";
+$password = "";

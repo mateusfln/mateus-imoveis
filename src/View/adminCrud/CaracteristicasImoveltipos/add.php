@@ -26,7 +26,7 @@ if(!empty($_POST)){
     $caracteristica->setModificado($hoje);
     $dbCaracteristicas = new CaracteristicasImoveltiposDAO();
     $dbCaracteristicas->create($caracteristica);
-    header('Location: http://localhost:8000/src/View/adminCrud/CaracteristicasImoveltipos/read.php');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/CaracteristicasImoveltipos/read.php');
 }
 
 ?>

@@ -14,7 +14,7 @@ if(!empty($_POST)){
     $pessoa->setNome($_POST['nome']);
     $pessoa->setCpf($_POST['cpf']);
     $pessoa->setLogin($_POST['login']);
-    $pessoa->setSenha($_POST['senha']);
+    $pessoa->setSenha(hash('sha256', $_POST['senha']));
     $pessoa->setAtivo(true);
     $pessoa->setCriado($hoje);
     $pessoa->setCriadorId(1);
@@ -22,7 +22,7 @@ if(!empty($_POST)){
     $pessoa->setModificado($hoje);
     $dbPessoa = new PessoaDAO();
     $dbPessoa->create($pessoa);
-    header('Location: http://localhost:8000/src/View/adminCrud/Pessoas/read.php');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Pessoas/read.php');
 }
 
 ?>
@@ -91,7 +91,7 @@ if(!empty($_POST)){
                                         </div>
                                         <div class="form-group">
                                             <label for="example-text-input" class="col-form-label">Senha</label>
-                                            <input class="form-control" required type="text" name="senha">
+                                            <input class="form-control" required type="password" name="senha">
                                         </div>
                                         <div class="form-group">
                                         <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button>

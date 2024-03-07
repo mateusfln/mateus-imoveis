@@ -48,12 +48,12 @@ if (!empty($_POST)) {
             $dbCaracteristicaImoveltipo = new CaracteristicasImoveltiposDAO();
             $dbCaracteristicaImoveltipo->create($caracteristicasImoveltipos);
         }
-        header('Location: http://localhost:8000/src/View/adminCrud/Caracteristicas/read.php');
+        header('Location: https://mateusimoveis.local/src/View/adminCrud/Caracteristicas/read.php');
         $db->getConexao()->commit();
     } catch (Exception $e) {
         echo "Erro ao executar a transação: " . $e->getMessage();
         $db->getConexao()->rollback();
-        header('Location: http://localhost:8000/src/View/adminCrud/Caracteristicas/add.php');
+        header('Location: https://mateusimoveis.local/src/View/adminCrud/Caracteristicas/add.php');
     }
 
 }

@@ -56,6 +56,7 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
     
     $imovel = new Imovel();
 
+    $imovel->setImoveltipoId($_POST['imoveltipo']);
     $imovel->setIdentificacao($_POST['Identificacao']);
     $imovel->setMatricula($_POST['Matricula']);
     $imovel->setInscricaoImobiliaria($_POST['inscricaoImobiliaria']);
@@ -85,7 +86,7 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
 
     $imovelNegociotipos->setimovelId($idImovel);
     $imovelNegociotipos->setNegocioTipoId($_POST['negociotipo']);
-    $imovelNegociotipos->setValor(0);
+    $imovelNegociotipos->setValor($_POST['valor']);
     $imovelNegociotipos->setAtivo(true);
     $imovelNegociotipos->setCriado($hoje);
     $imovelNegociotipos->setCriadorId(1);
@@ -103,7 +104,7 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
 
         $imovelCaracteristicasImovelTipos->setimovelId($idImovel);
         $imovelCaracteristicasImovelTipos->setCaracteristicaImoveltipoId($caracteristica);
-        $imovelCaracteristicasImovelTipos->setValor($_POST['valor']);
+        $imovelCaracteristicasImovelTipos->setValor(0);
         $imovelCaracteristicasImovelTipos->setAtivo(true);
         $imovelCaracteristicasImovelTipos->setCriado($hoje);
         $imovelCaracteristicasImovelTipos->setCriadorId(1);
@@ -113,7 +114,7 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
         $dbImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTiposDAO();
         $dbImovelCaracteristicasImovelTipos->create($imovelCaracteristicasImovelTipos);
     }   
-    header('Location: http://localhost:8000/src/View/adminCrud/Imovel/read.php');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
 }
 
 
@@ -183,8 +184,41 @@ $jsonCaracteristicaImoveltipo = json_encode($listaCaracteristicaImoveltipo);
                                                     <div class="card-body">
                                                             <h4 class="card_title">Cadastro de Imóveis</h4>
                                                             <?php foreach ($campos as $campo):?>
-                                                                
-                                                                <?php if ($campo == 'Quartos' || $campo == 'Banheiros' || $campo == 'Garagem'):?>
+
+                                                                <?php if ($campo == 'Estado'):?>
+                                                                <div class="form-group">
+                                                                    <label for="example-text-input" class="col-form-label"><?=$campo?></label>
+                                                                    <select class="form-control" required name="<?=$campo?>">
+                                                                        <option value="AC">AC </option>
+                                                                        <option value="AL">AL </option>
+                                                                        <option value="AM">AM </option>
+                                                                        <option value="AP">AP </option>
+                                                                        <option value="BA">BA </option>
+                                                                        <option value="CE">CE </option>
+                                                                        <option value="DF">DF </option>
+                                                                        <option value="ES">ES </option>
+                                                                        <option value="GO">GO </option>
+                                                                        <option value="MA">MA </option>
+                                                                        <option value="MG">MG </option>
+                                                                        <option value="MS">MS </option>
+                                                                        <option value="MT">MT </option>
+                                                                        <option value="PA">PA </option>
+                                                                        <option value="PB">PB </option>
+                                                                        <option value="PE">PE </option>
+                                                                        <option value="PI">PI </option>
+                                                                        <option value="PR">PR </option>
+                                                                        <option value="RJ">RJ </option>
+                                                                        <option value="RN">RN </option>
+                                                                        <option value="RO">RO </option>
+                                                                        <option value="RR">RR </option>
+                                                                        <option value="RS">RS </option>
+                                                                        <option value="SC">SC </option>
+                                                                        <option value="SE">SE </option>
+                                                                        <option value="SP">SP </option>
+                                                                        <option value="TO">TO </option>
+                                                                    </select>
+                                                                </div>
+                                                                <?php elseif ($campo == 'Quartos' || $campo == 'Banheiros' || $campo == 'Garagem'):?>
                                                                 <div class="form-group">
                                                                     <label for="example-text-input" class="col-form-label"><?=$campo?></label> 
                                                                     <select class="form-control" name="<?=$campo?>">

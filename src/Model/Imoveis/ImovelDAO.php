@@ -18,7 +18,6 @@ class ImovelDAO extends DAO
      */
     public function buscarListaDeNegociosTipo() : array|Imovel
     {
-        global $_GET;
 
         $negociosTipos = [];
 
@@ -85,7 +84,6 @@ class ImovelDAO extends DAO
      */
     public function buscarListaDeImoveis() : array|Imovel
     {
-        global $_GET;
 
         $imoveis = [];
 
@@ -185,17 +183,16 @@ class ImovelDAO extends DAO
      */
     public function buscarListaDeImoveisVenda() : array|Imovel
     {
-        global $_GET;
 
         $imoveisENegocioTipo = [];
 
-        $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, metros_quadrados, quartos, banheiros, garagem, 
-        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, n.nome, ict.valor,
+        $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, 
+        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, metros_quadrados, quartos, banheiros, garagem, n.nome as nnome, it.nome, nt.valor,
         m.identificacao AS midia_identificacao, m.nome_disco AS midia_nome_disco, m.capa AS midia_capa
         FROM imoveis i
         INNER JOIN imoveis_negociotipos nt ON i.id = nt.imovel_id
-        INNER JOIN negociotipos AS n ON nt.negociotipo_id = n.id
-        INNER JOIN imoveis_caracteristicas_imoveltipos ict ON i.id = ict.imovel_id
+        INNER JOIN negociotipos n ON nt.negociotipo_id = n.id
+        INNER JOIN imoveltipos it ON i.imoveltipo_id = it.id
         INNER JOIN midias m ON i.id = m.imovel_id
         WHERE n.nome = 'Venda'";
  
@@ -227,7 +224,7 @@ class ImovelDAO extends DAO
             $imovel->setVagasGaragem($row['garagem']);
             $imovel->setAtivo($row['ativo']);
             $imovel->setNegocioTipos($negocioTipos);
-            $negocioTipos->setNome($row['nome']);
+            $negocioTipos->setNome($row['nnome']);
             $imovel->setImovelCaracteristicasImovelTipos($imovelCaracteristicasImovelTipos);
             $imovelCaracteristicasImovelTipos->setValor($row['valor']);
             $imovel->setMidias($midias);
@@ -252,17 +249,16 @@ class ImovelDAO extends DAO
      */
     public function buscarListaDeImoveisAluguel() : array|Imovel
     {
-        global $_GET;
 
         $imoveisENegocioTipo = [];
 
         $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, 
-        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, n.nome, ict.valor, metros_quadrados, quartos, banheiros, garagem,
+        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, metros_quadrados, quartos, banheiros, garagem, n.nome as nnome, it.nome, nt.valor,
         m.identificacao AS midia_identificacao, m.nome_disco AS midia_nome_disco, m.capa AS midia_capa
         FROM imoveis i
         INNER JOIN imoveis_negociotipos nt ON i.id = nt.imovel_id
-        INNER JOIN negociotipos AS n ON nt.negociotipo_id = n.id
-        INNER JOIN imoveis_caracteristicas_imoveltipos ict ON i.id = ict.imovel_id
+        INNER JOIN negociotipos n ON nt.negociotipo_id = n.id
+        INNER JOIN imoveltipos it ON i.imoveltipo_id = it.id
         INNER JOIN midias m ON i.id = m.imovel_id
         WHERE n.nome = 'Aluguel'";
  
@@ -293,7 +289,7 @@ class ImovelDAO extends DAO
             $imovel->setVagasGaragem($row['garagem']);
             $imovel->setAtivo($row['ativo']);
             $imovel->setNegocioTipos($negocioTipos);
-            $negocioTipos->setNome($row['nome']);
+            $negocioTipos->setNome($row['nnome']);
             $imovel->setImovelCaracteristicasImovelTipos($imovelCaracteristicasImovelTipos);
             $imovelCaracteristicasImovelTipos->setValor($row['valor']);
             $imovel->setMidias($midias);
@@ -313,7 +309,6 @@ class ImovelDAO extends DAO
      */
     public function buscarListaDeImoveisENegocioTipo() : array|Imovel
     {
-        global $_GET;
 
         $imoveisENegocioTipo = [];
 
@@ -551,24 +546,22 @@ class ImovelDAO extends DAO
         $imoveisENegocioTipoECaracteristicas = [];
 
         $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, 
-                complemento, rua, bairro, cidade, estado, cep, ibge, metros_quadrados, quartos, banheiros, garagem, i.ativo, n.nome as nnome, ict.valor, c.nome as cnome,
-                m.identificacao AS midia_identificacao, m.nome_disco AS midia_nome_disco, m.capa AS midia_capa
-                FROM imoveis i
-                INNER JOIN imoveis_negociotipos nt ON i.id = nt.imovel_id
-                INNER JOIN negociotipos n ON nt.negociotipo_id = n.id
-                INNER JOIN imoveis_caracteristicas_imoveltipos ict ON i.id = ict.imovel_id
-                INNER JOIN caracteristicas_imoveltipos ci ON ict.caracteristica_imoveltipo_id = ci.id
-                INNER JOIN caracteristicas c ON ci.caracteristica_id = c.id
-                INNER JOIN midias m ON i.id = m.imovel_id";
+        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, metros_quadrados, quartos, banheiros, garagem, n.nome as nnome, it.nome, nt.valor,
+        m.identificacao AS midia_identificacao, m.nome_disco AS midia_nome_disco, m.capa AS midia_capa
+        FROM imoveis i
+        INNER JOIN imoveis_negociotipos nt ON i.id = nt.imovel_id
+        INNER JOIN negociotipos n ON nt.negociotipo_id = n.id
+        INNER JOIN imoveltipos it ON i.imoveltipo_id = it.id
+        INNER JOIN midias m ON i.id = m.imovel_id";
 
         $query = $this->getConexao()->query($sql);
         
         while ($row = $query->fetch_assoc()) {
             $imovel = new Imovel();
             $negocioTipos = new NegocioTipos();
-            $caracteristicas = new Caracteristicas();
+            //$caracteristicas = new Caracteristicas();
             $midias = new Midias();
-            $ImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
+            //$ImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
 
             $imovel->setId($row['id']);
             $imovel->setIdentificacao($row['identificacao']);
@@ -590,15 +583,16 @@ class ImovelDAO extends DAO
             $imovel->setAtivo($row['ativo']);
             $imovel->setNegocioTipos($negocioTipos);
             $negocioTipos->setNome($row['nnome']);
-            $imovel->setImovelCaracteristicasImovelTipos($ImovelCaracteristicasImovelTipos);
-            $ImovelCaracteristicasImovelTipos->setValor($row['valor']);
-            $imovel->setCaracteristicas($caracteristicas);
-            $caracteristicas->setNome($row['cnome']);
+            $negocioTipos->setValor($row['valor']);
+            //$imovel->setImovelCaracteristicasImovelTipos($ImovelCaracteristicasImovelTipos);
+            //$ImovelCaracteristicasImovelTipos->setValor($row['valor']);
+            //$imovel->setCaracteristicas($caracteristicas);
+            //$caracteristicas->setNome($row['cnome']);
             $imovel->setMidias($midias);
             $midias->setIdentificacao($row['midia_identificacao']);
             $midias->setNomeDisco($row['midia_nome_disco']);
             $midias->setCapa($row['midia_capa']);
-            
+
             $imoveisENegocioTipoECaracteristicas[] = $imovel;
         }
 
@@ -664,7 +658,7 @@ class ImovelDAO extends DAO
     {
 
         $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, 
-        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, metros_quadrados, quartos, banheiros, garagem, n.nome as nnome, it.nome, nt.valor,
+        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, metros_quadrados, quartos, banheiros, garagem, n.nome as nnome, it.nome as itnome, nt.valor,
         m.identificacao AS midia_identificacao, m.nome_disco AS midia_nome_disco, m.capa AS midia_capa, i.criador_id, i.modificador_id
         FROM imoveis i
         INNER JOIN imoveis_negociotipos nt ON i.id = nt.imovel_id
@@ -705,13 +699,15 @@ class ImovelDAO extends DAO
                        criado = '{$imovel->getCriado()->format('Y-m-d H:i:s')}', 
                    modificado = '{$imovel->getModificado()->format('Y-m-d H:i:s')}', 
                    criador_id = '{$imovel->getCriadorId()}', 
-               modificador_id = '{$imovel->getModificadorId()}'
-               metros_quadrados ='{$imovel->getMetrosQuadrados()}'
-               quartos = '{$imovel->getQuartos()}'
-               banheiros = '{$imovel->getBanheiros()}'
+               modificador_id = '{$imovel->getModificadorId()}',
+               metros_quadrados ='{$imovel->getMetrosQuadrados()}',
+               quartos = '{$imovel->getQuartos()}',
+               banheiros = '{$imovel->getBanheiros()}',
                garagem = '{$imovel->getVagasGaragem()}'
                 
                WHERE id = '{$id}'";
+
+            //print_r($sql); die;
         $this->getConexao()->query($sql);
     }
    

@@ -8,12 +8,12 @@ use Imobiliaria\Model\Imoveis\CaracteristicasImoveltiposDAO;
 use Imobiliaria\Model\Entity\CaracteristicasImoveltipos;
 
 if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
-    header('Location: http://localhost:8000/src/View/adminCrud/Caracteristicas/read.php?error=Código da característica não informado');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Caracteristicas/read.php?error=Código da característica não informado');
     exit;
 }
 
-$imoveltipos = new ImoveltiposDAO();
-$imoveltipos = $imoveltipos->buscarListaDeImovelTipos();
+$imoveltiposDAO = new ImoveltiposDAO();
+$imoveltipos = $imoveltiposDAO->buscarListaDeImovelTipos();
 
 $caracteristicasImoveltiposDao = new CaracteristicasImoveltiposDAO();
 $caracteristicasImoveltipos = $caracteristicasImoveltiposDao->buscarListaDeCaracteristicasImovelTiposPorCaracteristica($_GET['id']);
@@ -67,7 +67,7 @@ if (!empty($_POST['nome'])) {
     }
 
 
-    header('Location: http://localhost:8000/src/View/adminCrud/Caracteristicas/read.php');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Caracteristicas/read.php');
     exit;
 }
 

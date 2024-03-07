@@ -5,7 +5,7 @@ require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 use Imobiliaria\Model\Imoveis\MidiasDAO;
 
 if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
-    header('Location: http://localhost:8000/src/View/adminCrud/Midias/read.php?error=Código da característica não informado');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Midias/read.php?error=Código da característica não informado');
     exit;
 }
 
@@ -29,7 +29,7 @@ if(!empty($_POST['nome_disco'] && !empty($_POST['identificacao']))){
     
     $midiasDAO->update($midia, $_GET['id']);
 
-    header('Location: http://localhost:8000/src/View/adminCrud/Midias/read.php');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Midias/read.php');
     exit;
 
 }

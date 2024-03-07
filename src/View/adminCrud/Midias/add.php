@@ -52,7 +52,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
             $midia->setModificado($hoje);
             $dbMidia = new MidiasDAO();
             $dbMidia->create($midia);
-            header('Location: http://localhost:8000/src/View/adminCrud/Midias/read.php');
+            header('Location: https://mateusimoveis.local/src/View/adminCrud/Midias/read.php');
             
             
         }

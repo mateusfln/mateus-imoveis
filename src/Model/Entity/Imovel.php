@@ -33,9 +33,9 @@ class Imovel extends Tabela
 
 
     /**
-     * método que a identificacao de um Imóvel
+     * método que a imoveltipoId de um Imóvel
      *
-     * @param string $identificacao
+     * @param string $imoveltipoId
      * @return Imovel
      */
     public function setImoveltipoId(string $imoveltipoId) : Imovel
@@ -538,10 +538,13 @@ class Imovel extends Tabela
      *  'modificador_id' => int,
      * ]
      */
+
+
     public function hydrate(array $dados) : Imovel
     {
         $negocioTipos = new NegocioTipos();
-        $caracteristicas = new Caracteristicas();
+        $imovelTipos = new Imoveltipos();
+        //$caracteristicas = new Caracteristicas();
         $midias = new Midias();
         $ImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
 
@@ -565,6 +568,8 @@ class Imovel extends Tabela
         $this->setAtivo($dados['ativo']);
         $this->setNegocioTipos($negocioTipos);
         $negocioTipos->setNome($dados['nnome']);
+        $this->setImoveltipos($imovelTipos);
+        $imovelTipos->setNome($dados['itnome']);
         $this->setImovelCaracteristicasImovelTipos($ImovelCaracteristicasImovelTipos);
         $ImovelCaracteristicasImovelTipos->setValor($dados['valor']);
         //$this->setCaracteristicas($caracteristicas);

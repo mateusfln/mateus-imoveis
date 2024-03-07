@@ -6,6 +6,12 @@ use Imobiliaria\Model\Imoveis\ImovelDAO;
 $imoveis = new ImovelDAO();
 $imoveis = $imoveis->buscarListaDeImoveis();
 
+if(!empty($_POST['delete_id'])){
+    $dbNegociotipo = new ImovelDAO();
+    $dbNegociotipo->delete($_POST['delete_id']);
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
+}
+
 ?>
 
 <!DOCTYPE html>

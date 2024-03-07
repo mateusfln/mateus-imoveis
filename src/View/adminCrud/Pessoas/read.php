@@ -12,7 +12,7 @@ $campos = array('ID','NOME','CPF','LOGIN','SENHA','ATIVO','CRIADO', 'MODIFICADO'
 if(!empty($_POST['delete_id'])){
     $dbPessoas = new PessoaDAO();
     $dbPessoas->delete($_POST['delete_id']);
-    header('Location: http://localhost:8000/src/View/adminCrud/Pessoas/read.php');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/Pessoas/read.php');
 }
 
 ?>

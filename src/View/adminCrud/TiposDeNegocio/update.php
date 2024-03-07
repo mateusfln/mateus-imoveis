@@ -5,7 +5,7 @@ require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 use Imobiliaria\Model\Imoveis\NegociotiposDAO;
 
 if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
-    header('Location: http://localhost:8000/src/View/adminCrud/TiposDeNegocio/read.php?error=Código da característica não informado');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeNegocio/read.php?error=Código da característica não informado');
     exit;
 }
 
@@ -24,7 +24,7 @@ if(!empty($_POST['nome'])){
     
     $negociotiposDAO->update($negociotipos, $_GET['id']);
 
-    header('Location: http://localhost:8000/src/View/adminCrud/TiposDeNegocio/read.php');
+    header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeNegocio/read.php');
     exit;
 
 }

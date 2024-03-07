@@ -40,7 +40,7 @@ $estados = $estados->buscarListaDeEstados();
                 <div class="col">
                     <h1 class="page-banner-title">Imóveis</h1>
                     <ul class="page-breadcrumb">
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="/">Home</a></li>
                         <li class="active"><?=$imovel->getIdentificacao()?></li>
                     </ul>
                 </div>
@@ -70,7 +70,13 @@ $estados = $estados->buscarListaDeEstados();
                                     </div>
                                     <div class="right">
                                         <div class="type-wrap">
-                                            <span class="price"><?= $imovel->imovelCaracteristicasImovelTipos->getValor()?><span>Month</span></span>
+                                            <span class="price"><?= $imovel->imovelCaracteristicasImovelTipos->getValor()?>
+                                            <?php if ($imovel->negocioTipos->getNome() == 'Venda'):?>
+                                                <?php  echo '<span>Mil</span>'?>
+                                            <?php else:?>
+                                                <?php  echo '<span>Mês</span>'?>
+                                            <?php endif;?>
+                                            </span>
                                             <span class="type"><?=$imovel->negocioTipos->getNome()?></span>
                                         </div>
                                     </div>
@@ -88,6 +94,17 @@ $estados = $estados->buscarListaDeEstados();
                                     <p>Khonike - Real Estate Bootstrap 5 Templateis the Best should be the consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore lore gna iqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex eacm emod tempor nt ut labore lore magna iqua. Ut enim ad minim veniamco laboris nisi ut aliqu.</p>
                                     <p>Khonike - Real Estate Bootstrap 5 Templateis the Best should be the consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore lore gna iqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
                                 </div>
+                                <div class="property-search sidebar-property-search">
+
+                            <form action="https://wa.me/5548998100686">
+
+                                <div>
+                                    <button>Enviar Mensagem para o corretor</button>
+                                </div>
+
+                            </form>
+
+                        </div>
                             </div>
                         </div>
                         <!--Property end-->
@@ -95,86 +112,14 @@ $estados = $estados->buscarListaDeEstados();
                 </div>
                 
                 <div class="col-lg-4 col-12 order-2 order-lg-1 pr-30 pr-sm-15 pr-xs-15">
+                <div class="content">
+                                    
+                    <h3>Description</h3>
                     
-                    <!--Sidebar start-->
-                    <div class="sidebar">
-                        <h4 class="sidebar-title"><span class="text">Search Property</span><span class="shape"></span></h4>
-                        
-                    
-                        <!--Property Search start-->
-                        <div class="property-search sidebar-property-search">
-
-                            <form action="#">
-
-                                <div>
-                                    <input type="text" placeholder="Location">
-                                </div>
-
-                                <div>
-                                    <select class="nice-select">
-                                        <?php foreach($estados as $estado):?>
-                                        <option><?=$estado->getEstado()?></option>
-                                        <?php endforeach;?>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <select class="nice-select">
-                                    <?php foreach($negocios as $negocio):?>
-                                        <option><?=$negocio->getNome()?></option>
-                                        <?php endforeach;?>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <select class="nice-select">
-                                    <?php foreach($tipos as $tipo):?>
-                                        <option><?=$tipo->getNome()?></option>
-                                        <?php endforeach;?>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <select class="nice-select">
-                                        <option>Bedrooms</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                        <option>6</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <select class="nice-select">
-                                        <option>Bathrooms</option>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                        <option>6</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <div id="search-price-range"></div>
-                                </div>
-
-                                <div>
-                                    <button>search</button>
-                                </div>
-
-                            </form>
-
-                        </div>
-                        <!--Property Search end-->
-                        
-                    </div>
-                    <!--Sidebar end-->
-                    </div>
-            
+                    <p>Khonike - Real Estate Bootstrap 5 Templateipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et lore magna iqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut quipx ea codo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolo.</p>
+                    <p>Khonike - Real Estate Bootstrap 5 Templateis the Best should be the consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore lore gna iqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex eacm emod tempor nt ut labore lore magna iqua. Ut enim ad minim veniamco laboris nisi ut aliqu.</p>
+                    <p>Khonike - Real Estate Bootstrap 5 Templateis the Best should be the consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore lore gna iqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                </div>
                 </div>
                 
             </div>
