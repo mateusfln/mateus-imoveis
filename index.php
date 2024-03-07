@@ -167,6 +167,7 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                    
                 <div class="property-item col-lg-4 col-md-6 col-12 mb-40">
                     <div class="property-inner">
+                        
                         <div class="image">
                             <a href="comprar.php?id=<?=$imovel->getId()?>"><img src="<?= $imovel->midias->getNomeDisco()?>" alt="<?= $imovel->midias->getIdentificacao()?>"></a>
                             <ul class="property-feature">

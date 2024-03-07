@@ -23,8 +23,15 @@ if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
 $caracteristicasDAO = new CaracteristicaDAO();
 $caracteristicas = $caracteristicasDAO->buscarListaDeCaracteristicas();
 
+
+$imovelDAO = new ImovelDAO();
+$imovel = $imovelDAO->read($_GET['id']);
+
+// echo '<pre>';
+// print_r($imovel); die;
+
 $caracteristicasImoveltiposDao = new CaracteristicasImoveltiposDAO();
-$caracteristicasImoveltipos = $caracteristicasImoveltiposDao->buscarListaDeCaracteristicasImovelTiposPorImovelTipo($_GET['id']);
+$caracteristicasImoveltipos = $caracteristicasImoveltiposDao->buscarListaDeCaracteristicasImovelTiposPorImovelTipo($imovel->imovelTipos->getId());
 
 $arrImoveltipos = [];
 
@@ -32,8 +39,8 @@ foreach ($caracteristicasImoveltipos as $imoveltipos) {
     $arrImoveltipos[] = $imoveltipos->getCaracteristicaId();
 }
 
-$imovelDAO = new ImovelDAO();
-$imovel = $imovelDAO->read($_GET['id']);
+//  echo '<pre>';
+//  print_r($arrImoveltipos); die;
 
 $imovelNegociostiposDAO = new ImovelNegociotiposDAO();
 $imovelNegociostipos = $imovelNegociostiposDAO->readPorImoveltipoId($_GET['id']);
@@ -45,6 +52,8 @@ $negociotipos = new NegociotiposDAO();
 $negociotipos = $negociotipos->buscarListaDeNegocioTipos();
 
 
+//  echo '<pre>';
+//  print_r($_POST); die;
 if(!empty($_POST)){
 
     $hoje = new \DateTimeImmutable();
@@ -82,12 +91,14 @@ if(!empty($_POST)){
     $imovelNegociotipos->setModificado($hoje);
 
     $dbImovelNegociotipos = new ImovelNegociotiposDAO();
-    $dbImovelNegociotipos->create($imovelNegociotipos);
+    //$dbImovelNegociotipos->create($imovelNegociotipos);
 
     // $caracteristicaDao = new CaracteristicaDAO();
     // $caracteristica = $caracteristicaDao->read($_GET['id']);
 
     // $caracteristicaDao->update($caracteristica, $_GET['id']);
+
+    $dbImovelNegociotipos->update($imovelNegociotipos, $_GET['id']);
     
     $caracteristicasImoveltiposDao->deletePorImovelTipo($_POST['imoveltipo']);
     
@@ -272,7 +283,7 @@ $jsonCaracteristicaImoveltipo = json_encode($listaCaracteristicaImoveltipo);
                                                             <div class="form-group">
                                                             <select class="form-control" name='imoveltipo' id='imoveltipo'>
                                                                 <?php foreach($imoveltipos as $imoveltipo):?>
-                                                                <option value="<?=$imoveltipo->getId()?>" id="<?=$imoveltipo->getNome()?>"><?=$imoveltipo->getNome()?></option>
+                                                                <option value="<?=$imoveltipo->getId()?>" <?= $imovel->imovelTipos->getId() == $imoveltipo->getId()?  'selected="selected"': '' ?> id="<?=$imoveltipo->getNome()?>"><?=$imoveltipo->getNome()?></option>
                                                                 <label for="<?=$imoveltipo->getNome()?>" class="col-form-label"><?=$imoveltipo->getNome()?></label>
                                                                 <?php endforeach;?>
                                                                 </select>
@@ -281,7 +292,7 @@ $jsonCaracteristicaImoveltipo = json_encode($listaCaracteristicaImoveltipo);
                                                             <div class="form-group">
                                                             <select class="form-control" name='negociotipo'>
                                                                 <?php foreach($negociotipos as $negociotipo):?>
-                                                                <option value="<?=$negociotipo->getId()?>" id="<?=$negociotipo->getNome()?>"><?=$negociotipo->getNome()?></option>
+                                                                <option value="<?=$negociotipo->getId()?>" <?= $imovel->negocioTipos->getId() == $negociotipo->getId()?  'selected="selected"': '' ?> id="<?=$negociotipo->getNome()?>"><?=$negociotipo->getNome()?></option>
                                                                 <label for="<?=$negociotipo->getNome()?>" class="col-form-label"><?=$negociotipo->getNome()?></label>
                                                                 <?php endforeach;?>
                                                                 </select>

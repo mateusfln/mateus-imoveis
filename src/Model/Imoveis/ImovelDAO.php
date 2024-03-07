@@ -657,8 +657,8 @@ class ImovelDAO extends DAO
     public function read(int $id) : Imovel
     {
 
-        $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, 
-        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, metros_quadrados, quartos, banheiros, garagem, n.nome as nnome, it.nome as itnome, nt.valor,
+        $sql = "SELECT i.id, i.identificacao, matricula, inscricao_imobiliaria, logradouro, numero_logradouro, it.id as itid, 
+        complemento, rua, bairro, cidade, estado, cep, ibge, i.ativo, metros_quadrados, quartos, banheiros, garagem, n.nome as nnome, n.id as nid, it.nome as itnome, nt.valor,
         m.identificacao AS midia_identificacao, m.nome_disco AS midia_nome_disco, m.capa AS midia_capa, i.criador_id, i.modificador_id
         FROM imoveis i
         INNER JOIN imoveis_negociotipos nt ON i.id = nt.imovel_id
@@ -684,6 +684,7 @@ class ImovelDAO extends DAO
 
         $sql = "UPDATE imoveis
                 SET identificacao = '{$imovel->getIdentificacao()}',
+                    imoveltipo_id = '{$imovel->getImoveltipoId()}',
                     matricula = '{$imovel->getMatricula()}',
         inscricao_imobiliaria = '{$imovel->getInscricaoImobiliaria()}',
                    logradouro = '{$imovel->getLogradouro()}',

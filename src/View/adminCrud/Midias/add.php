@@ -11,7 +11,13 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 
 ?>
 
-<?php 
+<?php
+
+    if(isset($_FILES) && count($_FILES) > 0) {
+    echo '<pre>';
+    var_dump($_FILES); die;
+
+    }
     if (isset($_FILES['arquivo']) && isset($_POST['imovel_id'])){
         
         $arquivo = $_FILES['arquivo'];
@@ -33,7 +39,8 @@ $imoveis = $imoveis->buscarListaDeImoveis();
         $caminho = "/assets/images/imoveis/".$nomeDoArquivo.'.'.$extensao;
         
         if($extensao != 'jpg' && $extensao != 'png' ){
-            echo('Tipo de arquivo não aceito');
+            header('Location: https://mateusimoveis.local/src/View/adminCrud/Midias/add.php?erro=tipo de midia não suportado, favor inserir uma midia com a extensão PNG ou JPG.');
+            exit;
         }else{
             $sucesso = move_uploaded_file($arquivo['tmp_name'], $path);
             
@@ -53,6 +60,7 @@ $imoveis = $imoveis->buscarListaDeImoveis();
             $dbMidia = new MidiasDAO();
             $dbMidia->create($midia);
             header('Location: https://mateusimoveis.local/src/View/adminCrud/Midias/read.php');
+            exit;
             
             
         }
@@ -113,14 +121,18 @@ $imoveis = $imoveis->buscarListaDeImoveis();
                                             <label class="col-form-label">ID do Imovel</label>
                                             <select class="form-control" name='imovel_id'>
                                                 <?php foreach ($imoveis as $imovel):?>
-                                                    <option value="<?=$imovel->getId()?>"/><?=$imovel->getId()?></option>
+                                                    <option value="<?=$imovel->getId()?>"/><?=$imovel->getIdentificacao()?></option>
                                                 <?php endforeach;?>
                                             </select>
+                                            <?php if (isset($_GET['erro'])):?>
+                                            <p style="color: red"><?=$_GET['erro']?></p>
+                                        <?php endif;?>
                                         </div>
+                                       
                                         <div class="input-group mb-3">
                                     
                                     <div class="custom-file">
-                                        <input type="file" name="arquivo">
+                                        <input multiple type="file" name="arquivo[]">
                                     </div>
                                 </div>
                                         <div class="form-group">

@@ -330,6 +330,7 @@ $jsonCaracteristicaImoveltipo = json_encode($listaCaracteristicaImoveltipo);
             if (caracteristicas.includes(parseInt($(this).val()))) {
                 $(this).parent().show();
             } else {
+                
                 $(this).parent().hide();
             }
         });

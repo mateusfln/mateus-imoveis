@@ -549,6 +549,7 @@ class Imovel extends Tabela
         $ImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
 
         $this->setId($dados['id'] ?? null);
+        $this->setImoveltipoId($dados['itid']);
         $this->setIdentificacao($dados['identificacao']);
         $this->setMatricula($dados['matricula']);
         $this->setInscricaoImobiliaria($dados['inscricao_imobiliaria']);
@@ -568,8 +569,10 @@ class Imovel extends Tabela
         $this->setAtivo($dados['ativo']);
         $this->setNegocioTipos($negocioTipos);
         $negocioTipos->setNome($dados['nnome']);
+        $negocioTipos->setId($dados['nid']);
         $this->setImoveltipos($imovelTipos);
         $imovelTipos->setNome($dados['itnome']);
+        $imovelTipos->setId($dados['itid']);
         $this->setImovelCaracteristicasImovelTipos($ImovelCaracteristicasImovelTipos);
         $ImovelCaracteristicasImovelTipos->setValor($dados['valor']);
         //$this->setCaracteristicas($caracteristicas);

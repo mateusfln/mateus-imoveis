@@ -16,14 +16,21 @@ use Imobiliaria\Model\Imoveis\MidiasDAO;
 use Imobiliaria\Model\Imoveis\NegociotiposDAO;
 use Imobiliaria\Model\Imoveis\ImovelDAO;
 use Imobiliaria\Model\Imoveis\ImovelCaracteristicasImovelTiposDAO;
+use Imobiliaria\Model\Imoveis\CaracteristicasImoveltiposDAO;
 
 require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
-$DAO = new DAO();
 
-$tipos = new ImoveltiposDAO();
-$tipos = $tipos->buscarListaDeImovelTipos();
-
-
+$listaImoveisTiposDAO = new ImovelDAO();
+$listaImoveisTipos = $listaImoveisTiposDAO->buscarListaDeImoveisTipo();
+$listaImoveisDAO = new ImovelDAO();
+$listaImoveis = $listaImoveisDAO->buscarListaDeEstados(); 
+$negociotiposDAO = new NegociotiposDAO();
+$negociotipos = $negociotiposDAO->buscarListaDeNegocioTipos();
+$imoveltiposDAO = new ImoveltiposDAO();
+$imoveltipos = $imoveltiposDAO->buscarListaDeImovelTipos();
+$caracteristicasDAO = new CaracteristicaDAO();
+$caracteristicas = $caracteristicasDAO->buscarListaDeCaracteristicas();
+    
 ?>
 
 <?php pr($_POST);pr($_FILES);?>
@@ -141,6 +148,17 @@ if(!empty($_POST)){
     
 }
 
+$caracteristicasImoveltiposDao = new CaracteristicasImoveltiposDAO();
+$caracteristicasImoveltipos = $caracteristicasImoveltiposDao->buscarListaDeCaracteristicasImovelTipos();
+
+$listaCaracteristicaImoveltipo = [];
+foreach($caracteristicasImoveltipos as $caracteristicaImoveltipo) {
+    $listaCaracteristicaImoveltipo[$caracteristicaImoveltipo->getImovelTipoId()][] = $caracteristicaImoveltipo->getCaracteristicaId();
+}
+
+$jsonCaracteristicaImoveltipo = json_encode($listaCaracteristicaImoveltipo);
+
+// pr($jsonCaracteristicaImoveltipo);
 ?>
 
 <!doctype html>
@@ -171,16 +189,7 @@ if(!empty($_POST)){
     <!--Page Banner Section end-->
 
     <!--Add Properties section start-->
-    <?php
-    $listaImoveisTipos = new ImovelDAO();
-    $listaImoveisTipos = $listaImoveisTipos->buscarListaDeImoveisTipo();
-    $listaImoveis = new ImovelDAO();
-    $listaImoveis = $listaImoveis->buscarListaDeEstados(); 
-    $negociotipos = new NegocioTiposDAO();
-    $negociotipos = $negociotipos->buscarListaDeNegocioTipos();
-    $caracteristicas = new CaracteristicaDAO();
-    $caracteristicas = $caracteristicas->buscarListaDeCaracteristicas();
-    ?>
+    
     <div class="add-properties-section section pt-100 pt-lg-80 pt-md-70 pt-sm-60 pt-xs-50 pb-100 pb-lg-80 pb-md-70 pb-sm-60 pb-xs-50">
         <div class="container">
             <div class="row">
@@ -288,8 +297,8 @@ if(!empty($_POST)){
 
                                         <div class="col-md-4 col-12 mb-30">
                                             <label>Tipo</label>
-                                            <select class="nice-select" required name='imoveltipo'>
-                                                <?php foreach($tipos as $tipo):?>
+                                            <select class="nice-select" required name='imoveltipo' id='imoveltipo'>
+                                                <?php foreach($imoveltipos as $tipo):?>
                                                     <option value="<?=$tipo->getId()?>" id="<?=$tipo->getNome()?>" /><?=$tipo->getNome()?></option>
                                                     <label for="<?=$tipo->getNome()?>" class="col-form-label"><?=$tipo->getNome()?></label>
                                                 <?php endforeach;?>
@@ -339,7 +348,7 @@ if(!empty($_POST)){
                                             <h4>Caracteristicas do Imóvel</h4>
                                             <ul class="other-features">
                                                 <?php foreach($caracteristicas as $caracteristica):?>
-                                                    <li><input type="checkbox" name="caracteristicas[]" id="<?=$caracteristica->getNome()?>" value="<?=$caracteristica->getId()?>"><label for="<?=$caracteristica->getNome()?>"><?=$caracteristica->getNome()?></label></li>
+                                                    <li><input type="checkbox" name="caracteristicas[]" id="<?=$caracteristica->getId()?>" value="<?=$caracteristica->getId()?>"><label for="<?=$caracteristica->getId()?>"><?=$caracteristica->getNome()?></label></li>
                                                     <br>
                                                 <?php endforeach;?>
                                             </ul>
@@ -388,6 +397,30 @@ if(!empty($_POST)){
 
 <script>
     
+    let jsonCaracteristicaImoveltipo = JSON.parse('<?=$jsonCaracteristicaImoveltipo?>');
+
+    function getCaracteristicasByImovelTipoId(imovelTipoId) {
+        for (item in jsonCaracteristicaImoveltipo) {
+            if (item == imovelTipoId) {
+                return jsonCaracteristicaImoveltipo[item];
+            }
+        }
+    }
+
+    $('#imoveltipo').change(function(){
+        let imovelTipoId = $(this).val();
+        let caracteristicas = getCaracteristicasByImovelTipoId(imovelTipoId);
+        $("input[name='caracteristicas[]']").each(function(index){
+            if (caracteristicas.includes(parseInt($(this).val()))) {
+                $(this).parent().show();
+            } else {
+                $(this).parent().hide();
+            }
+        });
+    });
+
+    $('#imoveltipo').trigger('change');
+
     $('#botaoSubmit').click(function (){
         let camposObrigatoriosNaoPreenchidos = false
         if ($('#formAddImovel input:checked').length > 0){

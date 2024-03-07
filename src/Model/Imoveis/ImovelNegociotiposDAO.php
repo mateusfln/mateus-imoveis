@@ -79,8 +79,10 @@ class ImovelNegociotiposDAO extends DAO
                     criado = '{$imovelNegociostipos->getCriado()->format('Y-m-d H:i:s')}',
                     modificado = '{$imovelNegociostipos->getModificado()->format('Y-m-d H:i:s')}',
                     criador_id = '{$imovelNegociostipos->getCriadorId()}',
-                    modificador_id = '{$imovelNegociostipos->getModificadorId()}',
-                    WHERE id = '{$id}'";
+                    modificador_id = '{$imovelNegociostipos->getModificadorId()}'
+                    WHERE imovel_id = '{$id}'";
+
+        //print_r($sql); die;
         $this->getConexao()->query($sql);
     }
 
