@@ -19,7 +19,7 @@ if(!empty($_POST)){
     $negociotipo->setModificado($hoje);
     $dbNegociotipo = new NegociotiposDAO();
     $dbNegociotipo->create($negociotipo);
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeNegocio/read.php');
+    header('Location: http://localhost:8000/src/View/adminCrud/TiposDeNegocio/read.php');
 }
 
 ?>

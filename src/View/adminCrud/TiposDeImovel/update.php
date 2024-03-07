@@ -8,7 +8,7 @@ use Imobiliaria\Model\Imoveis\CaracteristicasImoveltiposDAO;
 use Imobiliaria\Model\Entity\CaracteristicasImoveltipos;
 
 if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeImovel/read.php?error=Código da característica não informado');
+    header('Location: http://localhost:8000/src/View/adminCrud/TiposDeImovel/read.php?error=Código da característica não informado');
     exit;
 }
 
@@ -47,7 +47,7 @@ if(!empty($_POST['nome'])){
         $dbCaracteristicaImoveltipo->create($caracteristicasImoveltipos);
     }
 
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeImovel/read.php');
+    header('Location: http://localhost:8000/src/View/adminCrud/TiposDeImovel/read.php');
     exit;
 
 }

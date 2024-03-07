@@ -5,7 +5,7 @@ require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 use Imobiliaria\Model\Imoveis\ImovelDAO;
 
 if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php?error=Código da característica não informado');
+    header('Location: http://localhost:8000/src/View/adminCrud/Imovel/read.php?error=Código da característica não informado');
     exit;
 }
 
@@ -38,7 +38,7 @@ if(!empty($_POST['identificacao'])&& !empty($_POST['matricula'])&& !empty($_POST
     
     $imovelDAO->update($imovel, $_GET['id']);
 
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
+    header('Location: http://localhost:8000/src/View/adminCrud/Imovel/read.php');
     exit;
 
 }

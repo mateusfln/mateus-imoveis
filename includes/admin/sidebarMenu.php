@@ -10,7 +10,7 @@
                 <ul class="metismenu" id="sidebar_menu">
                     <li class="menu-title">Main</li>
                     <li>
-                        <a href="https://mateusimoveis.local/admin.php">
+                        <a href="http://localhost:8000/admin.php">
                         <i class="bi bi-house"></i>
                             <span>Home</span>
                         </a>

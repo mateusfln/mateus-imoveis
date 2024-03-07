@@ -66,6 +66,7 @@ if(!empty($_POST)){
     $negociosTipos = new NegocioTipos();
     $midias = new Midias();
 
+    $imovel->setImoveltipoId($_POST['imoveltipo']);
     $imovel->setIdentificacao($_POST['identificacao']);
     $imovel->setMatricula($_POST['matricula']);
     $imovel->setInscricaoImobiliaria($_POST['inscricao_imobiliaria']);
@@ -105,7 +106,7 @@ if(!empty($_POST)){
 
     $imovelNegociotipos->setimovelId($imovelId);
     $imovelNegociotipos->setNegocioTipoId($_POST['negociotipos']);
-    $imovelNegociotipos->setValor(0);
+    $imovelNegociotipos->setValor($_POST['preco']);
     $imovelNegociotipos->setAtivo(true);
     $imovelNegociotipos->setCriado($hoje);
     $imovelNegociotipos->setCriadorId(1);
@@ -122,7 +123,7 @@ if(!empty($_POST)){
 
         $imovelCaracteristicasImovelTipos->setimovelId($imovelId);
         $imovelCaracteristicasImovelTipos->setCaracteristicaImoveltipoId($caracteristica);
-        $imovelCaracteristicasImovelTipos->setValor($_POST['preco']);
+        $imovelCaracteristicasImovelTipos->setValor(0);
         $imovelCaracteristicasImovelTipos->setAtivo(true);
         $imovelCaracteristicasImovelTipos->setCriado($hoje);
         $imovelCaracteristicasImovelTipos->setCriadorId(1);
@@ -133,7 +134,7 @@ if(!empty($_POST)){
         $dbImovelCaracteristicasImovelTipos->create($imovelCaracteristicasImovelTipos);
     }   
 
-    header('Location: https://mateusimoveis.local/');
+    header('Location: http://localhost:8000/');
 
     
 }
@@ -192,7 +193,7 @@ if(!empty($_POST)){
                         <div class="tab-pane show active" id="basic_info">
                             <div class="tab-body">
 
-                                <form enctype="multipart/form-data" method="POST">
+                                <form enctype="multipart/form-data" method="POST" id="formAddImovel">
                                     <div class="row">
                                         <div class="col-12 mb-30">
                                             <label>Titulo Do Anúncio</label>
@@ -332,7 +333,7 @@ if(!empty($_POST)){
                                         </div>
 
                                         <div class="nav d-flex justify-content-end col-12 mb-30 pl-15 pr-15">
-                                            <input type="submit" data-bs-toggle="tab" class="btn" value="Enviar">
+                                            <input type="button" id="botaoSubmit" data-bs-toggle="tab" class="btn" value="Enviar">
                                         </div>
                                         </div>
                                     </div>
@@ -354,8 +355,33 @@ if(!empty($_POST)){
  <?php require_once(realpath(dirname(__FILE__) . '/includes') .'/footer.php');?>
 
 </div>
+
+
 <!-- Placed js at the end of the document so the pages load faster -->
 <?php require_once(realpath(dirname(__FILE__) . '/includes') .'/scripts.php');?>
+
+<script>
+    
+    $('#botaoSubmit').click(function (){
+        let camposObrigatoriosNaoPreenchidos = false
+        if ($('#formAddImovel input:checked').length > 0){
+            $('#formAddImovel').find('input').each(function(){
+                if($(this).prop('required') && $(this).val() == ''){
+                    camposObrigatoriosNaoPreenchidos = true
+                }
+            });
+        }else{
+            camposObrigatoriosNaoPreenchidos = true
+        }
+        if(camposObrigatoriosNaoPreenchidos){
+            alert('todos os campos obrigatórios devem ser preenchidos!')
+
+        }else{
+            $('#formAddImovel').submit()
+        }
+
+    })
+</script>
 </body>
 
 

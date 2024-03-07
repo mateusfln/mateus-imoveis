@@ -42,7 +42,7 @@ if(!empty($_POST)){
         $dbCaracteristicaImoveltipo = new CaracteristicasImoveltiposDAO();
         $dbCaracteristicaImoveltipo->create($caracteristicasImoveltipos);
     }
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/TiposDeImovel/read.php');
+    header('Location: http://localhost:8000/src/View/adminCrud/TiposDeImovel/read.php');
 }
 
 ?>

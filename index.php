@@ -163,6 +163,7 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
             <div class="row">
                 <!--Property start-->
                 <?php foreach($imoveis as $imovel):?>
+
                    
                 <div class="property-item col-lg-4 col-md-6 col-12 mb-40">
                     <div class="property-inner">
@@ -190,7 +191,7 @@ require_once(realpath(dirname(__FILE__) . '/includes') .'/funcoes.php');
                             </div>
                             <div class="right">
                                 <div class="type-wrap">
-                                    <span class="price">R$<?= $imovel->imovelCaracteristicasImovelTipos->getValor()?>
+                                    <span class="price">R$<?= $imovel->negocioTipos->getValor()?>
                                         <?php if($imovel->negocioTipos->getNome() == 'Aluguel'):?>
                                             <span>M</span>
                                             <?php else:?>

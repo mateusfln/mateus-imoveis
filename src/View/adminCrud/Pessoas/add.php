@@ -22,7 +22,7 @@ if(!empty($_POST)){
     $pessoa->setModificado($hoje);
     $dbPessoa = new PessoaDAO();
     $dbPessoa->create($pessoa);
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/Pessoas/read.php');
+    header('Location: http://localhost:8000/src/View/adminCrud/Pessoas/read.php');
 }
 
 ?>

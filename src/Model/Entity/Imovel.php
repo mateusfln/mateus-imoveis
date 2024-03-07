@@ -7,6 +7,7 @@ use Imobiliaria\Model\Entity\Tabela;
 
 class Imovel extends Tabela
 {
+    private string $imoveltipoId;
     private string $identificacao;
     private string $matricula;
     private string $inscricaoImobiliaria;
@@ -31,6 +32,27 @@ class Imovel extends Tabela
     public Midias $midias;
 
 
+    /**
+     * método que a identificacao de um Imóvel
+     *
+     * @param string $identificacao
+     * @return Imovel
+     */
+    public function setImoveltipoId(string $imoveltipoId) : Imovel
+    {
+        $this->imoveltipoId = $imoveltipoId;
+
+        return $this;
+    }
+
+    /**
+     * método que retorna a imoveltipoId de um Imóvel
+     * @return string $imoveltipoId
+     */
+    public function getImoveltipoId() : string
+    {
+        return $this->imoveltipoId;
+    }
     /**
      * método que a identificacao de um Imóvel
      *
@@ -518,7 +540,11 @@ class Imovel extends Tabela
      */
     public function hydrate(array $dados) : Imovel
     {
-        //$midias = new Midias();
+        $negocioTipos = new NegocioTipos();
+        $caracteristicas = new Caracteristicas();
+        $midias = new Midias();
+        $ImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
+
         $this->setId($dados['id'] ?? null);
         $this->setIdentificacao($dados['identificacao']);
         $this->setMatricula($dados['matricula']);
@@ -537,13 +563,18 @@ class Imovel extends Tabela
         $this->setBanheiros($dados['banheiros']);
         $this->setVagasGaragem($dados['garagem']);
         $this->setAtivo($dados['ativo']);
-        //$this->setMidias($midias);
-        // $midias->setCapa($dados['capa']);
-        // $midias->setNomeDisco($dados['nome_disco']);
-        // $midias->setIdentificacao($dados['m.identificacao']);
-        // $midias->setImovelId($dados['imovel_id']);
-        $this->setCriado(new \DateTimeImmutable($dados['criado']));
-        $this->setModificado(new \DateTimeImmutable($dados['modificado']));
+        $this->setNegocioTipos($negocioTipos);
+        $negocioTipos->setNome($dados['nnome']);
+        $this->setImovelCaracteristicasImovelTipos($ImovelCaracteristicasImovelTipos);
+        $ImovelCaracteristicasImovelTipos->setValor($dados['valor']);
+        //$this->setCaracteristicas($caracteristicas);
+        // $caracteristicas->setNome($dados['cnome']);
+        $this->setMidias($midias);
+        $midias->setIdentificacao($dados['midia_identificacao']);
+        $midias->setNomeDisco($dados['midia_nome_disco']);
+        $midias->setCapa($dados['midia_capa']);
+        $this->setCriado(new \DateTimeImmutable());
+        $this->setModificado(new \DateTimeImmutable());
         $this->setCriadorId($dados['criador_id']);
         $this->setModificadorId($dados['modificador_id']);
 

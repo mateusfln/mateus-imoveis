@@ -105,6 +105,7 @@ class CaracteristicasImoveltiposDAO extends DAO
 
         return (new CaracteristicasImoveltipos())->hydrate(mysqli_fetch_assoc($qry));
     }
+    
     public function readTeste(int $id) : CaracteristicasImoveltipos
     {
         $sql = "SELECT id, caracteristica_id, imoveltipo_id, ativo, criado, modificado, criador_id, modificador_id
@@ -128,6 +129,53 @@ class CaracteristicasImoveltiposDAO extends DAO
         $sql = "DELETE FROM caracteristicas_imoveltipos
                WHERE id = '{$id}'";
         $this->getConexao()->query($sql);
+    }
+     /**
+     * Deleta um registro na tabela caracteristicas_imoveltipos de acordo com os dados fornecidos
+     * 
+     * @throws \Exception
+     * @param int $id
+     * @return void
+     */
+    public function deletePorCaracteristica(int $id) : void
+    {
+
+        $sql = "DELETE FROM caracteristicas_imoveltipos
+               WHERE caracteristica_id = '{$id}'";
+        $this->getConexao()->query($sql);
+    }
+
+     /**
+     * Efetua a busca de dados referentes a tabela de caracteristicas_imoveltipos
+     * 
+     * @return array|CaracteristicasImoveltipos[]
+     */
+    public function buscarListaDeCaracteristicasImovelTiposPorCaracteristica($caracteristica_id) : array|CaracteristicasImoveltipos
+    {
+        global $_GET;
+
+        $caracteristicasImovelTipos = [];
+
+        $sql = "SELECT id, caracteristica_id, imoveltipo_id, ativo,criado,modificado,criador_id,modificador_id 
+                FROM caracteristicas_imoveltipos
+                WHERE caracteristica_id = '{$caracteristica_id}'";
+
+        $query = $this->getConexao()->query($sql);
+        
+        while ($row = $query->fetch_assoc()) {
+            $caracteristica = new CaracteristicasImoveltipos();
+            $caracteristica->setId($row['id']);
+            $caracteristica->setCaracteristicaId($row['caracteristica_id']);
+            $caracteristica->setImovelTipoId($row['imoveltipo_id']);
+            $caracteristica->setAtivo($row['ativo']);
+            $caracteristica->setCriado(new \DateTimeImmutable());
+            $caracteristica->setModificado(new \DateTimeImmutable());
+            $caracteristica->setCriadorId($row['criador_id']);
+            $caracteristica->setModificadorId($row['modificador_id']);
+            $caracteristicasImovelTipos[] = $caracteristica;
+        }
+
+        return $caracteristicasImovelTipos;
     }
 
      /**

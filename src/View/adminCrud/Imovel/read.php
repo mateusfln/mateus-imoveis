@@ -11,7 +11,7 @@ $campos = array('ID','IDENTIFICACAO','MATRICULA','INSCRICAO IMOBILIARIA','LOGRAD
 if(!empty($_POST['delete_id'])){
     $dbNegociotipo = new ImovelDAO();
     $dbNegociotipo->delete($_POST['delete_id']);
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
+    header('Location: http://localhost:8000/src/View/adminCrud/Imovel/read.php');
 }
 
 ?>

@@ -7,6 +7,7 @@ use Imobiliaria\Model\Entity\Tabela;
 class Negociotipos extends Tabela
 {
     private string $nome;
+    private string $valor;
     
 
     /**
@@ -28,6 +29,26 @@ class Negociotipos extends Tabela
     public function getNome() : string
     {
         return $this->nome;
+    }
+    /**
+     * método que define o nome de um Tipo de Negócio
+     *
+     * @param string $nome
+     * @return Negociotipos
+     */
+    public function setValor(string $valor) : Negociotipos
+    {
+        $this->valor = $valor;
+        return $this;
+    }
+
+    /**
+     * método que retorna o Valor de uma Tipo de Negócio
+     * @return string $Valor
+     */
+    public function getValor() : string
+    {
+        return $this->valor;
     }
 
     /**

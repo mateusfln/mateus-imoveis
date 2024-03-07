@@ -19,6 +19,10 @@ $estados = new ImovelDAO();
 $estados = $estados->buscarListaDeEstados();
 ?>
 
+
+
+
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -43,6 +47,8 @@ $estados = $estados->buscarListaDeEstados();
             </div>
         </div>
     </div>
+
+
     <!--Page Banner Section end-->
 
     <!--New property section start-->
@@ -64,14 +70,14 @@ $estados = $estados->buscarListaDeEstados();
                                     </div>
                                     <div class="right">
                                         <div class="type-wrap">
-                                            <span class="price">$550<span>Month</span></span>
-                                            <span class="type">For Rent</span>
+                                            <span class="price"><?= $imovel->imovelCaracteristicasImovelTipos->getValor()?><span>Month</span></span>
+                                            <span class="type"><?=$imovel->negocioTipos->getNome()?></span>
                                         </div>
                                     </div>
                                 </div>
                                 
                                 <div class="image mb-30">
-                                    <img src="assets/images/property/single-property-1.jpg" alt="">
+                                    <img src="<?=$imovel->midias->getNomeDisco()?>" alt="<?=$imovel->midias->getIdentificacao()?>">
                                 </div>
                                 
                                 <div class="content">

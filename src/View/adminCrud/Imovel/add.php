@@ -5,6 +5,7 @@ use Imobiliaria\Model\Entity\Imovel;
 use Imobiliaria\Model\Entity\ImovelNegociostipos;
 use Imobiliaria\Model\Entity\ImovelCaracteristicasImovelTipos;
 use Imobiliaria\Model\Imoveis\ImovelCaracteristicasImovelTiposDAO;
+use Imobiliaria\Model\Imoveis\CaracteristicasImovelTiposDAO;
 use Imobiliaria\Model\Imoveis\CaracteristicaDAO;
 use Imobiliaria\Model\Imoveis\ImoveltiposDAO;
 use Imobiliaria\Model\Imoveis\ImovelDAO;
@@ -24,6 +25,10 @@ $negociotipos = $negociotipos->buscarListaDeNegocioTipos();
 
 $caracteristicas = new CaracteristicaDAO();
 $caracteristicas = $caracteristicas->buscarListaDeCaracteristicas();
+
+require_once(realpath(dirname(__FILE__) . '../../../../../includes') .'/funcoes.php');
+
+
 
 $campos = array(
     'Identificacao',
@@ -108,8 +113,19 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
         $dbImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTiposDAO();
         $dbImovelCaracteristicasImovelTipos->create($imovelCaracteristicasImovelTipos);
     }   
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
+    header('Location: http://localhost:8000/src/View/adminCrud/Imovel/read.php');
 }
+
+
+$caracteristicasImoveltiposDao = new CaracteristicasImoveltiposDAO();
+$caracteristicasImoveltipos = $caracteristicasImoveltiposDao->buscarListaDeCaracteristicasImovelTipos();
+
+$listaCaracteristicaImoveltipo = [];
+foreach($caracteristicasImoveltipos as $caracteristicaImoveltipo) {
+    $listaCaracteristicaImoveltipo[$caracteristicaImoveltipo->getImovelTipoId()][] = $caracteristicaImoveltipo->getCaracteristicaId();
+}
+
+$jsonCaracteristicaImoveltipo = json_encode($listaCaracteristicaImoveltipo);
 
 ?>
 
@@ -193,9 +209,9 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
                                                     <div class="card-body">
                                                             <h4 class="card_title">Tipo do Imóvel:</h4>
                                                             <div class="form-group">
-                                                            <select class="form-control" name='imoveltipo'>
+                                                            <select class="form-control" name='imoveltipo' id='imoveltipo'>
                                                                 <?php foreach($imoveltipos as $imoveltipo):?>
-                                                                <option value="<?=$imoveltipo->getId()?>" id="<?=$imoveltipo->getNome()?>" /><?=$imoveltipo->getNome()?></option>
+                                                                <option value="<?=$imoveltipo->getId()?>" id="<?=$imoveltipo->getNome()?>"><?=$imoveltipo->getNome()?></option>
                                                                 <label for="<?=$imoveltipo->getNome()?>" class="col-form-label"><?=$imoveltipo->getNome()?></label>
                                                                 <?php endforeach;?>
                                                                 </select>
@@ -204,7 +220,7 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
                                                             <div class="form-group">
                                                             <select class="form-control" name='negociotipo'>
                                                                 <?php foreach($negociotipos as $negociotipo):?>
-                                                                <option value="<?=$negociotipo->getId()?>" id="<?=$negociotipo->getNome()?>" /><?=$negociotipo->getNome()?></option>
+                                                                <option value="<?=$negociotipo->getId()?>" id="<?=$negociotipo->getNome()?>"><?=$negociotipo->getNome()?></option>
                                                                 <label for="<?=$negociotipo->getNome()?>" class="col-form-label"><?=$negociotipo->getNome()?></label>
                                                                 <?php endforeach;?>
                                                                 </select>
@@ -212,9 +228,11 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
                                                             <h4 class="card_title">Caracteristicas inclusas:</h4>
                                                             <div class="form-group">
                                                                 <?php foreach($caracteristicas as $caracteristica):?>
-                                                                <input type="checkbox" name="caracteristicas[]" id="<?=$caracteristica->getNome()?>" value="<?=$caracteristica->getId()?>">
+                                                                <div>
+                                                                <input type="checkbox" name="caracteristicas[]" id="<?=$caracteristica->getId()?>" value="<?=$caracteristica->getId()?>">
                                                                 <label for="<?=$caracteristica->getNome()?>" class="col-form-label"><?=$caracteristica->getNome()?></label>
                                                                 <br>
+                                                                </div>
                                                                 <?php endforeach;?>
                                                             </div>
                                                             <div class="form-group">
@@ -259,6 +277,32 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
 
 </div>
 <?php require_once(realpath(dirname(__FILE__) . '/../../includes') .'/scripts.php');?>
+
+<script>
+    let jsonCaracteristicaImoveltipo = JSON.parse('<?=$jsonCaracteristicaImoveltipo?>');
+
+    function getCaracteristicasByImovelTipoId(imovelTipoId) {
+        for (item in jsonCaracteristicaImoveltipo) {
+            if (item == imovelTipoId) {
+                return jsonCaracteristicaImoveltipo[item];
+            }
+        }
+    }
+
+    $('#imoveltipo').change(function(){
+        let imovelTipoId = $(this).val();
+        let caracteristicas = getCaracteristicasByImovelTipoId(imovelTipoId);
+        $("input[name='caracteristicas[]']").each(function(index){
+            if (caracteristicas.includes(parseInt($(this).val()))) {
+                $(this).parent().show();
+            } else {
+                $(this).parent().hide();
+            }
+        });
+    });
+
+    $('#imoveltipo').trigger('change');
+</script>
 </body>
 </html>
 

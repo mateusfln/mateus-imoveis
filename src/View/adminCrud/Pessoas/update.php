@@ -5,7 +5,7 @@ require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 use Imobiliaria\Model\Imoveis\PessoaDAO;
 
 if (empty(trim($_GET['id'])) || !is_numeric($_GET['id'])) {
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/Pessoas/read.php?error=Código da característica não informado');
+    header('Location: http://localhost:8000/src/View/adminCrud/Pessoas/read.php?error=Código da característica não informado');
     exit;
 }
 
@@ -28,7 +28,7 @@ if(!empty($_POST['nome'])&& !empty($_POST['cpf'])&& !empty($_POST['login'])
     
     $pessoaDAO->update($pessoa, $_GET['id']);
 
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/Pessoas/read.php');
+    header('Location: http://localhost:8000/src/View/adminCrud/Pessoas/read.php');
     exit;
 
 }
