@@ -3,6 +3,7 @@
 namespace Imobiliaria\Model\Entity;
 
 use Imobiliaria\Model\Entity\Tabela;
+use Imobiliaria\Model\Imoveis\MidiasDAO;
 
 class Midias extends Tabela
 {
@@ -10,6 +11,64 @@ class Midias extends Tabela
     private string $identificacao;
     private string $nomeDisco;
     private bool $capa;
+
+    /**
+     * Método para adicionar um arquivo na galeria do projeto e no banco de dados
+     *
+     * @param string $error
+     * @param string $size
+     * @param string $name
+     * @param string $tmp_name
+     * @param int $idImovel
+     * @param string $section
+     * @return void
+     */
+    public function AddArquivo(string $error, string $size, string $name, string $tmp_name, int $idImovel, string $section) : bool
+    {
+
+        if($error){
+            echo('Falha ao enviar o arquivo');
+        }
+    
+        if($size > 2097152){
+            echo('Arquivo maior que o limite máximo de tamanho (2Mb)');
+        }
+    
+        $pasta = "../../../../assets/images/imoveis/";
+        $nomeDoArquivo = $name;
+        $nomeDoArquivo = uniqid();
+        $extensao = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+        $path = $pasta.$nomeDoArquivo.".".$extensao;
+        $caminho = "/assets/images/imoveis/".$nomeDoArquivo.'.'.$extensao;
+        $sucesso = move_uploaded_file($tmp_name, $path);
+        
+        if($extensao != 'jpg' && $extensao != 'png' ){
+            header('Location: https://mateusimoveis.local/src/View/adminCrud/'.$section.'/add.php?erro=tipo de midia não suportado, favor inserir uma midia com a extensão PNG ou JPG.');
+            exit;
+        }
+        if($sucesso){
+            $hoje = new \DateTimeImmutable();
+    
+            $midia = new Midias();
+        
+            $midia->setImovelId($idImovel);
+            $midia->setIdentificacao($nomeDoArquivo);
+            $midia->setNomeDisco($caminho);
+            $midia->setCapa(false);
+            $midia->setAtivo(true);
+            $midia->setCriado($hoje);
+            $midia->setCriadorId(1);
+            $midia->setModificadorId(1);
+            $midia->setModificado($hoje);
+            $dbMidia = new MidiasDAO();
+            $dbMidia->create($midia);
+            $dbMidia->getInsertId();
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 
 
     /**

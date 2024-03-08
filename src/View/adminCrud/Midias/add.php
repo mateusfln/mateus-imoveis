@@ -13,37 +13,71 @@ $imoveis = $imoveis->buscarListaDeImoveis();
 
 <?php
 
-    if(isset($_FILES) && count($_FILES) > 0) {
-    echo '<pre>';
-    var_dump($_FILES); die;
+    function enviarArquivos($error, $size, $name, $tmp_name){
 
-    }
-    if (isset($_FILES['arquivo']) && isset($_POST['imovel_id'])){
-        
-        $arquivo = $_FILES['arquivo'];
-        
-        
-        if($arquivo['error']){
+        if($error){
             echo('Falha ao enviar o arquivo');
         }
 
-        if($arquivo['size'] > 2097152){
+        if($size > 2097152){
             echo('Arquivo maior que o limite máximo de tamanho (2Mb)');
         }
 
         $pasta = "../../../../assets/images/imoveis/";
-        $nomeDoArquivo = $arquivo['name'];
+        $nomeDoArquivo = $name;
         $nomeDoArquivo = uniqid();
-        $extensao = strtolower(pathinfo($arquivo['name'], PATHINFO_EXTENSION));
+        $extensao = strtolower(pathinfo($name, PATHINFO_EXTENSION));
         $path = $pasta.$nomeDoArquivo.".".$extensao;
         $caminho = "/assets/images/imoveis/".$nomeDoArquivo.'.'.$extensao;
+        $sucesso = move_uploaded_file($tmp_name, $path);
         
         if($extensao != 'jpg' && $extensao != 'png' ){
             header('Location: https://mateusimoveis.local/src/View/adminCrud/Midias/add.php?erro=tipo de midia não suportado, favor inserir uma midia com a extensão PNG ou JPG.');
             exit;
+        }
+        if($sucesso){
+            $hoje = new \DateTimeImmutable();
+
+            $midia = new Midias();
+        
+            $midia->setImovelId($_POST['imovel_id']);
+            $midia->setIdentificacao($nomeDoArquivo);
+            $midia->setNomeDisco($caminho);
+            $midia->setCapa(false);
+            $midia->setAtivo(true);
+            $midia->setCriado($hoje);
+            $midia->setCriadorId(1);
+            $midia->setModificadorId(1);
+            $midia->setModificado($hoje);
+            $dbMidia = new MidiasDAO();
+            $dbMidia->create($midia);
+            $dbMidia->getInsertId();
+            header('Location: https://mateusimoveis.local/src/View/adminCrud/Midias/read.php');
+            return true;
         }else{
-            $sucesso = move_uploaded_file($arquivo['tmp_name'], $path);
-            
+            return false;
+        }
+}   // if(isset($_FILES) && count($_FILES) > 0) {
+    // echo '<pre>';
+    // var_dump($_FILES); die;
+
+    // }
+   
+    if (isset($_FILES['arquivo']) && isset($_POST['imovel_id'])){
+        
+        $arquivo = $_FILES['arquivo'];
+
+        $success = true;
+
+        foreach($arquivo['name'] as $index => $arq){
+
+            $works = enviarArquivos($arquivo['error'][$index], $arquivo['size'][$index], $arquivo['name'][$index], $arquivo['tmp_name'][$index]);
+            if(!$works){
+                $success = false;
+            }
+
+            if ($index === array_key_first($arquivo)){
+
             $hoje = new \DateTimeImmutable();
 
             $midia = new Midias();
@@ -58,13 +92,24 @@ $imoveis = $imoveis->buscarListaDeImoveis();
             $midia->setModificadorId(1);
             $midia->setModificado($hoje);
             $dbMidia = new MidiasDAO();
-            $dbMidia->create($midia);
-            header('Location: https://mateusimoveis.local/src/View/adminCrud/Midias/read.php');
-            exit;
-            
-            
+            $dbMidia->update($midia, $midia->getId());
+            }
         }
+
+        if($success){
+
+            echo '<p> todos os arquivos foram enviados com sucesso';
+            die;
+        }
+        else{
+
+            echo '<p> erro ao enviar arquivos';
+            die;
+        }
+
     }
+
+    
 ?>
 
 
@@ -130,11 +175,10 @@ $imoveis = $imoveis->buscarListaDeImoveis();
                                         </div>
                                        
                                         <div class="input-group mb-3">
-                                    
-                                    <div class="custom-file">
-                                        <input multiple type="file" name="arquivo[]">
-                                    </div>
-                                </div>
+                                            <div class="custom-file">
+                                                <input multiple type="file" name="arquivo[]">
+                                            </div>
+                                        </div>
                                         <div class="form-group">
                                         <button class="btn btn-inverse-success" type="submit"><i class="bi bi-plus-lg mr-1"></i>Adicionar</button>
                                         </div>

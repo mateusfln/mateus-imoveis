@@ -1,4 +1,6 @@
 <?php
+use Imobiliaria\Model\Entity\Midias;
+use Imobiliaria\Model\Imoveis\MidiasDAO;
 require_once('../../../../vendor' . DIRECTORY_SEPARATOR . 'autoload.php');
 
 use Imobiliaria\Model\Entity\Imovel;
@@ -26,6 +28,55 @@ $negociotipos = $negociotipos->buscarListaDeNegocioTipos();
 $caracteristicas = new CaracteristicaDAO();
 $caracteristicas = $caracteristicas->buscarListaDeCaracteristicas();
 
+function enviarArquivos($error, $size, $name, $tmp_name, $idImovel){
+
+    if($error){
+        echo('Falha ao enviar o arquivo');
+    }
+
+    if($size > 2097152){
+        echo('Arquivo maior que o limite máximo de tamanho (2Mb)');
+    }
+
+    $pasta = "../../../../assets/images/imoveis/";
+    $nomeDoArquivo = $name;
+    $nomeDoArquivo = uniqid();
+    $extensao = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+    $path = $pasta.$nomeDoArquivo.".".$extensao;
+    $caminho = "/assets/images/imoveis/".$nomeDoArquivo.'.'.$extensao;
+    $sucesso = move_uploaded_file($tmp_name, $path);
+    
+    if($extensao != 'jpg' && $extensao != 'png' ){
+        header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/add.php?erro=tipo de midia não suportado, favor inserir uma midia com a extensão PNG ou JPG.');
+        exit;
+    }
+    if($sucesso){
+        $hoje = new \DateTimeImmutable();
+
+        $midia = new Midias();
+    
+        $midia->setImovelId($idImovel);
+        $midia->setIdentificacao($nomeDoArquivo);
+        $midia->setNomeDisco($caminho);
+        $midia->setCapa(false);
+        $midia->setAtivo(true);
+        $midia->setCriado($hoje);
+        $midia->setCriadorId(1);
+        $midia->setModificadorId(1);
+        $midia->setModificado($hoje);
+        $dbMidia = new MidiasDAO();
+        $dbMidia->create($midia);
+        $dbMidia->getInsertId();
+        return true;
+    }else{
+        return false;
+    }
+}   // if(isset($_FILES) && count($_FILES) > 0) {
+// echo '<pre>';
+// var_dump($_FILES); die;
+
+// }
+
 require_once(realpath(dirname(__FILE__) . '../../../../../includes') .'/funcoes.php');
 
 
@@ -48,11 +99,17 @@ $campos = array(
     'Banheiros',
     'Garagem',);
 
-if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
+    // print_r($_FILES); die;
+
+if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) && isset($_FILES['arquivo'])){
 
     //print_r($_POST); die;
 
     $hoje = new \DateTimeImmutable();
+
+    $arquivo = $_FILES['arquivo'];
+    
+    $success = true;
     
     $imovel = new Imovel();
 
@@ -101,7 +158,6 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
         // print($caracteristica); die;
 
         $imovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTipos();
-
         $imovelCaracteristicasImovelTipos->setimovelId($idImovel);
         $imovelCaracteristicasImovelTipos->setCaracteristicaImoveltipoId($caracteristica);
         $imovelCaracteristicasImovelTipos->setValor(0);
@@ -113,8 +169,27 @@ if(!empty($_POST) && !empty($_POST['negociotipo']) && !empty($_POST['valor']) ){
     
         $dbImovelCaracteristicasImovelTipos = new ImovelCaracteristicasImovelTiposDAO();
         $dbImovelCaracteristicasImovelTipos->create($imovelCaracteristicasImovelTipos);
-    }   
-    header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
+    }
+    foreach($arquivo['name'] as $index => $arq){
+        $midia = new Midias();
+        $works = $midia->AddArquivo($arquivo['error'][$index], $arquivo['size'][$index], $arquivo['name'][$index], $arquivo['tmp_name'][$index], $idImovel, 'Imovel');
+         
+        if(!$works){
+            $success = false;
+        }
+    }
+
+    if($success){
+
+        header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/read.php');
+        exit;
+    }
+    else{
+
+        header('Location: https://mateusimoveis.local/src/View/adminCrud/Imovel/add.php');
+        exit;
+    }  
+
 }
 
 
@@ -177,7 +252,7 @@ $jsonCaracteristicaImoveltipo = json_encode($listaCaracteristicaImoveltipo);
                     <div class="col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form method="POST">
+                                    <form enctype="multipart/form-data" method="POST">
                                         <div class="card">
                                         <div class="col-12 d-flex">
                                                 <div class="col-6 card">
@@ -273,6 +348,13 @@ $jsonCaracteristicaImoveltipo = json_encode($listaCaracteristicaImoveltipo);
                                                                 <label for="example-text-input" class="col-form-label">Valor</label>
                                                                 <input class="form-control" required type="number" name="valor">
                                                             </div>
+                                                            <label for="example-text-input" class="col-form-label">Midias</label>
+
+                                                            <div class="input-group mb-3">
+                                                                <div class="custom-file">
+                                                                    <input multiple type="file" name="arquivo[]">
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -329,7 +411,10 @@ $jsonCaracteristicaImoveltipo = json_encode($listaCaracteristicaImoveltipo);
         $("input[name='caracteristicas[]']").each(function(index){
             if (caracteristicas.includes(parseInt($(this).val()))) {
                 $(this).parent().show();
+                console.log('entrou no if');
+
             } else {
+                console.log('entrou no else');
                 
                 $(this).parent().hide();
             }

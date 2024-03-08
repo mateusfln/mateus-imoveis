@@ -10,7 +10,17 @@ $campos = array('ID','IMOVEL ID', 'IDENTIFICACAO', 'NOME DISCO', 'CAPA','ATIVO',
 
 if(!empty($_POST['delete_id'])){
     $dbMidias = new MidiasDAO();
+
+    $dadosMidia = $dbMidias->read($_POST['delete_id']);
+    
+    $path = 'C:\wamp64\www\mateusimoveis\html'.$dadosMidia->getNomeDisco();
+    
+    if(file_exists($path)){
+        unlink($path);
+    }
+    
     $dbMidias->delete($_POST['delete_id']);
+    
     header('Location: https://mateusimoveis.local/src/View/adminCrud/Midias/read.php');
 }
 

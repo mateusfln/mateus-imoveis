@@ -299,15 +299,14 @@ $jsonCaracteristicaImoveltipo = json_encode($listaCaracteristicaImoveltipo);
                                                             </div>
                                                             <h4 class="card_title">Caracteristicas inclusas:</h4>
                                                             <div class="form-group">
-                                                                <?php foreach ($caracteristicas as $caracteristica): ?>
-                                                                    <?php $nomePost = str_replace(' ', '_', $caracteristica->getNome()); ?>
-                                                                    <input type="checkbox" name="caracteristicas[]" id="<?= $nomePost ?>"
-                                                                        value="<?= $caracteristica->getId() ?>"
-                                                                        <?= in_array($caracteristica->getId(), $arrImoveltipos) ? ' checked="checked"' : '' ?>>
-                                                                    <label for="<?= $nomePost ?>"
-                                                                        class="col-form-label"><?= $caracteristica->getNome() ?></label>
-                                                                    <br>
-                                                                <?php endforeach; ?>
+                                                            
+                                                                <?php foreach($caracteristicas as $caracteristica):?>
+                                                                <div>
+                                                                <input type="checkbox" name="caracteristicas[]" id="<?=$caracteristica->getId()?>" value="<?=$caracteristica->getId()?>" <?= in_array($caracteristica->getId(), $arrImoveltipos) ? ' checked="checked"' : '' ?>>
+                                                                <label for="<?=$caracteristica->getId()?>" class="col-form-label"><?=$caracteristica->getNome()?></label>
+                                                                <br>
+                                                                </div>
+                                                                <?php endforeach;?>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="example-text-input" class="col-form-label">Valor</label>
@@ -356,27 +355,27 @@ $jsonCaracteristicaImoveltipo = json_encode($listaCaracteristicaImoveltipo);
 <script>
     let jsonCaracteristicaImoveltipo = JSON.parse('<?=$jsonCaracteristicaImoveltipo?>');
 
-    function getCaracteristicasByImovelTipoId(imovelTipoId) {
-        for (item in jsonCaracteristicaImoveltipo) {
-            if (item == imovelTipoId) {
-                return jsonCaracteristicaImoveltipo[item];
-            }
+function getCaracteristicasByImovelTipoId(imovelTipoId) {
+    for (item in jsonCaracteristicaImoveltipo) {
+        if (item == imovelTipoId) {
+            return jsonCaracteristicaImoveltipo[item];
         }
     }
+}
 
-    $('#imoveltipo').change(function(){
-        let imovelTipoId = $(this).val();
-        let caracteristicas = getCaracteristicasByImovelTipoId(imovelTipoId);
-        $("input[name='caracteristicas[]']").each(function(index){
-            if (caracteristicas.includes(parseInt($(this).val()))) {
-                $(this).parent().show();
-            } else {
-                $(this).parent().hide();
-            }
-        });
+$('#imoveltipo').change(function(){
+    let imovelTipoId = $(this).val();
+    let caracteristicas = getCaracteristicasByImovelTipoId(imovelTipoId);
+    $("input[name='caracteristicas[]']").each(function(index){
+        if (caracteristicas.includes(parseInt($(this).val()))) {
+            $(this).parent().show();
+        } else {
+            $(this).parent().hide();
+        }
     });
+});
 
-    $('#imoveltipo').trigger('change');
+$('#imoveltipo').trigger('change');
 </script>
 </body>
 
